@@ -1,0 +1,80 @@
+{
+  "data_quality": {
+    "rows_raw": 200999,
+    "null_share_required": {
+      "match_id": 0.0,
+      "innings": 0.0,
+      "batting_team": 0.0,
+      "bowling_team": 0.0,
+      "striker_id": 0.0,
+      "bowler_id": 0.0,
+      "runs_bat": 0.0,
+      "is_wicket": 0.0
+    },
+    "rows_after_innings_filter": 200961,
+    "bye_balls_with_no_recorded_runs_pct": 1.63,
+    "rows_after_dedup": 200961,
+    "overs_per_innings": 20,
+    "matches_excluded_rain_or_truncated": 34,
+    "winner_source": "matches table",
+    "batting_first_win_rate": 0.505,
+    "deliveries_used": 196343,
+    "matches_used": 833,
+    "matches_with_winner": 818,
+    "total_balls_per_innings": 120
+  },
+  "eligibility_spec": [
+    150,
+    20
+  ],
+  "eligibility_relaxed": false,
+  "central_meta": {
+    "bat": {
+      "n": 43,
+      "tau": 13.247271114149129
+    },
+    "bow": {
+      "n": 63,
+      "tau": 12.892111422031013
+    },
+    "pressure_method": "win-probability leverage",
+    "wp_diagnostics": {
+      "innings1_oof_auc": 0.679,
+      "innings2_oof_auc": 0.885
+    },
+    "cutoff": 1.4368154482246276,
+    "pressure_ball_share_pct": 20.0,
+    "pressure_vs_ordinary": [
+      {
+        "lev_p": 0,
+        "balls": 150612,
+        "runs_per_100": 138.46,
+        "wkts_per_100": 5.17
+      },
+      {
+        "lev_p": 1,
+        "balls": 37654,
+        "runs_per_100": 141.87,
+        "wkts_per_100": 5.69
+      }
+    ]
+  },
+  "environment": {
+    "python": "3.13.4",
+    "pandas": "2.2.3",
+    "numpy": "2.4.4",
+    "scikit_learn": "1.6.1"
+  },
+  "stability": {
+    "bat": {
+      "status": "OK",
+      "valid_runs": 12,
+      "degenerate_runs": []
+    },
+    "bow": {
+      "status": "OK",
+      "valid_runs": 12,
+      "degenerate_runs": []
+    }
+  }
+}

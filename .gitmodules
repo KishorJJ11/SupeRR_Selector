@@ -1,0 +1,3 @@
+[submodule "unslop-repo"]
+	path = unslop-repo
+	url = https://github.com/heydamir/unslop.git

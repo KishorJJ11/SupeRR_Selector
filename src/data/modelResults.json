@@ -1,0 +1,226 @@
+{
+  "batters": [
+    {
+      "rank": 1,
+      "id": 1699,
+      "name": "Suryakumar Yadav",
+      "role": "Middle Overs",
+      "runsAdded": "+15.99",
+      "runsAddedNumeric": 15.99,
+      "pTop10String": "Top 10 Prob: 94%",
+      "pTop10Numeric": 94.3,
+      "pressureUplift": "449 balls in 52 innings | 90% CI: [3.5, 28.5]"
+    },
+    {
+      "rank": 2,
+      "id": 6281,
+      "name": "Abhishek Sharma",
+      "role": "Powerplay",
+      "runsAdded": "+14.89",
+      "runsAddedNumeric": 14.89,
+      "pTop10String": "Top 10 Prob: 93%",
+      "pTop10Numeric": 93.0,
+      "pressureUplift": "319 balls in 43 innings | 90% CI: [-0.5, 30.3]"
+    },
+    {
+      "rank": 3,
+      "id": 813,
+      "name": "Jos Buttler",
+      "role": "Powerplay",
+      "runsAdded": "+13.54",
+      "runsAddedNumeric": 13.54,
+      "pTop10String": "Top 10 Prob: 85%",
+      "pTop10Numeric": 84.7,
+      "pressureUplift": "343 balls in 40 innings | 90% CI: [1.7, 25.3]"
+    },
+    {
+      "rank": 4,
+      "id": 4260,
+      "name": "Heinrich Klaasen",
+      "role": "Middle Overs",
+      "runsAdded": "+11.60",
+      "runsAddedNumeric": 11.6,
+      "pTop10String": "Top 10 Prob: 80%",
+      "pTop10Numeric": 80.3,
+      "pressureUplift": "188 balls in 26 innings | 90% CI: [-2.4, 25.6]"
+    },
+    {
+      "rank": 5,
+      "id": 4986,
+      "name": "Rovman Powell",
+      "role": "Middle Overs",
+      "runsAdded": "+9.59",
+      "runsAddedNumeric": 9.59,
+      "pTop10String": "Top 10 Prob: 69%",
+      "pTop10Numeric": 69.3,
+      "pressureUplift": "251 balls in 33 innings | 90% CI: [-4.4, 23.6]"
+    },
+    {
+      "rank": 6,
+      "id": 6819,
+      "name": "Yashasvi Jaiswal",
+      "role": "Powerplay",
+      "runsAdded": "+9.37",
+      "runsAddedNumeric": 9.37,
+      "pTop10String": "Top 10 Prob: 64%",
+      "pTop10Numeric": 64.0,
+      "pressureUplift": "260 balls in 31 innings | 90% CI: [-4.9, 23.7]"
+    },
+    {
+      "rank": 7,
+      "id": 220,
+      "name": "David Warner",
+      "role": "Powerplay",
+      "runsAdded": "+7.75",
+      "runsAddedNumeric": 7.75,
+      "pTop10String": "Top 10 Prob: 56%",
+      "pTop10Numeric": 55.7,
+      "pressureUplift": "203 balls in 24 innings | 90% CI: [-6.2, 21.7]"
+    },
+    {
+      "rank": 8,
+      "id": 5553,
+      "name": "Phil Salt",
+      "role": "Powerplay",
+      "runsAdded": "+7.59",
+      "runsAddedNumeric": 7.59,
+      "pTop10String": "Top 10 Prob: 56%",
+      "pTop10Numeric": 55.7,
+      "pressureUplift": "194 balls in 22 innings | 90% CI: [-6.0, 21.2]"
+    },
+    {
+      "rank": 9,
+      "id": 7216,
+      "name": "Prabhsimran Singh",
+      "role": "Powerplay",
+      "runsAdded": "+6.17",
+      "runsAddedNumeric": 6.17,
+      "pTop10String": "Top 10 Prob: 46%",
+      "pTop10Numeric": 46.3,
+      "pressureUplift": "196 balls in 28 innings | 90% CI: [-9.1, 21.4]"
+    },
+    {
+      "rank": 10,
+      "id": 4708,
+      "name": "Rinku Singh",
+      "role": "Middle Overs",
+      "runsAdded": "+6.00",
+      "runsAddedNumeric": 6.0,
+      "pTop10String": "Top 10 Prob: 50%",
+      "pTop10Numeric": 49.7,
+      "pressureUplift": "199 balls in 25 innings | 90% CI: [-9.4, 21.4]"
+    }
+  ],
+  "bowlers": [
+    {
+      "rank": 1,
+      "id": 4219,
+      "name": "Krunal Pandya",
+      "role": "Middle Overs",
+      "runsSaved": "+22.21",
+      "runsSavedNumeric": 22.21,
+      "pTop10String": "Top 10 Prob: 96%",
+      "pTop10Numeric": 96.0,
+      "pressureUplift": "176 balls in 26 innings | 90% CI: [7.8, 36.6]"
+    },
+    {
+      "rank": 2,
+      "id": 19316,
+      "name": "Maheesh Theekshana",
+      "role": "Middle Overs",
+      "runsSaved": "+21.36",
+      "runsSavedNumeric": 21.36,
+      "pTop10String": "Top 10 Prob: 92%",
+      "pTop10Numeric": 92.3,
+      "pressureUplift": "353 balls in 47 innings | 90% CI: [10.6, 32.1]"
+    },
+    {
+      "rank": 3,
+      "id": 830,
+      "name": "Josh Hazlewood",
+      "role": "Powerplay",
+      "runsSaved": "+14.06",
+      "runsSavedNumeric": 14.06,
+      "pTop10String": "Top 10 Prob: 74%",
+      "pTop10Numeric": 74.3,
+      "pressureUplift": "265 balls in 35 innings | 90% CI: [-2.0, 30.1]"
+    },
+    {
+      "rank": 4,
+      "id": 6669,
+      "name": "Mohsin Khan",
+      "role": "Powerplay",
+      "runsSaved": "+13.07",
+      "runsSavedNumeric": 13.07,
+      "pTop10String": "Top 10 Prob: 79%",
+      "pTop10Numeric": 79.0,
+      "pressureUplift": "153 balls in 20 innings | 90% CI: [-4.4, 30.5]"
+    },
+    {
+      "rank": 5,
+      "id": 4722,
+      "name": "Rashid Khan",
+      "role": "Middle Overs",
+      "runsSaved": "+11.32",
+      "runsSavedNumeric": 11.32,
+      "pTop10String": "Top 10 Prob: 57%",
+      "pTop10Numeric": 57.0,
+      "pressureUplift": "331 balls in 46 innings | 90% CI: [-4.4, 27.0]"
+    },
+    {
+      "rank": 6,
+      "id": 278,
+      "name": "Tim Southee",
+      "role": "Powerplay",
+      "runsSaved": "+10.78",
+      "runsSavedNumeric": 10.78,
+      "pTop10String": "Top 10 Prob: 54%",
+      "pTop10Numeric": 54.0,
+      "pressureUplift": "159 balls in 20 innings | 90% CI: [-5.7, 27.2]"
+    },
+    {
+      "rank": 7,
+      "id": 2681,
+      "name": "Taskin Ahmed",
+      "role": "Powerplay",
+      "runsSaved": "+9.45",
+      "runsSavedNumeric": 9.45,
+      "pTop10String": "Top 10 Prob: 44%",
+      "pTop10Numeric": 44.3,
+      "pressureUplift": "187 balls in 25 innings | 90% CI: [-6.1, 25.0]"
+    },
+    {
+      "rank": 8,
+      "id": 781,
+      "name": "Sunil Narine",
+      "role": "Middle Overs",
+      "runsSaved": "+8.76",
+      "runsSavedNumeric": 8.76,
+      "pTop10String": "Top 10 Prob: 34%",
+      "pTop10Numeric": 33.7,
+      "pressureUplift": "222 balls in 29 innings | 90% CI: [-5.7, 23.2]"
+    },
+    {
+      "rank": 9,
+      "id": 2490,
+      "name": "Mohammad Nawaz",
+      "role": "Middle Overs",
+      "runsSaved": "+8.64",
+      "runsSavedNumeric": 8.64,
+      "pTop10String": "Top 10 Prob: 38%",
+      "pTop10Numeric": 38.3,
+      "pressureUplift": "176 balls in 23 innings | 90% CI: [-7.5, 24.8]"
+    },
+    {
+      "rank": 10,
+      "id": 6256,
+      "name": "Varun Chakravarthy",
+      "role": "Middle Overs",
+      "runsSaved": "+8.49",
+      "runsSavedNumeric": 8.49,
+      "pTop10String": "Top 10 Prob: 33%",
+      "pTop10Numeric": 33.0,
+      "pressureUplift": "298 balls in 40 innings | 90% CI: [-6.2, 23.2]"
+    }
+  ]
+}

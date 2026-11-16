@@ -1,0 +1,6 @@
+{
+  "name": "SupeRR Selector: The Clutch Dossier",
+  "description": "Elite T20 pressure analytics dossier for Rajasthan Royals featuring ML-driven clutch metrics, tactical matchup matrix, and an Expert AI Scouting Agent.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

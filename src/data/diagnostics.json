@@ -1,0 +1,113 @@
+{
+  "Q": {
+    "ball_by_ball_md5": "c5bbd29fe98b35a46d83c7dc7072a27d",
+    "rows_raw": 200999,
+    "extras_mode": "new",
+    "median_extras1_on_wides": 1.0,
+    "matches_excluded_truncated_or_revised": 34,
+    "deliveries_used": 196343,
+    "matches_used": 833,
+    "overs_per_innings": 20,
+    "matches_by_format": {
+      "T20": 392,
+      "T20I": 441
+    }
+  },
+  "spec": [
+    150,
+    20
+  ],
+  "relaxed": false,
+  "pool_n": {
+    "bat": 40,
+    "bow": 60
+  },
+  "pressure_quantile": 0.8,
+  "degenerate_runs": {
+    "bat": [],
+    "bow": []
+  },
+  "tau_by_run": {
+    "bat": {
+      "ens_q0.78": 12.498,
+      "ens_q0.8": 12.469,
+      "ens_q0.82": 14.267
+    },
+    "bow": {
+      "ens_q0.78": 11.834,
+      "ens_q0.8": 12.578,
+      "ens_q0.82": 13.952
+    }
+  },
+  "persistence": {
+    "bat": {
+      "pressure_split_half": 0.353366989236694,
+      "pressure_spearman_brown": 0.5222042388310282,
+      "ordinary_split_half": 0.4134258911819888,
+      "ordinary_spearman_brown": 0.5849983274839519,
+      "delta_split_half": 0.12796524143379087,
+      "pressure_split_sd": 0.10847728832082965,
+      "players_per_split": 39.94,
+      "splits": 100,
+      "pressure_chrono_split": 0.21088180112570362,
+      "ordinary_chrono_split": 0.2133208255159475,
+      "delta_chrono_split": 0.10131332082551595
+    },
+    "bow": {
+      "pressure_split_half": 0.21440037941573814,
+      "pressure_spearman_brown": 0.35309669372614755,
+      "ordinary_split_half": 0.3544651292025564,
+      "ordinary_spearman_brown": 0.5234023697771361,
+      "delta_split_half": -0.026973440898333832,
+      "pressure_split_sd": 0.08867712333722826,
+      "players_per_split": 59.95,
+      "splits": 100,
+      "pressure_chrono_split": 0.32440191387559814,
+      "ordinary_chrono_split": 0.35090590298071306,
+      "delta_chrono_split": 0.1323308270676692
+    }
+  },
+  "bootstrap_failed_reps": {
+    "bat": 0,
+    "bow": 0
+  },
+  "pressure_vs_ordinary": [
+    {
+      "Situation": "Ordinary",
+      "balls": 150612,
+      "mean_leverage": 0.629,
+      "share_innings2": 0.437,
+      "mean_wickets_lost": 2.58,
+      "mean_balls_left": 64.218,
+      "mean_required_rate_inn2": 11.796,
+      "share_powerplay": 0.321,
+      "share_middle": 0.479,
+      "share_death": 0.2
+    },
+    {
+      "Situation": "Pressure",
+      "balls": 37654,
+      "mean_leverage": 2.483,
+      "share_innings2": 0.632,
+      "mean_wickets_lost": 3.065,
+      "mean_balls_left": 56.998,
+      "mean_required_rate_inn2": 9.922,
+      "share_powerplay": 0.297,
+      "share_middle": 0.407,
+      "share_death": 0.296
+    }
+  ],
+  "pressure_balls_by_format": {
+    "T20": 17940,
+    "T20I": 19714
+  },
+  "runtime_seconds": 160,
+  "score_unit": "runs of run-expectancy value per 100 pressure balls, above same-context peers (shrunk)",
+  "versions": {
+    "python": "3.13.4",
+    "numpy": "2.4.4",
+    "pandas": "2.2.3",
+    "scipy": "1.17.1",
+    "sklearn": "1.6.1"
+  }
+}
