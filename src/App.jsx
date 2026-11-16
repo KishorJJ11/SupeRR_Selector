@@ -172,7 +172,7 @@ export default function App() {
                     Delta vs Usual
                   </span>
                   <p className="mt-1 text-slate-700 font-sans leading-relaxed">
-                    Pressure rating minus overall rating.
+                    Pressure rating minus ordinary (non-pressure) rating.
                   </p>
                 </div>
 
@@ -181,7 +181,7 @@ export default function App() {
                     Model fits
                   </span>
                   <p className="mt-1 text-slate-700 font-sans leading-relaxed">
-                    Number of eligible model specifications (out of 25) agreeing.
+                    Fit agreement: percentage of 25 model specifications in which the player achieves a top 10 ranking.
                   </p>
                 </div>
               </div>

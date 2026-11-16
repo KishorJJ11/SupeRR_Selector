@@ -1,0 +1,24 @@
+{
+  "distinctFontFamilies": [
+    "\"Barlow Condensed\", sans-serif",
+    "Inter, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+    "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace"
+  ],
+  "distinctFontSizes": [
+    "8px",
+    "9px",
+    "10px",
+    "11px",
+    "12px",
+    "14px",
+    "16px",
+    "18px",
+    "20px",
+    "24px",
+    "30px",
+    "48px",
+    "96px"
+  ],
+  "minFontSize": "8px",
+  "maxFontSize": "96px"
+}

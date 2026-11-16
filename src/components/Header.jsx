@@ -58,11 +58,11 @@ export default function Header({
         ? 'bg-[#050D2B]/95 backdrop-blur-md shadow-lg shadow-[#050D2B]/50' 
         : 'bg-[#050D2B]/90 backdrop-blur-sm'
     }`}>
-      <div className="w-[min(96vw,1760px)] max-w-[1760px] mx-auto px-6 h-16 flex items-center justify-between gap-2 sm:gap-3">
+      <div className="w-[min(96vw,1760px)] max-w-[1760px] mx-auto px-6 h-[72px] sm:h-20 flex items-center justify-between gap-2 sm:gap-3">
         
         {/* Left: Official Rajasthan Royals Brand Logo (Uploaded by User, Background Removed) */}
         <div className="flex items-center shrink-0">
-          <RajasthanRoyalsLogo className="h-11 sm:h-12" />
+          <RajasthanRoyalsLogo className="h-13 sm:h-16" />
         </div>
 
         {/* Centre: Pill Segmented Control (Compact on mobile) */}

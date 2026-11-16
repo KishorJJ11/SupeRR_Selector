@@ -55,11 +55,14 @@ export default function PlayerModal({ player, onClose, onAskScout }) {
                   </span>
 
                   {isSigDelta ? (
-                    <div className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border inline-flex items-center gap-1.5 ${
-                      player.delta >= 0 
-                        ? 'bg-[#E6ECFA] text-[#1B3FA0] border-[#1B3FA0]/30' 
-                        : 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/30'
-                    }`}>
+                    <div 
+                      title="Pressure rating minus ordinary (non-pressure) rating."
+                      className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border inline-flex items-center gap-1.5 cursor-help ${
+                        player.delta >= 0 
+                          ? 'bg-[#E6ECFA] text-[#1B3FA0] border-[#1B3FA0]/30' 
+                          : 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/30'
+                      }`}
+                    >
                       {player.delta >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                       <span>Delta: {player.delta >= 0 ? `+${player.delta}` : player.delta}</span>
                       <span className="text-[10px] opacity-80">
@@ -67,7 +70,10 @@ export default function PlayerModal({ player, onClose, onAskScout }) {
                       </span>
                     </div>
                   ) : (
-                    <span className="px-2.5 py-0.5 rounded-full text-xs font-mono bg-white/10 text-white/90 border border-white/20 font-semibold">
+                    <span 
+                      title="Pressure rating minus ordinary (non-pressure) rating."
+                      className="px-2.5 py-0.5 rounded-full text-xs font-mono bg-white/10 text-white/90 border border-white/20 font-semibold cursor-help"
+                    >
                       Delta: Indistinguishable from noise
                     </span>
                   )}
@@ -94,11 +100,17 @@ export default function PlayerModal({ player, onClose, onAskScout }) {
                   Bootstrap Rank CI: [{player.bootRankInterval?.[0]}, {player.bootRankInterval?.[1]}]
                 </div>
                 {isSigDelta ? (
-                  <div className="font-semibold text-[#EA1A85]">
+                  <div 
+                    title="Pressure rating minus ordinary (non-pressure) rating."
+                    className="font-semibold text-[#EA1A85] cursor-help"
+                  >
                     Delta CI: [{player.deltaInterval[0]}, {player.deltaInterval[1]}]
                   </div>
                 ) : (
-                  <div className="text-slate-500 font-medium">
+                  <div 
+                    title="Pressure rating minus ordinary (non-pressure) rating."
+                    className="text-slate-500 font-medium cursor-help"
+                  >
                     Delta: Indistinguishable from noise
                   </div>
                 )}
@@ -133,8 +145,8 @@ export default function PlayerModal({ player, onClose, onAskScout }) {
 
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
                 <span className="text-[10px] uppercase font-display font-bold text-slate-500">Model Fits</span>
-                <div className="text-lg font-extrabold text-[#050D2B] font-mono tabular-nums">
-                  {player.modelFitsEligible}/{meta.model_fits}
+                <div className="text-xs font-extrabold text-[#050D2B] font-mono mt-1">
+                  Fit agreement: {player.top10SharePct}% of 25 fits
                 </div>
               </div>
 

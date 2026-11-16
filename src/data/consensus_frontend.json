@@ -9,7 +9,7 @@
       "sklearn": "1.6.1"
     },
     "status": {
-      "bat": "MODERATE",
+      "bat": "LOW_CONFIDENCE",
       "bow": "MODERATE"
     },
     "expected_hits": {
@@ -42,7 +42,7 @@
         1.0,
         15.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 92.0
     },
     {
       "rank": 2,
@@ -68,7 +68,7 @@
         1.0,
         16.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 84.0
     },
     {
       "rank": 3,
@@ -94,7 +94,7 @@
         1.0,
         20.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 60.0
     },
     {
       "rank": 4,
@@ -120,7 +120,7 @@
         1.0,
         19.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 80.0
     },
     {
       "rank": 5,
@@ -146,7 +146,7 @@
         2.0,
         23.1
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 32.0
     },
     {
       "rank": 6,
@@ -198,7 +198,7 @@
         2.0,
         26.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 12.0
     },
     {
       "rank": 8,
@@ -224,7 +224,7 @@
         3.0,
         24.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 60.0
     },
     {
       "rank": 9,
@@ -250,7 +250,7 @@
         3.0,
         26.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 44.0
     },
     {
       "rank": 10,
@@ -276,7 +276,7 @@
         2.0,
         25.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 36.0
     }
   ],
   "bowlers": [
@@ -304,7 +304,7 @@
         1.0,
         10.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 88.0
     },
     {
       "rank": 2,
@@ -330,7 +330,7 @@
         1.0,
         17.1
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 24.0
     },
     {
       "rank": 3,
@@ -356,7 +356,7 @@
         1.0,
         19.1
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 76.0
     },
     {
       "rank": 4,
@@ -382,7 +382,7 @@
         1.0,
         23.1
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 84.0
     },
     {
       "rank": 5,
@@ -408,7 +408,7 @@
         1.0,
         20.1
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 56.0
     },
     {
       "rank": 6,
@@ -434,7 +434,7 @@
         2.0,
         26.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 56.0
     },
     {
       "rank": 7,
@@ -460,7 +460,7 @@
         1.0,
         29.1
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 44.0
     },
     {
       "rank": 8,
@@ -486,7 +486,7 @@
         3.0,
         29.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 44.0
     },
     {
       "rank": 9,
@@ -512,7 +512,7 @@
         4.0,
         30.1
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 52.0
     },
     {
       "rank": 10,
@@ -538,7 +538,7 @@
         3.0,
         32.0
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 36.0
     }
   ]
 }

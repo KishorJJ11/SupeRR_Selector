@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function RajasthanRoyalsLogo({ className = "h-11 sm:h-12", alt = "Rajasthan Royals" }) {
+export default function RajasthanRoyalsLogo({ className = "h-13 sm:h-16", alt = "Rajasthan Royals" }) {
   return (
     <div className="flex items-center shrink-0">
       <img 

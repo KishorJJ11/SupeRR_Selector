@@ -68,8 +68,6 @@
 | Batters | 0.37 | 0.00 | 0.62 | 8 |
 | Bowlers | 0.19 | 0.39 | 0.80 | 10 |
 
-- *Note on Prediction:* Based on the out-of-sample `rho` tests above, pressure ratings have extremely low predictive power over future pressure situations. Therefore, this model successfully identifies 'historical best performers under pressure', but we cannot definitively claim it 'predicts clutch'.
-
 ## 6. System Reliability (Split-Half Persistence)
 
 | Role | Pressure split-half | Pressure (Spearman-Brown) | Ordinary split-half | Ordinary (Spearman-Brown) | Delta split-half | Players/split |
@@ -77,7 +75,7 @@
 | Batters | 0.21 | 0.35 | 0.49 | 0.66 | -0.03 | 38.95 |
 | Bowlers | 0.28 | 0.44 | 0.39 | 0.56 | 0.02 | 57.92 |
 
-- *Interpretation:* Clutch persistence (Delta) hovers near 0.02 - 0.06. Because this trait lacks split-half stability, most observed 'clutch' delta is statistically indistinguishable from noise.
+- *Interpretation:* Clutch persistence (Delta) is heavily bounded by noise. For example, Batting Delta Split-Half hovers near -0.03. Because this trait lacks split-half stability, 'clutch' delta for most individuals is statistically indistinguishable from noise.
 
 ## 7. Sensitivity Robustness Variants
 
