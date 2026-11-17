@@ -48,11 +48,11 @@ export default function UncertaintyRangeBar({
       </div>
 
       {/* Axis Labels (-15, 0, +40) */}
-      <div className="relative w-full text-[9px] font-mono text-slate-400 mt-0.5 flex justify-between select-none leading-none">
+      <div className="relative w-full text-[12.5px] font-ui text-slate-500 mt-1 flex justify-between select-none leading-none">
         <span>-15</span>
         <span
           style={{ position: 'absolute', left: `${ZERO_PERCENT}%`, transform: 'translateX(-50%)' }}
-          className="font-bold text-slate-600"
+          className="font-bold text-slate-700"
         >
           0
         </span>
@@ -60,11 +60,11 @@ export default function UncertaintyRangeBar({
       </div>
 
       {/* Numeric CI Lines */}
-      <div className={`mt-1 font-mono ${compact ? 'text-[10px]' : 'text-[11px]'} text-slate-600 space-y-0.5`}>
+      <div className="mt-1 font-primary text-[13px] text-slate-700 space-y-0.5 leading-tight">
         <div className="whitespace-nowrap">
           Rating CI: [{lo}, {hi}]
         </div>
-        <div className="text-slate-500 whitespace-nowrap text-[10px]">
+        <div className="text-slate-500 whitespace-nowrap text-[12.5px]">
           Boot: [{bootLo}, {bootHi}]
         </div>
       </div>

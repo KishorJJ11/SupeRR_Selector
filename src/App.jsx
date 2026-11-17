@@ -6,27 +6,20 @@ import HeroSection from './components/HeroSection.jsx';
 import HittersView from './components/HittersView.jsx';
 import BowlersView from './components/BowlersView.jsx';
 import PlayerModal from './components/PlayerModal.jsx';
-import ScoutChatWidget from './components/ScoutChatWidget.jsx';
 import ZipExporterModal from './components/ZipExporterModal.jsx';
 import MethodologyModal from './components/MethodologyModal.jsx';
-import { batters, bowlers, bowlerPhases } from './data/cricketData.js';
+import ValidationPanel from './components/ValidationPanel.jsx';
+import { batters, bowlers } from './data/cricketData.js';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('hitters'); // 'hitters', 'bowlers'
   const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [isScoutOpen, setIsScoutOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isMethodologyOpen, setIsMethodologyOpen] = useState(false);
-  const [externalPrompt, setExternalPrompt] = useState(null);
   const [isHowToReadOpen, setIsHowToReadOpen] = useState(false);
 
-  const handleAskScout = (promptText) => {
-    setExternalPrompt(promptText);
-    setIsScoutOpen(true);
-  };
-
   return (
-    <div className="min-h-screen bg-[#F4F6FB] text-[#050D2B] flex flex-col relative selection:bg-[#EA1A85] selection:text-white font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-[#F4F6FB] text-[#050D2B] flex flex-col relative selection:bg-[#EA1A85] selection:text-white font-primary overflow-x-hidden">
       
       {/* Top Navy Band (Navbar + Full Bleed Edge-to-Edge Hero) */}
       <div className="w-full bg-[#050D2B] text-white">
@@ -36,12 +29,10 @@ export default function App() {
           setActiveTab={setActiveTab}
           onOpenExport={() => setIsExportOpen(true)}
           onOpenMethodology={() => setIsMethodologyOpen(true)}
-          onOpenScout={() => setIsScoutOpen(true)}
         />
 
         {/* Full-bleed Edge-to-Edge Hero Section */}
         <HeroSection
-          onOpenScout={() => setIsScoutOpen(true)}
           onOpenMethodology={() => setIsMethodologyOpen(true)}
           onOpenExport={() => setIsExportOpen(true)}
         />
@@ -91,14 +82,41 @@ export default function App() {
           </div>
 
           <div className="hidden sm:flex items-center gap-2 pr-3">
-            <span className="text-xs font-mono text-slate-500 font-semibold">
+            <span className="text-xs font-ui text-slate-500 font-semibold">
               V14 Consensus Engine
             </span>
           </div>
         </div>
 
+        {/* Visible Confidence Tier Legend Bar (Item 4) */}
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 rounded-2xl bg-white border border-slate-200 shadow-xs">
+          <div className="flex items-center gap-2">
+            <span className="font-display uppercase tracking-wider font-bold text-xs sm:text-sm text-[#050D2B]">
+              Confidence Tier Legend:
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-ui font-bold text-xs bg-[#EA1A85] text-white shadow-xs">
+              <span>Tier A</span>
+              <span className="opacity-90 font-normal">(&ge; 90%)</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-ui font-bold text-xs bg-[#1B3FA0] text-white shadow-xs">
+              <span>Tier B</span>
+              <span className="opacity-90 font-normal">(&ge; 75%)</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-ui font-bold text-xs bg-[#FDE4F1] text-[#EA1A85] border border-[#EA1A85]/40">
+              <span>Tier C</span>
+              <span className="opacity-90 font-normal">(&ge; 60%)</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-ui font-semibold text-xs bg-slate-100 text-[#050D2B] border border-slate-300 border-dashed">
+              <span>Low Confidence</span>
+              <span className="text-slate-500 font-normal">(&lt; 60%)</span>
+            </span>
+          </div>
+        </div>
+
         {/* Collapsible 'How to read this' Panel with Exact Definitions (Copy Change #2) */}
-        <div className="mb-8 rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden transition-all">
+        <div className="mb-4 rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden transition-all">
           <button
             onClick={() => setIsHowToReadOpen(!isHowToReadOpen)}
             className="w-full flex items-center justify-between px-5 py-3 text-left hover:bg-slate-50/70 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85] cursor-pointer"
@@ -107,13 +125,13 @@ export default function App() {
             <div className="flex items-center gap-2.5">
               <span className="w-2 h-2 rounded-full bg-[#EA1A85]" />
               <span className="font-display font-bold uppercase tracking-wider text-xs sm:text-sm text-[#050D2B]">
-                How to read this
+                How to read this (Model Notes)
               </span>
-              <span className="text-xs text-slate-400 font-sans hidden sm:inline">
+              <span className="text-xs text-slate-400 font-primary hidden sm:inline">
                 (Click to {isHowToReadOpen ? 'collapse' : 'expand'} metric definitions)
               </span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-mono font-semibold text-[#1B3FA0]">
+            <div className="flex items-center gap-1.5 text-xs font-ui font-semibold text-[#1B3FA0]">
               <span>{isHowToReadOpen ? 'Hide Guide' : 'Metric Definitions'}</span>
               {isHowToReadOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </div>
@@ -126,7 +144,7 @@ export default function App() {
                   <span className="font-display uppercase font-bold text-[#EA1A85] block tracking-wide">
                     Pressure Rating
                   </span>
-                  <p className="mt-1 text-slate-700 font-sans leading-relaxed">
+                  <p className="mt-1 text-slate-700 font-primary leading-relaxed">
                     Runs added (batters) or saved (bowlers) per 100 pressure balls vs eligible peers.
                   </p>
                 </div>
@@ -135,7 +153,7 @@ export default function App() {
                   <span className="font-display uppercase font-bold text-[#EA1A85] block tracking-wide">
                     P(top 10)
                   </span>
-                  <p className="mt-1 text-slate-700 font-sans leading-relaxed">
+                  <p className="mt-1 text-slate-700 font-primary leading-relaxed">
                     Posterior probability of being among the true top 10 under match pressure.
                   </p>
                 </div>
@@ -144,7 +162,7 @@ export default function App() {
                   <span className="font-display uppercase font-bold text-[#050D2B] block tracking-wide">
                     Expected Rank
                   </span>
-                  <p className="mt-1 text-slate-700 font-sans leading-relaxed">
+                  <p className="mt-1 text-slate-700 font-primary leading-relaxed">
                     Mean rank across posterior simulations (lower is better).
                   </p>
                 </div>
@@ -153,7 +171,7 @@ export default function App() {
                   <span className="font-display uppercase font-bold text-[#1B3FA0] block tracking-wide">
                     Rating CI
                   </span>
-                  <p className="mt-1 text-slate-700 font-sans leading-relaxed">
+                  <p className="mt-1 text-slate-700 font-primary leading-relaxed">
                     90% credible interval on rating.
                   </p>
                 </div>
@@ -162,7 +180,7 @@ export default function App() {
                   <span className="font-display uppercase font-bold text-[#1B3FA0] block tracking-wide">
                     Bootstrap Rank CI
                   </span>
-                  <p className="mt-1 text-slate-700 font-sans leading-relaxed">
+                  <p className="mt-1 text-slate-700 font-primary leading-relaxed">
                     90% confidence interval on rank from bootstrap resamples.
                   </p>
                 </div>
@@ -171,22 +189,27 @@ export default function App() {
                   <span className="font-display uppercase font-bold text-[#EA1A85] block tracking-wide">
                     Delta vs Usual
                   </span>
-                  <p className="mt-1 text-slate-700 font-sans leading-relaxed">
+                  <p className="mt-1 text-slate-700 font-primary leading-relaxed">
                     Pressure rating minus ordinary (non-pressure) rating.
                   </p>
                 </div>
 
                 <div className="p-3 rounded-xl bg-white border border-slate-200 shadow-xs md:col-span-2 lg:col-span-3">
                   <span className="font-display uppercase font-bold text-[#050D2B] block tracking-wide">
-                    Model fits
+                    Model-fragility flag
                   </span>
-                  <p className="mt-1 text-slate-700 font-sans leading-relaxed">
-                    Fit agreement: percentage of 25 model specifications in which the player achieves a top 10 ranking.
+                  <p className="mt-1 text-slate-700 font-primary leading-relaxed">
+                    Model-fragility flag: indicates significant divergence (&gt;30%) between ensemble fits and mixture posterior top 10 probability.
                   </p>
                 </div>
               </div>
             </div>
           )}
+        </div>
+
+        {/* Validation Panel Below Model Notes (Item 5) */}
+        <div className="mb-8">
+          <ValidationPanel theme="light" />
         </div>
 
         {/* Selected Category Content */}
@@ -200,26 +223,16 @@ export default function App() {
         {activeTab === 'bowlers' && (
           <BowlersView
             bowlers={bowlers}
-            bowlerPhases={bowlerPhases}
             onSelectPlayer={(player) => setSelectedPlayer(player)}
           />
         )}
       </main>
-
-      {/* Floating Expert Scouting Agent Chatbot (Single Ask Scout Button) */}
-      <ScoutChatWidget
-        isOpen={isScoutOpen}
-        setIsOpen={setIsScoutOpen}
-        externalPrompt={externalPrompt}
-        onClearExternalPrompt={() => setExternalPrompt(null)}
-      />
 
       {/* Player Detail Modal */}
       {selectedPlayer && (
         <PlayerModal
           player={selectedPlayer}
           onClose={() => setSelectedPlayer(null)}
-          onAskScout={handleAskScout}
         />
       )}
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Cpu, CheckCircle, Code, Copy, Check } from 'lucide-react';
 import { methodologyInfo } from '../data/cricketData.js';
+import ValidationPanel from './ValidationPanel.jsx';
 
 export default function MethodologyModal({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState('pipeline'); // 'pipeline' or 'code'
@@ -56,7 +57,7 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
               <h3 className="text-xl sm:text-2xl font-black text-white font-display uppercase tracking-tight">
                 {methodologyInfo.title}
               </h3>
-              <p className="text-xs text-[#FDE4F1] font-mono font-bold">
+              <p className="text-xs text-[#FDE4F1] font-ui font-bold">
                 {methodologyInfo.version}
               </p>
             </div>
@@ -66,7 +67,7 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
           <div className="flex items-center gap-2 mb-4 p-1 rounded-full bg-[#0A1A52]/80 border border-white/10">
             <button
               onClick={() => setActiveTab('pipeline')}
-              className={`flex-1 py-2 text-xs font-display uppercase tracking-wider font-bold rounded-full transition-all ${
+              className={`flex-1 py-2 text-xs font-ui uppercase tracking-wider font-bold rounded-full transition-all ${
                 activeTab === 'pipeline'
                   ? 'bg-[#EA1A85] text-white shadow-sm'
                   : 'text-slate-300 hover:text-white'
@@ -76,7 +77,7 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
             </button>
             <button
               onClick={() => setActiveTab('code')}
-              className={`flex-1 py-2 text-xs font-display uppercase tracking-wider font-bold rounded-full transition-all flex items-center justify-center gap-1.5 ${
+              className={`flex-1 py-2 text-xs font-ui uppercase tracking-wider font-bold rounded-full transition-all flex items-center justify-center gap-1.5 ${
                 activeTab === 'code'
                   ? 'bg-[#EA1A85] text-white shadow-sm'
                   : 'text-slate-300 hover:text-white'
@@ -91,7 +92,7 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
           <div className="flex-1 overflow-y-auto space-y-4 pr-1">
             {activeTab === 'pipeline' ? (
               <>
-                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-sans">
+                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-primary">
                   {methodologyInfo.description}
                 </p>
 
@@ -106,18 +107,21 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
                         <h4 className="text-sm font-bold text-white font-display uppercase tracking-wide">
                           {f.name}
                         </h4>
-                        <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-[#EA1A85]/20 text-[#FDE4F1] border border-[#EA1A85]/40 font-bold">
+                        <span className="text-xs font-ui px-2.5 py-0.5 rounded-full bg-[#EA1A85]/20 text-[#FDE4F1] border border-[#EA1A85]/40 font-bold">
                           {f.formula}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                      <p className="text-xs text-slate-300 leading-relaxed font-primary">
                         {f.meaning}
                       </p>
                     </div>
                   ))}
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-[#0A1A52]/80 border border-emerald-500/40 flex items-center gap-3 text-xs text-emerald-300 shadow-sm">
+                {/* Validation Panel Bound Directly to Metadata */}
+                <ValidationPanel theme="dark" />
+
+                <div className="p-3.5 rounded-2xl bg-[#0A1A52]/80 border border-emerald-500/40 flex items-center gap-3 text-xs text-emerald-300 shadow-sm font-primary">
                   <CheckCircle className="w-4 h-4 text-[#10e588] shrink-0" />
                   <span>
                     Directly integrated with the machine learning script saved at <code>ml_model/supeRR_clustering_pipeline.py</code>.
@@ -127,12 +131,12 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
             ) : (
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-[#FDE4F1] font-semibold">
+                  <span className="text-xs font-ui text-[#FDE4F1] font-semibold">
                     ml_model/supeRR_clustering_pipeline.py
                   </span>
                   <button
                     onClick={handleCopy}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#EA1A85] text-xs font-display uppercase tracking-wider font-bold text-white hover:bg-[#C4106C] shadow-sm transition-all"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#EA1A85] text-xs font-ui uppercase tracking-wider font-bold text-white hover:bg-[#C4106C] shadow-sm transition-all"
                   >
                     {copied ? <Check className="w-3.5 h-3.5 text-white" /> : <Copy className="w-3.5 h-3.5" />}
                     <span>{copied ? 'Copied!' : 'Copy Code'}</span>
@@ -143,9 +147,9 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
                   <pre className="whitespace-pre">{pythonScript}</pre>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-[#0A1A52]/70 border border-white/10 text-xs text-slate-200 shadow-sm">
+                <div className="p-3.5 rounded-2xl bg-[#0A1A52]/70 border border-white/10 text-xs text-slate-200 shadow-sm font-primary">
                   <strong className="text-[#EA1A85] font-display uppercase tracking-wider">Instructions for your CSVs:</strong>
-                  <p className="mt-1 text-slate-300 font-sans">
+                  <p className="mt-1 text-slate-300 font-primary">
                     Place your <code>ball_by_ball.csv</code> and <code>matches.csv</code> inside the extracted folder and run <code>python ml_model/supeRR_clustering_pipeline.py</code> to regenerate custom team analytics.
                   </p>
                 </div>

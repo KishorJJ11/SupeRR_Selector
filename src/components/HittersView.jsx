@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { BarChart2, TrendingUp, TrendingDown } from 'lucide-react';
-import { meta, isDeltaSignificant } from '../data/cricketData';
+import { BarChart2, TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
+import { meta, isDeltaSignificant, formatExpectedRank, formatPTop10 } from '../data/cricketData';
 import PlayerVisual from './PlayerVisual.jsx';
 import UncertaintyRangeBar from './UncertaintyRangeBar.jsx';
 
@@ -36,8 +36,8 @@ const ZERO_PERCENT = ((0 - SCALE_MIN) / SCALE_SPAN) * 100;
 export default function HittersView({ batters, onSelectPlayer }) {
   const [selectedRole, setSelectedRole] = useState('all');
 
-  // Sort the entire UI based strictly on the rank property provided in the JSON array
-  const sortedBatters = [...batters].sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
+  // Rely 100% on the JSON index - NO frontend sorting (V17 Alignment)
+  const sortedBatters = batters;
 
   // Extract unique data-driven phase roles from JSON ('Powerplay', 'Middle Overs', 'Death Overs')
   const availableRoles = ['all', ...Array.from(new Set(sortedBatters.map(b => b.role).filter(Boolean)))];
@@ -59,16 +59,16 @@ export default function HittersView({ batters, onSelectPlayer }) {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2.5 h-2.5 bg-[#EA1A85] skew-diagonal inline-block rounded-xs" />
-            <span className="text-xs font-mono uppercase tracking-widest text-[#1B3FA0] font-bold">
+            <span className="text-xs font-ui uppercase tracking-widest text-[#1B3FA0] font-bold">
               Consensus Posterior Matrix
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-[#050D2B] font-display">
             Batting Leverage Dossier <span className="text-[#EA1A85]">(Top 10 Under Pressure)</span>
           </h2>
-          {/* Dashboard Subtitle (V12 Lock) */}
-          <p className="mt-1 text-xs sm:text-sm text-slate-600 font-sans">
-            Ordered by Expected Rank.
+          {/* Dashboard Subtitle (V17 Alignment) */}
+          <p className="mt-1 text-xs sm:text-sm text-slate-600 font-primary">
+            Ordered by consensus of ensemble and bag-averaged estimators
           </p>
         </div>
 
@@ -86,14 +86,14 @@ export default function HittersView({ batters, onSelectPlayer }) {
                   <button
                     key={role}
                     onClick={() => setSelectedRole(role)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-display uppercase tracking-wider font-bold whitespace-nowrap transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85] ${
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-ui uppercase tracking-wider font-bold whitespace-nowrap transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85] ${
                       isActive
                         ? 'bg-[#EA1A85] text-white shadow-xs'
                         : 'text-slate-600 hover:text-[#050D2B] hover:bg-slate-100'
                     }`}
                   >
                     <span>{role === 'all' ? 'All Phases' : role}</span>
-                    <span className={`ml-1.5 text-[10px] px-1.5 py-0.2 rounded-full ${
+                    <span className={`ml-1.5 text-xs px-1.5 py-0.2 rounded-full font-ui ${
                       isActive ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-500'
                     }`}>
                       {count}
@@ -115,10 +115,10 @@ export default function HittersView({ batters, onSelectPlayer }) {
         <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/20 text-white">
           <div className="flex items-center gap-2">
             <span className="font-display font-extrabold uppercase tracking-wider text-sm text-white">
-              The Podium: Top 3 Pressure Match-Winners
+              The Podium: Top 3 by posterior expected rank.
             </span>
           </div>
-          <span className="text-xs font-mono text-white/80">
+          <span className="text-xs font-ui text-white/80">
             High-leverage Posterior Rank
           </span>
         </div>
@@ -148,14 +148,14 @@ export default function HittersView({ batters, onSelectPlayer }) {
                         #{formattedRank}
                       </span>
                       {isRankOne && (
-                        <span className="px-2 py-0.5 rounded-sm text-[10px] font-display uppercase tracking-wider font-extrabold bg-[#EA1A85] text-white skew-diagonal shadow-xs">
+                        <span className="px-2 py-0.5 rounded-sm text-xs font-display uppercase tracking-wider font-extrabold bg-[#EA1A85] text-white skew-diagonal shadow-xs">
                           <span className="unskew-diagonal inline-block">RANK 1</span>
                         </span>
                       )}
                     </div>
 
                     {/* Tier chip placed cleanly at top-right */}
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold border ${getTierBadgeClass(player.tier)}`}>
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-ui font-bold border ${getTierBadgeClass(player.tier)}`}>
                       {player.tier}
                     </span>
                   </div>
@@ -177,12 +177,12 @@ export default function HittersView({ batters, onSelectPlayer }) {
 
                   {/* Phase badge on top-left of player area */}
                   <div className="absolute top-2.5 left-3 z-20">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border shadow-xs ${getPhaseBadgeColor(player.role)}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-ui font-bold border shadow-xs ${getPhaseBadgeColor(player.role)}`}>
                       {player.role}
                     </span>
                   </div>
 
-                  {/* Player Visual (Cutout or Placeholder with badge) */}
+                  {/* Player Visual (Generic Silhouette Bust) */}
                   <div className="relative z-10 w-full h-full flex items-end justify-center">
                     <PlayerVisual player={player} variant="top3" />
                   </div>
@@ -194,10 +194,10 @@ export default function HittersView({ batters, onSelectPlayer }) {
                     {/* Left: Pressure Rating big + Uncertainty Range Bar */}
                     <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between h-full">
                       <div>
-                        <span className="text-[10px] text-slate-500 block font-display uppercase font-bold tracking-wider">
+                        <span className="text-xs text-slate-500 block font-ui uppercase font-bold tracking-wider">
                           Pressure Rating
                         </span>
-                        <span className="text-2xl font-black text-[#EA1A85] font-mono tabular-nums leading-tight block my-0.5">
+                        <span className="text-2xl font-black text-[#EA1A85] font-display tabular-nums leading-tight block my-0.5">
                           {player.pressureRating >= 0 ? `+${player.pressureRating}` : player.pressureRating}
                         </span>
                       </div>
@@ -215,22 +215,22 @@ export default function HittersView({ batters, onSelectPlayer }) {
                     <div className="space-y-2">
                       {/* Expected Rank */}
                       <div className="p-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between">
-                        <span className="text-[10px] text-slate-500 font-display uppercase font-bold tracking-wider">
+                        <span className="text-xs text-slate-500 font-ui uppercase font-bold tracking-wider">
                           Expected Rank
                         </span>
-                        <span className="text-sm font-extrabold text-[#050D2B] font-mono tabular-nums">
-                          {player.expectedRank}
+                        <span className="text-base font-bold text-[#050D2B] font-primary tabular-nums">
+                          {formatExpectedRank(player.expectedRank)}
                         </span>
                       </div>
 
                       {/* P(Top 10) with mini progress bar */}
                       <div className="p-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200">
                         <div className="flex items-center justify-between">
-                          <span className="text-[10px] text-slate-500 font-display uppercase font-bold tracking-wider">
+                          <span className="text-xs text-slate-500 font-ui uppercase font-bold tracking-wider">
                             P(Top 10)
                           </span>
-                          <span className="text-xs font-mono font-bold text-[#EA1A85]">
-                            {player.pTop10Post}%
+                          <span className="text-sm font-bold text-[#EA1A85] font-primary">
+                            {formatPTop10(player.pTop10Post)}%
                           </span>
                         </div>
                         <div className="w-full bg-slate-200 h-1 rounded-full mt-1 overflow-hidden">
@@ -243,10 +243,10 @@ export default function HittersView({ batters, onSelectPlayer }) {
 
                       {/* Workload */}
                       <div className="p-1.5 px-2 rounded-lg bg-slate-50 border border-slate-200">
-                        <span className="text-[10px] text-slate-500 block font-display uppercase font-bold tracking-wider">
+                        <span className="text-xs text-slate-500 block font-ui uppercase font-bold tracking-wider">
                           Workload
                         </span>
-                        <div className="text-[10px] font-mono font-semibold text-[#050D2B] leading-tight mt-0.5">
+                        <div className="text-xs font-primary font-semibold text-[#050D2B] leading-tight mt-0.5">
                           <div>{player.pressureBalls} balls in {player.pressureInnings} innings</div>
                         </div>
                       </div>
@@ -259,7 +259,7 @@ export default function HittersView({ batters, onSelectPlayer }) {
                       {isSigDelta ? (
                         <div 
                           title="Pressure rating minus ordinary (non-pressure) rating."
-                          className={`px-2 py-0.5 rounded-full text-xs font-mono font-bold border inline-flex items-center gap-1.5 cursor-help ${
+                          className={`px-2.5 py-0.5 rounded-full text-xs font-ui font-bold border inline-flex items-center gap-1.5 cursor-help ${
                             player.delta >= 0 
                               ? 'bg-[#E6ECFA] text-[#1B3FA0] border-[#1B3FA0]/30' 
                               : 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/30'
@@ -267,26 +267,32 @@ export default function HittersView({ batters, onSelectPlayer }) {
                         >
                           {player.delta >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                           <span>Delta: {player.delta >= 0 ? `+${player.delta}` : player.delta}</span>
-                          <span className="text-[10px] opacity-80 whitespace-nowrap">
+                          <span className="text-xs opacity-80 whitespace-nowrap font-ui">
                             CI: [{player.deltaInterval[0]}, {player.deltaInterval[1]}]
                           </span>
                         </div>
                       ) : (
                         <span 
                           title="Pressure rating minus ordinary (non-pressure) rating."
-                          className="px-2 py-0.5 rounded-full text-[11px] font-mono bg-slate-100 text-slate-600 border border-slate-200 inline-block font-semibold whitespace-nowrap cursor-help"
+                          className="px-2.5 py-0.5 rounded-full text-xs font-ui bg-slate-100 text-slate-600 border border-slate-200 inline-block font-semibold whitespace-nowrap cursor-help"
                         >
                           Delta: Indistinguishable from noise
                         </span>
                       )}
 
-                      <span className="text-[11px] font-mono text-slate-500 font-medium whitespace-nowrap">
-                        Fit agreement: {player.top10SharePct}% of 25 fits
-                      </span>
+                      {player.modelFragility ? (
+                        <span 
+                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-ui font-semibold bg-amber-50 text-amber-700 border border-amber-300 whitespace-nowrap"
+                          title="Model-fragility flag"
+                        >
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                          <span>Model-fragility flag</span>
+                        </span>
+                      ) : null}
                     </div>
 
-                    {/* 'Rating CI: [a, b]' and 'Bootstrap Rank CI: [c, d]' side by side on ONE row (font-size 12px, white-space: nowrap) */}
-                    <div className="flex items-center justify-between gap-2 text-[12px] font-mono text-slate-600 whitespace-nowrap pt-0.5">
+                    {/* 'Rating CI: [a, b]' and 'Bootstrap Rank CI: [c, d]' side by side on ONE row */}
+                    <div className="flex items-center justify-between gap-2 text-xs font-primary text-slate-600 whitespace-nowrap pt-0.5">
                       <span>Rating CI: [{player.ratingInterval?.[0]}, {player.ratingInterval?.[1]}]</span>
                       <span>Bootstrap Rank CI: [{player.bootRankInterval?.[0]}, {player.bootRankInterval?.[1]}]</span>
                     </div>
@@ -307,7 +313,7 @@ export default function HittersView({ batters, onSelectPlayer }) {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 pr-1 text-xs font-mono text-slate-500">
+        <div className="flex items-center gap-2 pr-1 text-xs font-ui text-slate-500">
           <span>Ranks 04–10 Posterior Leaderboard</span>
         </div>
       </div>
@@ -331,7 +337,7 @@ export default function HittersView({ batters, onSelectPlayer }) {
           </colgroup>
           <thead>
             {/* Table Header: Royal Blue (#1B3FA0) */}
-            <tr className="bg-[#1B3FA0] text-white text-[11px] font-display uppercase tracking-wider select-none border-b-2 border-b-[#EA1A85]">
+            <tr className="bg-[#1B3FA0] text-white text-xs font-ui uppercase tracking-wider select-none border-b-2 border-b-[#EA1A85]">
               <th className="py-3.5 px-3">Rank</th>
               <th className="py-3.5 px-4">Player</th>
               <th className="py-3.5 px-3">Rating</th>
@@ -344,7 +350,7 @@ export default function HittersView({ batters, onSelectPlayer }) {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 text-xs">
+          <tbody className="divide-y divide-slate-100 text-sm">
             {filteredTable.length > 0 ? (
               filteredTable.map((player) => {
                 const formattedRank = player.rank < 10 ? `0${player.rank}` : player.rank;
@@ -367,26 +373,34 @@ export default function HittersView({ batters, onSelectPlayer }) {
                         <PlayerVisual player={player} variant="table" />
                         
                         <div className="min-w-0 flex-1">
-                          <div className="font-bold text-[#050D2B] group-hover:text-[#EA1A85] transition-colors truncate text-sm player-name">
+                          <div className="font-primary font-bold text-[#050D2B] group-hover:text-[#EA1A85] transition-colors truncate text-base player-name">
                             {player.name}
                           </div>
                           
                           {/* Tier chip and Fits on separate lines with clear spacing */}
                           <div className="mt-1">
-                            <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${getTierBadgeClass(player.tier)}`}>
+                            <span className={`inline-block px-2 py-0.5 rounded text-xs font-ui font-bold border ${getTierBadgeClass(player.tier)}`}>
                               {player.tier}
                             </span>
                           </div>
-                          <div className="mt-1 text-[10px] font-mono text-slate-500 whitespace-nowrap">
-                            Fit agreement: {player.top10SharePct}% of 25 fits
-                          </div>
+                          {player.modelFragility ? (
+                            <div className="mt-1">
+                              <span 
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-ui font-semibold bg-amber-50 text-amber-700 border border-amber-300 whitespace-nowrap"
+                                title="Model-fragility flag"
+                              >
+                                <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                                <span>Model-fragility flag</span>
+                              </span>
+                            </div>
+                          ) : null}
                         </div>
                       </div>
                     </td>
 
                     {/* Pressure Rating (7%) */}
                     <td className="py-3.5 px-3">
-                      <span className="font-mono font-extrabold text-sm text-[#EA1A85] tabular-nums">
+                      <span className="font-display font-extrabold text-base text-[#EA1A85] tabular-nums">
                         {player.pressureRating >= 0 ? `+${player.pressureRating}` : player.pressureRating}
                       </span>
                     </td>
@@ -401,14 +415,14 @@ export default function HittersView({ batters, onSelectPlayer }) {
                     </td>
 
                     {/* Expected Rank (8%) */}
-                    <td className="py-3.5 px-3 font-mono font-bold text-[#050D2B] text-center tabular-nums text-sm">
-                      {player.expectedRank ?? player.medianRank}
+                    <td className="py-3.5 px-3 font-primary font-bold text-[#050D2B] text-center tabular-nums text-base">
+                      {formatExpectedRank(player.expectedRank ?? player.medianRank)}
                     </td>
 
                     {/* P(Top 10) (9%) */}
-                    <td className="py-3.5 px-3 font-mono">
+                    <td className="py-3.5 px-3 font-primary">
                       <div className="flex flex-col gap-1">
-                        <span className="font-bold text-[#EA1A85]">{player.pTop10Post}%</span>
+                        <span className="font-bold text-[#EA1A85] text-sm">{formatPTop10(player.pTop10Post)}%</span>
                         <div className="w-14 bg-slate-200 h-1 rounded-full overflow-hidden">
                           <div
                             className="bg-[#EA1A85] h-full"
@@ -423,39 +437,39 @@ export default function HittersView({ batters, onSelectPlayer }) {
                       {isSigDelta ? (
                         <div
                           title="Pressure rating minus ordinary (non-pressure) rating."
-                          className={`rounded text-[11px] font-mono font-bold border inline-block leading-snug break-words cursor-help ${
+                          className={`rounded text-xs font-ui font-bold border inline-block leading-snug break-words cursor-help ${
                             player.delta >= 0 
                               ? 'bg-[#E6ECFA] text-[#1B3FA0] border-[#1B3FA0]/30' 
                               : 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/30'
                           }`}
-                          style={{ maxWidth: '100%', whiteSpace: 'normal', padding: '4px 8px', fontSize: '11px' }}
+                          style={{ maxWidth: '100%', whiteSpace: 'normal', padding: '4px 8px' }}
                         >
                           <div>Delta: {player.delta >= 0 ? `+${player.delta}` : player.delta}</div>
-                          <div className="text-[10px] font-mono text-slate-500 font-normal">
+                          <div className="text-xs font-ui text-slate-500 font-normal">
                             CI: [{player.deltaInterval[0]}, {player.deltaInterval[1]}]
                           </div>
                         </div>
                       ) : (
                         <span
                           title="Pressure rating minus ordinary (non-pressure) rating."
-                          className="inline-block text-[11px] font-mono bg-slate-100 text-slate-600 border border-slate-200 font-semibold leading-snug break-words cursor-help"
-                          style={{ maxWidth: '100%', whiteSpace: 'normal', padding: '4px 8px', fontSize: '11px' }}
+                          className="inline-block text-xs font-ui bg-slate-100 text-slate-600 border border-slate-200 font-semibold leading-snug break-words cursor-help"
+                          style={{ maxWidth: '100%', whiteSpace: 'normal', padding: '4px 8px' }}
                         >
                           Delta: Indistinguishable from noise
                         </span>
                       )}
                     </td>
 
-                    {/* Phase & Workload (18%) - padding-left: 28px, padding-right: 20px, white-space: normal with 1px divider */}
+                    {/* Phase & Workload (18%) */}
                     <td
                       className="py-3.5 pl-7 pr-5 border-l border-slate-100"
                       style={{ paddingLeft: '28px', paddingRight: '20px', whiteSpace: 'normal' }}
                     >
                       <div className="flex flex-col items-start gap-1">
-                        <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${getPhaseBadgeColor(player.role)}`}>
+                        <span className={`inline-block px-2 py-0.5 rounded text-xs font-ui font-bold border ${getPhaseBadgeColor(player.role)}`}>
                           {player.role}
                         </span>
-                        <span className="text-[10px] font-mono text-slate-500 leading-tight">
+                        <span className="text-xs font-primary text-slate-600 leading-tight">
                           {player.pressureBalls} balls in {player.pressureInnings} innings
                         </span>
                       </div>
@@ -465,13 +479,13 @@ export default function HittersView({ batters, onSelectPlayer }) {
               })
             ) : topThree.length > 0 ? (
               <tr>
-                <td colSpan={8} className="py-6 text-center text-xs text-slate-500">
+                <td colSpan={8} className="py-6 text-center text-xs text-slate-500 font-primary">
                   All {topThree.length} qualifying player(s) are highlighted in the top podium cards above.
                 </td>
               </tr>
             ) : (
               <tr>
-                <td colSpan={8} className="py-8 text-center text-sm text-slate-500">
+                <td colSpan={8} className="py-8 text-center text-sm text-slate-500 font-primary">
                   No batters match the selected filter criteria.
                 </td>
               </tr>
@@ -481,7 +495,7 @@ export default function HittersView({ batters, onSelectPlayer }) {
       </div>
 
       {/* Mobile Stacked Cards Layout (< 768px) keeping ALL data points strictly visible */}
-      <div className="md:hidden space-y-3 mb-4">
+      <div className="md:hidden space-y-3 mb-8">
         {filteredTable.map((player) => {
           const formattedRank = player.rank < 10 ? `0${player.rank}` : player.rank;
           const isSigDelta = isDeltaSignificant(player.deltaInterval);
@@ -499,67 +513,70 @@ export default function HittersView({ batters, onSelectPlayer }) {
                   </span>
                   <PlayerVisual player={player} variant="table" />
                   <div>
-                    <h4 className="font-bold text-sm text-[#050D2B] leading-tight player-name">
+                    <h4 className="font-primary font-bold text-base text-[#050D2B] leading-tight player-name">
                       {player.name}
                     </h4>
-                    <span className="text-[10px] font-mono text-slate-500">
-                      Expected Rank: {player.expectedRank} | P(Top 10): {player.pTop10Post}%
+                    <span className="text-xs font-primary text-slate-500">
+                      Expected Rank: {formatExpectedRank(player.expectedRank)} | P(Top 10): {formatPTop10(player.pTop10Post)}%
                     </span>
                   </div>
                 </div>
 
-                <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border shrink-0 ${getTierBadgeClass(player.tier)}`}>
+                <span className={`px-2 py-0.5 rounded text-xs font-ui font-bold border shrink-0 ${getTierBadgeClass(player.tier)}`}>
                   {player.tier}
                 </span>
               </div>
 
               {/* Mobile 2-column stats */}
-              <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-100 text-xs font-mono">
+              <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-100 text-xs font-primary">
                 <div>
-                  <span className="text-[10px] text-slate-500 block">Pressure Rating</span>
-                  <span className="font-bold text-[#EA1A85]">
+                  <span className="text-xs font-ui text-slate-500 block">Pressure Rating</span>
+                  <span className="font-display font-bold text-base text-[#EA1A85]">
                     {player.pressureRating >= 0 ? `+${player.pressureRating}` : player.pressureRating}
                   </span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 block">Workload</span>
+                  <span className="text-xs font-ui text-slate-500 block">Workload</span>
                   <span className="text-slate-700">
                     {player.pressureBalls}b / {player.pressureInnings} inn
                   </span>
                 </div>
-                <div className="col-span-2 text-[10px] text-slate-600">
+                <div className="col-span-2 text-xs text-slate-600">
                   Rating CI: [{player.ratingInterval?.[0]}, {player.ratingInterval?.[1]}] · Boot: [{player.bootRankInterval?.[0]}, {player.bootRankInterval?.[1]}]
                 </div>
                 <div className="col-span-2">
                   {isSigDelta ? (
                     <span 
                       title="Pressure rating minus ordinary (non-pressure) rating."
-                      className="text-[11px] font-bold text-[#1B3FA0] cursor-help"
+                      className="text-xs font-ui font-bold text-[#1B3FA0] cursor-help"
                     >
                       Delta: {player.delta >= 0 ? `+${player.delta}` : player.delta} (CI: [{player.deltaInterval[0]}, {player.deltaInterval[1]}])
                     </span>
                   ) : (
                     <span 
                       title="Pressure rating minus ordinary (non-pressure) rating."
-                      className="text-[11px] text-slate-500 cursor-help"
+                      className="text-xs font-ui text-slate-500 cursor-help"
                     >
                       Delta: Indistinguishable from noise
                     </span>
                   )}
                 </div>
-                <div className="col-span-2 text-[10px] text-slate-500">
-                  Fit agreement: {player.top10SharePct}% of 25 fits
-                </div>
+                {player.modelFragility ? (
+                  <div className="col-span-2">
+                    <span 
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-ui font-semibold bg-amber-50 text-amber-700 border border-amber-300 whitespace-nowrap"
+                      title="Model-fragility flag"
+                    >
+                      <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                      <span>Model-fragility flag</span>
+                    </span>
+                  </div>
+                ) : null}
               </div>
             </div>
           );
         })}
       </div>
-
-      {/* One-line Footnote under Table (Copy Change #3) */}
-      <p className="text-xs text-slate-500 font-sans italic mt-2 mb-8 text-center sm:text-left">
-        Most rating intervals include 0, so many players are not statistically separable from the average eligible player.
-      </p>
     </div>
   );
 }

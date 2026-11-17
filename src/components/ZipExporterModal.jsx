@@ -54,7 +54,7 @@ export default function ZipExporterModal({ isOpen, onClose }) {
               <h3 className="text-xl font-bold text-white font-display uppercase tracking-tight">
                 Export Complete Codebase
               </h3>
-              <p className="text-xs text-[#FDE4F1] font-mono font-medium">
+              <p className="text-xs text-[#FDE4F1] font-ui font-medium">
                 Download ready-to-run ZIP archive
               </p>
             </div>
@@ -75,7 +75,7 @@ export default function ZipExporterModal({ isOpen, onClose }) {
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-[#10e588]" />
-              <span>Express backend &amp; AI Scouting Agent scaffold</span>
+              <span>Express backend &amp; production server scaffold</span>
             </div>
           </div>
 

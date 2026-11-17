@@ -10,198 +10,169 @@
     },
     "status": {
       "bat": "LOW_CONFIDENCE",
-      "bow": "MODERATE"
+      "bow": "LOW_CONFIDENCE"
     },
     "expected_hits": {
-      "bat": 5.1,
-      "bow": 5.2
+      "bat": 4.9,
+      "bow": 3.7
+    },
+    "validation": {
+      "bat": {
+        "rho_pressure": 0.3843249773482332,
+        "rho_ordinary": 0.025974025974025976,
+        "hit_rate": 0.6666666666666666,
+        "n": 9,
+        "binomial_p": 0.25390625,
+        "expected_hits": 4.9
+      },
+      "bow": {
+        "rho_pressure": 0.2358371040723982,
+        "rho_ordinary": 0.26226244343891403,
+        "hit_rate": 0.9,
+        "n": 10,
+        "binomial_p": 0.0107421875,
+        "expected_hits": 3.7
+      }
     }
   },
   "batters": [
     {
       "rank": 1,
-      "id": "5553",
-      "name": "Phil Salt",
-      "role": "Powerplay",
-      "tier": "Tier C",
-      "expectedRank": 8.3,
-      "pressureBalls": 183,
-      "pressureInnings": 20,
-      "pressureRating": 11.38,
-      "ratingInterval": [
-        -3.1,
-        25.9
-      ],
-      "delta": -5.6,
-      "deltaInterval": [
-        -22.6,
-        11.5
-      ],
-      "pTop10Post": 70.2,
-      "bootRankInterval": [
-        1.0,
-        15.0
-      ],
-      "top10SharePct": 92.0
-    },
-    {
-      "rank": 2,
-      "id": "6396",
-      "name": "Tim David",
-      "role": "Death Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 11.4,
-      "pressureBalls": 341,
-      "pressureInnings": 37,
-      "pressureRating": 8.1,
-      "ratingInterval": [
-        -5.6,
-        21.8
-      ],
-      "delta": -4.1,
-      "deltaInterval": [
-        -21.8,
-        13.7
-      ],
-      "pTop10Post": 56.1,
-      "bootRankInterval": [
-        1.0,
-        16.0
-      ],
-      "top10SharePct": 84.0
-    },
-    {
-      "rank": 3,
-      "id": "813",
-      "name": "Jos Buttler",
-      "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 11.4,
-      "pressureBalls": 261,
-      "pressureInnings": 29,
-      "pressureRating": 8.21,
-      "ratingInterval": [
-        -5.7,
-        22.1
-      ],
-      "delta": 3.4,
-      "deltaInterval": [
-        -12.3,
-        19.1
-      ],
-      "pTop10Post": 55.4,
-      "bootRankInterval": [
-        1.0,
-        20.0
-      ],
-      "top10SharePct": 60.0
-    },
-    {
-      "rank": 4,
-      "id": "4260",
-      "name": "Heinrich Klaasen",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 11.6,
-      "pressureBalls": 211,
-      "pressureInnings": 25,
-      "pressureRating": 7.84,
-      "ratingInterval": [
-        -6.5,
-        22.2
-      ],
-      "delta": -3.3,
-      "deltaInterval": [
-        -20.1,
-        13.6
-      ],
-      "pTop10Post": 54.4,
-      "bootRankInterval": [
-        1.0,
-        19.0
-      ],
-      "top10SharePct": 80.0
-    },
-    {
-      "rank": 5,
-      "id": "4986",
-      "name": "Rovman Powell",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 11.9,
-      "pressureBalls": 276,
-      "pressureInnings": 31,
-      "pressureRating": 6.98,
-      "ratingInterval": [
-        -5.0,
-        19.0
-      ],
-      "delta": 10.3,
-      "deltaInterval": [
-        -5.2,
-        25.8
-      ],
-      "pTop10Post": 51.1,
-      "bootRankInterval": [
-        2.0,
-        23.1
-      ],
-      "top10SharePct": 32.0
-    },
-    {
-      "rank": 6,
       "id": "6281",
       "name": "Abhishek Sharma",
       "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 13.5,
+      "tier": "Tier C",
+      "expectedRank": 7.8,
       "pressureBalls": 263,
       "pressureInnings": 34,
-      "pressureRating": 6.8,
+      "pressureRating": 13.01,
       "ratingInterval": [
-        -10.5,
-        24.1
+        -4.3,
+        30.3
       ],
-      "delta": -19.6,
+      "delta": -13.4,
       "deltaInterval": [
-        -39.5,
-        0.3
+        -33.3,
+        6.5
       ],
-      "pTop10Post": 48.9,
+      "pTop10Post": 74.1,
       "bootRankInterval": [
         1.0,
         17.1
       ],
-      "top10SharePct": 100.0
+      "top10SharePct": 100.0,
+      "modelFragility": false
     },
     {
-      "rank": 7,
-      "id": "1077",
-      "name": "David Miller",
+      "rank": 2,
+      "id": "5553",
+      "name": "Phil Salt",
+      "role": "Powerplay",
+      "tier": "Low Confidence",
+      "expectedRank": 10.9,
+      "pressureBalls": 183,
+      "pressureInnings": 20,
+      "pressureRating": 8.0,
+      "ratingInterval": [
+        -6.5,
+        22.5
+      ],
+      "delta": -8.9,
+      "deltaInterval": [
+        -26.0,
+        8.1
+      ],
+      "pTop10Post": 58.9,
+      "bootRankInterval": [
+        1.0,
+        15.0
+      ],
+      "top10SharePct": 92.0,
+      "modelFragility": true
+    },
+    {
+      "rank": 3,
+      "id": "4260",
+      "name": "Heinrich Klaasen",
       "role": "Middle Overs",
       "tier": "Low Confidence",
-      "expectedRank": 13.7,
-      "pressureBalls": 276,
-      "pressureInnings": 29,
-      "pressureRating": 5.68,
+      "expectedRank": 11.5,
+      "pressureBalls": 211,
+      "pressureInnings": 25,
+      "pressureRating": 7.4,
       "ratingInterval": [
         -7.0,
-        18.4
+        21.8
       ],
-      "delta": 12.8,
+      "delta": -3.7,
       "deltaInterval": [
-        -4.1,
-        29.7
+        -20.6,
+        13.1
       ],
-      "pTop10Post": 44.2,
+      "pTop10Post": 55.9,
       "bootRankInterval": [
-        2.0,
-        26.0
+        1.0,
+        19.0
       ],
-      "top10SharePct": 12.0
+      "top10SharePct": 80.0,
+      "modelFragility": false
     },
     {
-      "rank": 8,
+      "rank": 4,
+      "id": "6396",
+      "name": "Tim David",
+      "role": "Death Overs",
+      "tier": "Low Confidence",
+      "expectedRank": 12.6,
+      "pressureBalls": 341,
+      "pressureInnings": 37,
+      "pressureRating": 6.36,
+      "ratingInterval": [
+        -7.3,
+        20.1
+      ],
+      "delta": -5.8,
+      "deltaInterval": [
+        -23.6,
+        12.0
+      ],
+      "pTop10Post": 51.3,
+      "bootRankInterval": [
+        1.0,
+        16.0
+      ],
+      "top10SharePct": 84.0,
+      "modelFragility": true
+    },
+    {
+      "rank": 5,
+      "id": "1699",
+      "name": "Suryakumar Yadav",
+      "role": "Middle Overs",
+      "tier": "Low Confidence",
+      "expectedRank": 13.0,
+      "pressureBalls": 411,
+      "pressureInnings": 42,
+      "pressureRating": 5.79,
+      "ratingInterval": [
+        -6.4,
+        18.0
+      ],
+      "delta": -8.5,
+      "deltaInterval": [
+        -22.9,
+        5.9
+      ],
+      "pTop10Post": 46.9,
+      "bootRankInterval": [
+        3.0,
+        28.0
+      ],
+      "top10SharePct": 76.0,
+      "modelFragility": false
+    },
+    {
+      "rank": 6,
       "id": "3647",
       "name": "Shreyas Iyer",
       "role": "Middle Overs",
@@ -209,74 +180,131 @@
       "expectedRank": 13.7,
       "pressureBalls": 315,
       "pressureInnings": 32,
-      "pressureRating": 5.35,
+      "pressureRating": 4.91,
       "ratingInterval": [
-        -7.1,
-        17.8
+        -7.5,
+        17.4
       ],
-      "delta": 1.1,
+      "delta": 0.7,
       "deltaInterval": [
-        -14.4,
-        16.6
+        -14.9,
+        16.2
       ],
-      "pTop10Post": 42.8,
+      "pTop10Post": 44.1,
       "bootRankInterval": [
         3.0,
         24.0
       ],
-      "top10SharePct": 60.0
+      "top10SharePct": 60.0,
+      "modelFragility": false
+    },
+    {
+      "rank": 7,
+      "id": "813",
+      "name": "Jos Buttler",
+      "role": "Powerplay",
+      "tier": "Low Confidence",
+      "expectedRank": 13.8,
+      "pressureBalls": 261,
+      "pressureInnings": 29,
+      "pressureRating": 5.47,
+      "ratingInterval": [
+        -8.4,
+        19.3
+      ],
+      "delta": 0.7,
+      "deltaInterval": [
+        -15.0,
+        16.4
+      ],
+      "pTop10Post": 46.0,
+      "bootRankInterval": [
+        1.0,
+        20.0
+      ],
+      "top10SharePct": 60.0,
+      "modelFragility": false
+    },
+    {
+      "rank": 8,
+      "id": "2258",
+      "name": "Sanju Samson",
+      "role": "Middle Overs",
+      "tier": "Low Confidence",
+      "expectedRank": 15.5,
+      "pressureBalls": 284,
+      "pressureInnings": 33,
+      "pressureRating": 3.64,
+      "ratingInterval": [
+        -10.3,
+        17.6
+      ],
+      "delta": 1.4,
+      "deltaInterval": [
+        -14.8,
+        17.6
+      ],
+      "pTop10Post": 38.4,
+      "bootRankInterval": [
+        6.0,
+        34.0
+      ],
+      "top10SharePct": 56.0,
+      "modelFragility": false
     },
     {
       "rank": 9,
-      "id": "6288",
-      "name": "Shubman Gill",
-      "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 14.1,
-      "pressureBalls": 387,
-      "pressureInnings": 38,
-      "pressureRating": 5.43,
-      "ratingInterval": [
-        -7.9,
-        18.7
-      ],
-      "delta": 8.6,
-      "deltaInterval": [
-        -6.7,
-        24.0
-      ],
-      "pTop10Post": 42.5,
-      "bootRankInterval": [
-        3.0,
-        26.0
-      ],
-      "top10SharePct": 44.0
-    },
-    {
-      "rank": 10,
       "id": "4708",
       "name": "Rinku Singh",
       "role": "Middle Overs",
       "tier": "Low Confidence",
-      "expectedRank": 14.6,
+      "expectedRank": 16.3,
       "pressureBalls": 222,
       "pressureInnings": 23,
-      "pressureRating": 4.88,
+      "pressureRating": 3.04,
       "ratingInterval": [
-        -8.6,
-        18.3
+        -10.4,
+        16.5
       ],
-      "delta": 10.4,
+      "delta": 8.5,
       "deltaInterval": [
-        -6.0,
-        26.8
+        -7.9,
+        24.9
       ],
-      "pTop10Post": 39.8,
+      "pTop10Post": 34.4,
       "bootRankInterval": [
         2.0,
         25.0
       ],
-      "top10SharePct": 36.0
+      "top10SharePct": 36.0,
+      "modelFragility": false
+    },
+    {
+      "rank": 10,
+      "id": "6819",
+      "name": "Yashasvi Jaiswal",
+      "role": "Powerplay",
+      "tier": "Low Confidence",
+      "expectedRank": 16.5,
+      "pressureBalls": 200,
+      "pressureInnings": 21,
+      "pressureRating": 2.87,
+      "ratingInterval": [
+        -11.1,
+        16.8
+      ],
+      "delta": 3.7,
+      "deltaInterval": [
+        -12.5,
+        19.9
+      ],
+      "pTop10Post": 35.3,
+      "bootRankInterval": [
+        4.0,
+        28.0
+      ],
+      "top10SharePct": 28.0,
+      "modelFragility": false
     }
   ],
   "bowlers": [
@@ -285,130 +313,135 @@
       "id": "781",
       "name": "Sunil Narine",
       "role": "Middle Overs",
-      "tier": "Tier B",
-      "expectedRank": 5.3,
+      "tier": "Low Confidence",
+      "expectedRank": 12.4,
       "pressureBalls": 272,
       "pressureInnings": 28,
-      "pressureRating": 23.31,
+      "pressureRating": 12.65,
       "ratingInterval": [
-        6.6,
-        40.1
+        -4.1,
+        29.4
       ],
-      "delta": 10.4,
+      "delta": -0.3,
       "deltaInterval": [
-        -8.1,
-        28.8
+        -18.8,
+        18.2
       ],
-      "pTop10Post": 86.1,
+      "pTop10Post": 58.1,
       "bootRankInterval": [
         1.0,
         10.0
       ],
-      "top10SharePct": 88.0
+      "top10SharePct": 88.0,
+      "modelFragility": false
     },
     {
       "rank": 2,
-      "id": "2636",
-      "name": "Adam Zampa",
+      "id": "4722",
+      "name": "Rashid Khan",
       "role": "Middle Overs",
-      "tier": "Tier C",
-      "expectedRank": 9.2,
-      "pressureBalls": 172,
-      "pressureInnings": 20,
-      "pressureRating": 16.29,
+      "tier": "Low Confidence",
+      "expectedRank": 15.8,
+      "pressureBalls": 367,
+      "pressureInnings": 44,
+      "pressureRating": 9.34,
       "ratingInterval": [
-        0.7,
-        31.9
+        -6.3,
+        25.0
       ],
-      "delta": 22.4,
+      "delta": 2.6,
       "deltaInterval": [
-        3.5,
-        41.3
+        -14.6,
+        19.8
       ],
-      "pTop10Post": 67.2,
+      "pTop10Post": 44.4,
       "bootRankInterval": [
         1.0,
-        17.1
+        23.1
       ],
-      "top10SharePct": 24.0
+      "top10SharePct": 84.0,
+      "modelFragility": true
     },
     {
       "rank": 3,
       "id": "2681",
       "name": "Taskin Ahmed",
       "role": "Powerplay",
-      "tier": "Tier C",
-      "expectedRank": 10.6,
+      "tier": "Low Confidence",
+      "expectedRank": 16.4,
       "pressureBalls": 214,
       "pressureInnings": 26,
-      "pressureRating": 15.51,
+      "pressureRating": 8.83,
       "ratingInterval": [
-        -0.8,
-        31.8
+        -7.4,
+        25.1
       ],
-      "delta": 19.2,
+      "delta": 12.5,
       "deltaInterval": [
-        -0.4,
-        38.8
+        -7.1,
+        32.2
       ],
-      "pTop10Post": 62.3,
+      "pTop10Post": 43.4,
       "bootRankInterval": [
         1.0,
         19.1
       ],
-      "top10SharePct": 76.0
+      "top10SharePct": 76.0,
+      "modelFragility": true
     },
     {
       "rank": 4,
-      "id": "4722",
-      "name": "Rashid Khan",
+      "id": "6256",
+      "name": "Varun Chakravarthy",
       "role": "Middle Overs",
       "tier": "Low Confidence",
-      "expectedRank": 11.1,
-      "pressureBalls": 367,
-      "pressureInnings": 44,
-      "pressureRating": 14.18,
+      "expectedRank": 17.1,
+      "pressureBalls": 325,
+      "pressureInnings": 36,
+      "pressureRating": 9.24,
       "ratingInterval": [
-        -1.5,
-        29.8
+        -8.9,
+        27.3
       ],
-      "delta": 7.5,
+      "delta": -0.1,
       "deltaInterval": [
-        -9.8,
-        24.7
+        -19.8,
+        19.7
       ],
-      "pTop10Post": 59.3,
+      "pTop10Post": 44.1,
       "bootRankInterval": [
-        1.0,
-        23.1
+        2.0,
+        32.1
       ],
-      "top10SharePct": 84.0
+      "top10SharePct": 80.0,
+      "modelFragility": true
     },
     {
       "rank": 5,
-      "id": "1758",
-      "name": "Patrick Cummins",
+      "id": "2933",
+      "name": "Jasprit Bumrah",
       "role": "Powerplay",
       "tier": "Low Confidence",
-      "expectedRank": 12.3,
-      "pressureBalls": 166,
-      "pressureInnings": 20,
-      "pressureRating": 14.18,
+      "expectedRank": 19.1,
+      "pressureBalls": 392,
+      "pressureInnings": 43,
+      "pressureRating": 6.72,
       "ratingInterval": [
-        -4.4,
-        32.7
+        -8.9,
+        22.3
       ],
-      "delta": 21.9,
+      "delta": -8.1,
       "deltaInterval": [
-        0.7,
-        43.0
+        -26.6,
+        10.3
       ],
-      "pTop10Post": 56.6,
+      "pTop10Post": 34.5,
       "bootRankInterval": [
-        1.0,
-        20.1
+        4.0,
+        30.1
       ],
-      "top10SharePct": 56.0
+      "top10SharePct": 52.0,
+      "modelFragility": false
     },
     {
       "rank": 6,
@@ -416,51 +449,53 @@
       "name": "Maheesh Theekshana",
       "role": "Middle Overs",
       "tier": "Low Confidence",
-      "expectedRank": 14.5,
+      "expectedRank": 20.4,
       "pressureBalls": 277,
       "pressureInnings": 32,
-      "pressureRating": 11.07,
+      "pressureRating": 6.15,
       "ratingInterval": [
-        -3.7,
-        25.8
+        -8.6,
+        20.9
       ],
-      "delta": 9.0,
+      "delta": 4.1,
       "deltaInterval": [
-        -7.3,
-        25.3
+        -12.2,
+        20.4
       ],
-      "pTop10Post": 42.2,
+      "pTop10Post": 30.2,
       "bootRankInterval": [
         2.0,
         26.0
       ],
-      "top10SharePct": 56.0
+      "top10SharePct": 56.0,
+      "modelFragility": false
     },
     {
       "rank": 7,
-      "id": "830",
-      "name": "Josh Hazlewood",
+      "id": "1758",
+      "name": "Patrick Cummins",
       "role": "Powerplay",
       "tier": "Low Confidence",
-      "expectedRank": 15.2,
-      "pressureBalls": 284,
-      "pressureInnings": 32,
-      "pressureRating": 10.94,
+      "expectedRank": 21.2,
+      "pressureBalls": 166,
+      "pressureInnings": 20,
+      "pressureRating": 5.91,
       "ratingInterval": [
-        -5.8,
-        27.7
+        -12.6,
+        24.5
       ],
-      "delta": 5.0,
+      "delta": 13.6,
       "deltaInterval": [
-        -14.8,
-        24.9
+        -7.6,
+        34.8
       ],
-      "pTop10Post": 43.1,
+      "pTop10Post": 32.6,
       "bootRankInterval": [
         1.0,
-        29.1
+        20.1
       ],
-      "top10SharePct": 44.0
+      "top10SharePct": 56.0,
+      "modelFragility": false
     },
     {
       "rank": 8,
@@ -468,77 +503,80 @@
       "name": "Kuldeep Yadav",
       "role": "Middle Overs",
       "tier": "Low Confidence",
-      "expectedRank": 16.4,
+      "expectedRank": 21.3,
       "pressureBalls": 309,
       "pressureInnings": 32,
-      "pressureRating": 8.89,
+      "pressureRating": 4.92,
       "ratingInterval": [
-        -4.6,
-        22.4
+        -8.6,
+        18.4
       ],
-      "delta": 1.7,
+      "delta": -2.3,
       "deltaInterval": [
-        -14.7,
-        18.1
+        -18.7,
+        14.2
       ],
-      "pTop10Post": 34.5,
+      "pTop10Post": 24.6,
       "bootRankInterval": [
         3.0,
         29.0
       ],
-      "top10SharePct": 44.0
+      "top10SharePct": 44.0,
+      "modelFragility": false
     },
     {
       "rank": 9,
-      "id": "2933",
-      "name": "Jasprit Bumrah",
+      "id": "830",
+      "name": "Josh Hazlewood",
       "role": "Powerplay",
       "tier": "Low Confidence",
-      "expectedRank": 17.4,
-      "pressureBalls": 392,
-      "pressureInnings": 43,
-      "pressureRating": 8.56,
+      "expectedRank": 21.9,
+      "pressureBalls": 284,
+      "pressureInnings": 32,
+      "pressureRating": 5.02,
       "ratingInterval": [
-        -7.0,
-        24.2
+        -11.7,
+        21.8
       ],
-      "delta": -6.3,
+      "delta": -0.9,
       "deltaInterval": [
-        -24.8,
-        12.2
+        -20.7,
+        19.0
       ],
-      "pTop10Post": 34.6,
+      "pTop10Post": 29.3,
       "bootRankInterval": [
-        4.0,
-        30.1
+        1.0,
+        29.1
       ],
-      "top10SharePct": 52.0
+      "top10SharePct": 44.0,
+      "modelFragility": false
     },
     {
       "rank": 10,
-      "id": "4101",
-      "name": "Mitchell Santner",
-      "role": "Middle Overs",
+      "id": "6355",
+      "name": "Shaheen Afridi",
+      "role": "Powerplay",
       "tier": "Low Confidence",
-      "expectedRank": 17.5,
-      "pressureBalls": 225,
-      "pressureInnings": 31,
-      "pressureRating": 9.14,
+      "expectedRank": 21.9,
+      "pressureBalls": 185,
+      "pressureInnings": 23,
+      "pressureRating": 5.07,
       "ratingInterval": [
-        -9.5,
-        27.8
-      ],
-      "delta": 2.2,
-      "deltaInterval": [
-        -18.2,
+        -12.6,
         22.7
       ],
-      "pTop10Post": 37.9,
+      "delta": 0.3,
+      "deltaInterval": [
+        -20.6,
+        21.1
+      ],
+      "pTop10Post": 30.4,
       "bootRankInterval": [
         3.0,
-        32.0
+        34.0
       ],
-      "top10SharePct": 36.0
+      "top10SharePct": 44.0,
+      "modelFragility": false
     }
   ]
 }

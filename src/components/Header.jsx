@@ -34,8 +34,7 @@ export default function Header({
   activeTab, 
   setActiveTab, 
   onOpenExport, 
-  onOpenMethodology,
-  onOpenScout 
+  onOpenMethodology
 }) {
   const [scrolled, setScrolled] = useState(false);
 

@@ -12,28 +12,50 @@
     --rr-white: #FFFFFF;
     --rr-grey-100: #F4F6FB;
     --rr-grey-500: #6B7390;
+
+    --font-primary: "Times New Roman", Tinos, Times, serif;
+    --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --font-ui: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
   body {
     background-color: #050D2B;
     color: #FFFFFF;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-primary);
     overflow-x: hidden;
+    font-variant-numeric: lining-nums tabular-nums;
   }
 }
 
-/* Typography tokens */
+/* Typography role classes */
+.font-primary {
+  font-family: var(--font-primary);
+}
+
 .font-display {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: var(--font-display);
   letter-spacing: 0.02em;
 }
 
+.font-ui {
+  font-family: var(--font-ui);
+}
+
 .font-sans {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-ui);
+}
+
+.font-mono {
+  font-family: var(--font-primary);
+}
+
+/* Monospace is permitted ONLY in <pre> and <code> inside modals */
+pre, code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }
 
 .tabular-nums {
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .player-name {

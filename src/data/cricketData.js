@@ -14,7 +14,8 @@ export const meta = {
   valid_runs_bat: consensusData.meta?.valid_runs_bat ?? 1,
   valid_runs_bow: consensusData.meta?.valid_runs_bow ?? 1,
   status: consensusData.meta?.status ?? { bat: 'MODERATE', bow: 'MODERATE' },
-  expected_hits: consensusData.meta?.expected_hits ?? { bat: 5.1, bow: 5.2 }
+  expected_hits: consensusData.meta?.expected_hits ?? { bat: 5.1, bow: 5.2 },
+  validation: consensusData.meta?.validation
 };
 export const clusters = [];
 
@@ -59,6 +60,20 @@ export const isDeltaSignificant = (interval) => {
   return (lo > 0 && hi > 0) || (lo < 0 && hi < 0);
 };
 
+// Formats Expected Rank strictly to 1 decimal place (e.g. 16.0 instead of 16, 19.0 instead of 19)
+export const formatExpectedRank = (val) => {
+  if (val === null || val === undefined) return '-';
+  const num = typeof val === 'number' ? val : parseFloat(val);
+  return isNaN(num) ? String(val) : num.toFixed(1);
+};
+
+// Formats P(Top 10) percentage string strictly to 1 decimal place (e.g. 50.0%)
+export const formatPTop10 = (val) => {
+  if (val === null || val === undefined) return '-';
+  const num = typeof val === 'number' ? val : parseFloat(val);
+  return isNaN(num) ? String(val) : num.toFixed(1);
+};
+
 const batterPhotos = [
   "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=256&h=256&q=80",
   "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&h=256&q=80",
@@ -95,13 +110,10 @@ export const getTierBadgeClass = (tier) => {
   return 'bg-[#EA1A85]/10 text-[#EA1A85] border-[#EA1A85]/30';
 };
 
-// UI acts as a DUMB component: strictly sorted by rank directly from src/data/consensus_frontend.json
-export const batters = (consensusData.batters || [])
-  .slice()
-  .sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))
-  .map((b, idx) => ({
+// UI acts as a DUMB component: relies 100% on the exact sequential order provided in consensus_frontend.json (V17 Alignment)
+export const batters = (consensusData.batters || []).map((b, idx) => ({
   ...b,
-  rank: b.rank || (idx + 1),
+  rank: b.rank ?? (idx + 1),
   name: b.name,
   role: b.role,
   tier: b.tier || 'Tier A',
@@ -109,6 +121,7 @@ export const batters = (consensusData.batters || [])
   medianRank: b.expectedRank !== undefined ? (typeof b.expectedRank === 'number' ? Number(b.expectedRank.toFixed(1)) : b.expectedRank) : (b.medianRank ?? (idx + 1)),
   scoreRange: b.scoreRange,
   top10SharePct: b.top10SharePct !== undefined ? b.top10SharePct : 100,
+  modelFragility: b.modelFragility !== undefined ? Boolean(b.modelFragility) : (Math.abs((b.top10SharePct ?? 0) - (b.pTop10Post ?? 0)) > 30),
   top10Share: b.singleFitShare ?? b.top10Share ?? 100,
   singleFitShare: b.singleFitShare ?? b.top10Share ?? 100,
   pTop10Boot: b.pTop10Post ?? b.pTop10Boot ?? 0,
@@ -124,27 +137,25 @@ export const batters = (consensusData.batters || [])
   bootRankInterval: b.bootRankInterval || [0, 0],
   delta: b.delta ?? 0,
   deltaInterval: b.deltaInterval || [0, 0],
-  confidenceMetricFormatted: `Expected Rank: ${b.expectedRank} | P(Top 10): ${b.pTop10Post ?? b.pTop10Boot ?? 0}%`,
-  modelFitsFormatted: `Fit agreement: ${b.top10SharePct !== undefined ? b.top10SharePct : 100}% of 25 fits`,
+  confidenceMetricFormatted: `Expected Rank: ${formatExpectedRank(b.expectedRank)} | P(Top 10): ${formatPTop10(b.pTop10Post ?? b.pTop10Boot ?? 0)}%`,
+  modelFitsFormatted: (b.modelFragility !== undefined ? Boolean(b.modelFragility) : (Math.abs((b.top10SharePct ?? 0) - (b.pTop10Post ?? 0)) > 30)) ? 'Model-fragility flag' : '',
   ratingCiFormatted: `Rating CI: [${b.ratingInterval?.[0]}, ${b.ratingInterval?.[1]}]`,
   rankCiFormatted: `Bootstrap Rank CI: [${b.bootRankInterval?.[0]}, ${b.bootRankInterval?.[1]}]`,
   deltaFormatted: `Delta: ${(b.delta ?? 0) >= 0 ? `+${b.delta}` : b.delta}`,
   deltaCiFormatted: `Delta CI: [${b.deltaInterval?.[0] ?? 0}, ${b.deltaInterval?.[1] ?? 0}]`,
   top10ShareFormatted: `${Math.round(b.singleFitShare ?? b.top10Share ?? 100)}%`,
-  stabilityFormatted: `Fit agreement: ${b.top10SharePct !== undefined ? b.top10SharePct : 100}% of 25 fits`,
+  stabilityFormatted: (b.modelFragility !== undefined ? Boolean(b.modelFragility) : (Math.abs((b.top10SharePct ?? 0) - (b.pTop10Post ?? 0)) > 30)) ? 'Model-fragility flag' : '',
   workloadFormatted: `${b.pressureBalls ?? 0} balls in ${b.pressureInnings ?? 25} innings`,
-  eligibilityFormatted: `Fit agreement: ${b.top10SharePct !== undefined ? b.top10SharePct : 100}% of 25 fits`,
+  eligibilityFormatted: (b.modelFragility !== undefined ? Boolean(b.modelFragility) : (Math.abs((b.top10SharePct ?? 0) - (b.pTop10Post ?? 0)) > 30)) ? 'Model-fragility flag' : '',
   pressureUplift: `${b.pressureBalls ?? 0} balls in ${b.pressureInnings ?? 25} innings`,
   avatar: batterPhotos[idx % batterPhotos.length],
   initials: b.name.split(' ').map(p => p[0]).join('').slice(0, 2)
 }));
 
-export const bowlers = (consensusData.bowlers || [])
-  .slice()
-  .sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0))
-  .map((b, idx) => ({
+// UI acts as a DUMB component: relies 100% on the exact sequential order provided in consensus_frontend.json (V17 Alignment)
+export const bowlers = (consensusData.bowlers || []).map((b, idx) => ({
   ...b,
-  rank: b.rank || (idx + 1),
+  rank: b.rank ?? (idx + 1),
   name: b.name,
   role: b.role,
   tier: b.tier || 'Tier A',
@@ -152,6 +163,7 @@ export const bowlers = (consensusData.bowlers || [])
   medianRank: b.expectedRank !== undefined ? (typeof b.expectedRank === 'number' ? Number(b.expectedRank.toFixed(1)) : b.expectedRank) : (b.medianRank ?? (idx + 1)),
   scoreRange: b.scoreRange,
   top10SharePct: b.top10SharePct !== undefined ? b.top10SharePct : 100,
+  modelFragility: b.modelFragility !== undefined ? Boolean(b.modelFragility) : (Math.abs((b.top10SharePct ?? 0) - (b.pTop10Post ?? 0)) > 30),
   top10Share: b.singleFitShare ?? b.top10Share ?? 100,
   singleFitShare: b.singleFitShare ?? b.top10Share ?? 100,
   pTop10Boot: b.pTop10Post ?? b.pTop10Boot ?? 0,
@@ -167,16 +179,16 @@ export const bowlers = (consensusData.bowlers || [])
   bootRankInterval: b.bootRankInterval || [0, 0],
   delta: b.delta ?? 0,
   deltaInterval: b.deltaInterval || [0, 0],
-  confidenceMetricFormatted: `Expected Rank: ${b.expectedRank} | P(Top 10): ${b.pTop10Post ?? b.pTop10Boot ?? 0}%`,
-  modelFitsFormatted: `Fit agreement: ${b.top10SharePct !== undefined ? b.top10SharePct : 100}% of 25 fits`,
+  confidenceMetricFormatted: `Expected Rank: ${formatExpectedRank(b.expectedRank)} | P(Top 10): ${formatPTop10(b.pTop10Post ?? b.pTop10Boot ?? 0)}%`,
+  modelFitsFormatted: (b.modelFragility !== undefined ? Boolean(b.modelFragility) : (Math.abs((b.top10SharePct ?? 0) - (b.pTop10Post ?? 0)) > 30)) ? 'Model-fragility flag' : '',
   ratingCiFormatted: `Rating CI: [${b.ratingInterval?.[0]}, ${b.ratingInterval?.[1]}]`,
   rankCiFormatted: `Bootstrap Rank CI: [${b.bootRankInterval?.[0]}, ${b.bootRankInterval?.[1]}]`,
   deltaFormatted: `Delta: ${(b.delta ?? 0) >= 0 ? `+${b.delta}` : b.delta}`,
   deltaCiFormatted: `Delta CI: [${b.deltaInterval?.[0] ?? 0}, ${b.deltaInterval?.[1] ?? 0}]`,
   top10ShareFormatted: `${Math.round(b.singleFitShare ?? b.top10Share ?? 100)}%`,
-  stabilityFormatted: `Fit agreement: ${b.top10SharePct !== undefined ? b.top10SharePct : 100}% of 25 fits`,
+  stabilityFormatted: (b.modelFragility !== undefined ? Boolean(b.modelFragility) : (Math.abs((b.top10SharePct ?? 0) - (b.pTop10Post ?? 0)) > 30)) ? 'Model-fragility flag' : '',
   workloadFormatted: `${b.pressureBalls ?? 0} balls in ${b.pressureInnings ?? 25} innings`,
-  eligibilityFormatted: `Fit agreement: ${b.top10SharePct !== undefined ? b.top10SharePct : 100}% of 25 fits`,
+  eligibilityFormatted: (b.modelFragility !== undefined ? Boolean(b.modelFragility) : (Math.abs((b.top10SharePct ?? 0) - (b.pTop10Post ?? 0)) > 30)) ? 'Model-fragility flag' : '',
   pressureUplift: `${b.pressureBalls ?? 0} balls in ${b.pressureInnings ?? 25} innings`,
   avatar: bowlerPhotos[idx % bowlerPhotos.length],
   initials: b.name.split(' ').map(p => p[0]).join('').slice(0, 2)
@@ -227,7 +239,7 @@ export const methodologyInfo = {
     {
       name: 'Posterior Ranking',
       formula: 'Expected_Rank = E_{posterior}[Rank | Data]',
-      meaning: 'Ranks players by posterior expected rank rather than raw mean score, eliminating scale variance distortions across parameter grids.'
+      meaning: 'Ordered by consensus of ensemble and bag-averaged estimators rather than raw mean score, eliminating scale variance distortions across parameter grids.'
     },
     {
       name: 'Win-Probability Leverage Index (LI)',
