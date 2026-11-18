@@ -1,310 +1,1291 @@
 {
   "meta": {
+    "estimator": "Bivariate empirical Bayes (pressure vs ordinary), bagged x25 fits",
+    "ranking_rule": "Top 10 selected by P(Top 10), ordered by Expected Rank",
+    "method_notes": [
+      {
+        "title": "Pressure",
+        "body": "Legal deliveries in the top 20% of win-probability leverage (expected absolute change in win probability on the next ball); cross-fitted gradient boosting."
+      },
+      {
+        "title": "Ball value",
+        "body": "Runs plus change in expected remaining runs (gradient-boosting run expectancy on balls left, wickets lost, innings); centred by over, innings and pressure state; opposition-adjusted."
+      },
+      {
+        "title": "Rating",
+        "body": "Bivariate empirical Bayes of pressure and ordinary rates (latent correlation capped at 0.95), bagged over 25 fits; variance = within + between."
+      },
+      {
+        "title": "Calibration",
+        "body": "Posterior SD inflated by the out-of-sample z-SD: Batters x1.633, Bowlers x1.301"
+      },
+      {
+        "title": "Ranking",
+        "body": "Top 10 selected by P(Top 10), ordered by expected rank."
+      }
+    ],
+    "ordinary_overlap": {
+      "bat": 9,
+      "bow": 8
+    },
     "model_fits": 25,
-    "extras_mode": "new",
     "data_md5": "c5bbd29fe98b35a46d83c7dc7072a27d",
-    "versions": {
-      "numpy": "2.4.4",
-      "pandas": "2.2.3",
-      "sklearn": "1.6.1"
+    "extras_mode": "new",
+    "pressure_quantile": 0.8,
+    "deliveries_used": 195384,
+    "matches_used": 823,
+    "matches_excluded": 44,
+    "matches_by_format": {
+      "IPL": 359,
+      "T20I": 464
+    },
+    "expected_hits_label": "model-implied, not OOS-validated",
+    "expected_hits": {
+      "bat": 6.1,
+      "bow": 5.4
     },
     "status": {
       "bat": "LOW_CONFIDENCE",
       "bow": "LOW_CONFIDENCE"
     },
-    "expected_hits": {
-      "bat": 4.7,
-      "bow": 3.8
+    "status_rule": "MODERATE if OOS rho 90% CI lower bound > 0 and expected hits >= 6, else LOW",
+    "pressure_profile": [
+      {
+        "situation": "Ordinary",
+        "deliveries": 149879,
+        "avg_leverage": 0.68,
+        "pct_2nd_innings": 42.54,
+        "avg_wickets_lost": 2.54,
+        "avg_balls_left": 64.87,
+        "avg_required_rate": 11.87,
+        "pct_powerplay": 32.78,
+        "pct_middle": 47.67,
+        "pct_death": 19.55
+      },
+      {
+        "situation": "Pressure",
+        "deliveries": 37477,
+        "avg_leverage": 2.3,
+        "pct_2nd_innings": 68.12,
+        "avg_wickets_lost": 3.22,
+        "avg_balls_left": 53.92,
+        "avg_required_rate": 9.94,
+        "pct_powerplay": 26.33,
+        "pct_middle": 41.71,
+        "pct_death": 31.96
+      }
+    ],
+    "validation": [
+      {
+        "role": "Batters",
+        "split": 0.5,
+        "valid_n": 49,
+        "pressure_rho": -0.026020408163265306,
+        "ordinary_rho": -0.15326530612244896,
+        "rho_ci_lo": -0.27579100522778494,
+        "rho_ci_hi": 0.22704178718657486,
+        "ordinary_rho_ci_lo": -0.3898109816730267,
+        "ordinary_rho_ci_hi": 0.10225331866825416,
+        "skill_pressure_med": -0.002,
+        "skill_ordinary_med": -0.17,
+        "pressure_minus_ordinary_mse": [
+          163.146,
+          215.807,
+          264.016
+        ],
+        "coverage90": 0.673469387755102,
+        "z_sd": 1.4421974560774102
+      },
+      {
+        "role": "Bowlers",
+        "split": 0.5,
+        "valid_n": 53,
+        "pressure_rho": 0.15207224641186906,
+        "ordinary_rho": 0.32736655378164814,
+        "rho_ci_lo": -0.09306527134667572,
+        "rho_ci_hi": 0.3798270078768135,
+        "ordinary_rho_ci_lo": 0.09300982575265074,
+        "ordinary_rho_ci_hi": 0.5273536841583191,
+        "skill_pressure_med": 0.017,
+        "skill_ordinary_med": 0.089,
+        "pressure_minus_ordinary_mse": [
+          -196.957,
+          -109.834,
+          -24.987
+        ],
+        "coverage90": 0.8490566037735849,
+        "z_sd": 1.3125935177055263
+      },
+      {
+        "role": "Batters",
+        "split": 0.6,
+        "valid_n": 48,
+        "pressure_rho": 0.025618758141554492,
+        "ordinary_rho": -0.050911854103343465,
+        "rho_ci_lo": -0.23011518024561164,
+        "rho_ci_hi": 0.2780429665073308,
+        "ordinary_rho_ci_lo": -0.301247783127097,
+        "ordinary_rho_ci_hi": 0.2059895434109576,
+        "skill_pressure_med": -0.009,
+        "skill_ordinary_med": -0.092,
+        "pressure_minus_ordinary_mse": [
+          44.213,
+          128.012,
+          200.654
+        ],
+        "coverage90": 0.6666666666666666,
+        "z_sd": 1.8614062954691541
+      },
+      {
+        "role": "Bowlers",
+        "split": 0.6,
+        "valid_n": 51,
+        "pressure_rho": 0.18316742081447962,
+        "ordinary_rho": 0.33384615384615385,
+        "rho_ci_lo": -0.06632578853312233,
+        "rho_ci_hi": 0.41110441460492675,
+        "ordinary_rho_ci_lo": 0.09518021462408668,
+        "ordinary_rho_ci_hi": 0.5362179517255993,
+        "skill_pressure_med": -0.024,
+        "skill_ordinary_med": 0.098,
+        "pressure_minus_ordinary_mse": [
+          -262.861,
+          -183.417,
+          -115.254
+        ],
+        "coverage90": 0.7254901960784313,
+        "z_sd": 1.1352189379230397
+      },
+      {
+        "role": "Batters",
+        "split": 0.7,
+        "valid_n": 38,
+        "pressure_rho": 0.1160958529379582,
+        "ordinary_rho": 0.41612867928657404,
+        "rho_ci_lo": -0.17625735487094618,
+        "rho_ci_hi": 0.3896275062210952,
+        "ordinary_rho_ci_lo": 0.14718479766175993,
+        "ordinary_rho_ci_hi": 0.6277776953711032,
+        "skill_pressure_med": -0.01,
+        "skill_ordinary_med": 0.041,
+        "pressure_minus_ordinary_mse": [
+          -250.384,
+          -133.85,
+          -11.808
+        ],
+        "coverage90": 0.6052631578947368,
+        "z_sd": 1.5942568329955862
+      },
+      {
+        "role": "Bowlers",
+        "split": 0.7,
+        "valid_n": 41,
+        "pressure_rho": 0.19547038327526134,
+        "ordinary_rho": 0.37125435540069696,
+        "rho_ci_lo": -0.08464385586874774,
+        "rho_ci_hi": 0.44695138405431883,
+        "ordinary_rho_ci_lo": 0.10660508549473882,
+        "ordinary_rho_ci_hi": 0.5867811250822041,
+        "skill_pressure_med": -0.012,
+        "skill_ordinary_med": 0.028,
+        "pressure_minus_ordinary_mse": [
+          -223.706,
+          -92.541,
+          59.96
+        ],
+        "coverage90": 0.8048780487804879,
+        "z_sd": 1.4553210555256153
+      }
+    ],
+    "squad_fit": {
+      "available": true,
+      "team_id": "3",
+      "team_name": "Rajasthan Royals",
+      "season": 2026,
+      "matches": 15,
+      "retention": {
+        "slots": 6,
+        "overseas_slots": 3,
+        "purse_cr": 27.05,
+        "auction_date": "2026-12-16",
+        "retained_matched": 18,
+        "retained_listed": 19,
+        "unmatched": [
+          "Aman Rao Perala"
+        ],
+        "pool_confirmed": true,
+        "source": "RR official retention page + news, Nov 17 2026. Verify names before submission."
+      },
+      "phase_spec": [
+        40,
+        6
+      ],
+      "phases": [
+        {
+          "phase": "powerplay",
+          "bat": {
+            "rr": 11.46,
+            "league_avg": 10.09,
+            "best": 11.46,
+            "rank": 1,
+            "of": 10,
+            "need": 0.0
+          },
+          "bow": {
+            "rr": 10.14,
+            "league_avg": 9.93,
+            "best": 8.83,
+            "rank": 5,
+            "of": 10,
+            "need": 0.444
+          }
+        },
+        {
+          "phase": "middle",
+          "bat": {
+            "rr": 9.48,
+            "league_avg": 9.26,
+            "best": 10.12,
+            "rank": 4,
+            "of": 10,
+            "need": 0.333
+          },
+          "bow": {
+            "rr": 9.34,
+            "league_avg": 9.16,
+            "best": 7.88,
+            "rank": 6,
+            "of": 10,
+            "need": 0.556
+          }
+        },
+        {
+          "phase": "death",
+          "bat": {
+            "rr": 10.32,
+            "league_avg": 10.73,
+            "best": 12.58,
+            "rank": 7,
+            "of": 10,
+            "need": 0.667
+          },
+          "bow": {
+            "rr": 10.53,
+            "league_avg": 10.6,
+            "best": 9.87,
+            "rank": 5,
+            "of": 10,
+            "need": 0.444
+          }
+        }
+      ],
+      "gaps": [
+        {
+          "role": "bat",
+          "phase": "death",
+          "need": 0.667
+        },
+        {
+          "role": "bow",
+          "phase": "middle",
+          "need": 0.556
+        },
+        {
+          "role": "bow",
+          "phase": "powerplay",
+          "need": 0.444
+        },
+        {
+          "role": "bow",
+          "phase": "death",
+          "need": 0.444
+        },
+        {
+          "role": "bat",
+          "phase": "middle",
+          "need": 0.333
+        },
+        {
+          "role": "bat",
+          "phase": "powerplay",
+          "need": 0.0
+        }
+      ],
+      "weakest_bat": "death",
+      "weakest_bowl": "middle",
+      "incumbents": {
+        "bat": {
+          "powerplay": [
+            {
+              "id": "6819",
+              "name": "Yashasvi Jaiswal",
+              "rating": 95.52,
+              "lo": 77.1,
+              "hi": 114.0,
+              "pressureBalls": 54,
+              "pressureInnings": 10,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "50284",
+              "name": "Vaibhav Sooryavanshi",
+              "rating": 85.55,
+              "lo": 55.5,
+              "hi": 115.6,
+              "pressureBalls": 47,
+              "pressureInnings": 8,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            }
+          ],
+          "middle": [
+            {
+              "id": "6423",
+              "name": "Riyan Parag",
+              "rating": 20.79,
+              "lo": 5.3,
+              "hi": 36.3,
+              "pressureBalls": 116,
+              "pressureInnings": 15,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "2436",
+              "name": "Dasun Shanaka",
+              "rating": 14.13,
+              "lo": -5.1,
+              "hi": 33.4,
+              "pressureBalls": 57,
+              "pressureInnings": 8,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": true
+            },
+            {
+              "id": "7260",
+              "name": "Dhruv Jurel",
+              "rating": 7.18,
+              "lo": -12.3,
+              "hi": 26.7,
+              "pressureBalls": 103,
+              "pressureInnings": 10,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "152",
+              "name": "Ravindra Jadeja",
+              "rating": 5.69,
+              "lo": -9.8,
+              "hi": 21.2,
+              "pressureBalls": 83,
+              "pressureInnings": 11,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "6819",
+              "name": "Yashasvi Jaiswal",
+              "rating": 3.93,
+              "lo": -10.4,
+              "hi": 18.3,
+              "pressureBalls": 77,
+              "pressureInnings": 8,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            }
+          ],
+          "death": [
+            {
+              "id": "6423",
+              "name": "Riyan Parag",
+              "rating": 29.95,
+              "lo": 28.0,
+              "hi": 32.0,
+              "pressureBalls": 63,
+              "pressureInnings": 9,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "2436",
+              "name": "Dasun Shanaka",
+              "rating": 29.86,
+              "lo": 27.8,
+              "hi": 31.9,
+              "pressureBalls": 119,
+              "pressureInnings": 14,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": true
+            },
+            {
+              "id": "7260",
+              "name": "Dhruv Jurel",
+              "rating": 29.72,
+              "lo": 27.7,
+              "hi": 31.7,
+              "pressureBalls": 92,
+              "pressureInnings": 11,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "152",
+              "name": "Ravindra Jadeja",
+              "rating": 29.17,
+              "lo": 27.2,
+              "hi": 31.1,
+              "pressureBalls": 121,
+              "pressureInnings": 17,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            }
+          ]
+        },
+        "bow": {
+          "powerplay": [
+            {
+              "id": "3298",
+              "name": "Jofra Archer",
+              "rating": 19.8,
+              "lo": -5.8,
+              "hi": 45.4,
+              "pressureBalls": 100,
+              "pressureInnings": 14,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": true
+            },
+            {
+              "id": "7312",
+              "name": "Nandre Burger",
+              "rating": 16.99,
+              "lo": -10.9,
+              "hi": 44.9,
+              "pressureBalls": 48,
+              "pressureInnings": 6,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": true
+            },
+            {
+              "id": "1566",
+              "name": "Mohammed Shami",
+              "rating": 13.3,
+              "lo": -8.2,
+              "hi": 34.8,
+              "pressureBalls": 120,
+              "pressureInnings": 18,
+              "lastIplTeam": "Lucknow Super Giants",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "2411",
+              "name": "Sandeep Sharma",
+              "rating": 11.31,
+              "lo": -13.4,
+              "hi": 36.0,
+              "pressureBalls": 54,
+              "pressureInnings": 8,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": null
+            }
+          ],
+          "middle": [
+            {
+              "id": "152",
+              "name": "Ravindra Jadeja",
+              "rating": 28.78,
+              "lo": 15.0,
+              "hi": 42.6,
+              "pressureBalls": 189,
+              "pressureInnings": 20,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "7503",
+              "name": "Ravi Bishnoi",
+              "rating": 7.85,
+              "lo": -4.4,
+              "hi": 20.1,
+              "pressureBalls": 310,
+              "pressureInnings": 38,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "2436",
+              "name": "Dasun Shanaka",
+              "rating": -3.59,
+              "lo": -22.3,
+              "hi": 15.1,
+              "pressureBalls": 44,
+              "pressureInnings": 9,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": true
+            }
+          ],
+          "death": [
+            {
+              "id": "3298",
+              "name": "Jofra Archer",
+              "rating": 12.63,
+              "lo": -4.0,
+              "hi": 29.3,
+              "pressureBalls": 65,
+              "pressureInnings": 10,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": true
+            },
+            {
+              "id": "7503",
+              "name": "Ravi Bishnoi",
+              "rating": 2.03,
+              "lo": -14.7,
+              "hi": 18.7,
+              "pressureBalls": 100,
+              "pressureInnings": 17,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": false
+            },
+            {
+              "id": "2411",
+              "name": "Sandeep Sharma",
+              "rating": 1.62,
+              "lo": -14.3,
+              "hi": 17.6,
+              "pressureBalls": 103,
+              "pressureInnings": 16,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": null
+            }
+          ]
+        }
+      },
+      "candidates": {
+        "bat": {
+          "powerplay": [],
+          "middle": [
+            {
+              "id": "4736",
+              "name": "Josh Inglis",
+              "rating": 40.44,
+              "lo": 21.3,
+              "hi": 59.6,
+              "pressureBalls": 52,
+              "pressureInnings": 7,
+              "lastIplTeam": "Lucknow Super Giants",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 19.65,
+              "pUpgrade": 0.905,
+              "fitScore": 0.302
+            },
+            {
+              "id": "3647",
+              "name": "Shreyas Iyer",
+              "rating": 35.79,
+              "lo": 24.6,
+              "hi": 47.0,
+              "pressureBalls": 192,
+              "pressureInnings": 20,
+              "lastIplTeam": "Punjab Kings",
+              "rrReleased": false,
+              "overseas": false,
+              "gainVsRRBest": 15.0,
+              "pUpgrade": 0.902,
+              "fitScore": 0.301
+            },
+            {
+              "id": "6396",
+              "name": "Tim David",
+              "rating": 36.8,
+              "lo": 17.8,
+              "hi": 55.8,
+              "pressureBalls": 117,
+              "pressureInnings": 15,
+              "lastIplTeam": "Royal Challengers Bengaluru",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 16.01,
+              "pUpgrade": 0.858,
+              "fitScore": 0.286
+            },
+            {
+              "id": "25213",
+              "name": "Dewald Brevis",
+              "rating": 30.51,
+              "lo": 8.4,
+              "hi": 52.6,
+              "pressureBalls": 72,
+              "pressureInnings": 9,
+              "lastIplTeam": "Chennai Super Kings",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 9.72,
+              "pUpgrade": 0.723,
+              "fitScore": 0.241
+            },
+            {
+              "id": "4853",
+              "name": "Glenn Phillips",
+              "rating": 27.84,
+              "lo": 13.4,
+              "hi": 42.3,
+              "pressureBalls": 111,
+              "pressureInnings": 13,
+              "lastIplTeam": "Gujarat Titans",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 7.05,
+              "pUpgrade": 0.708,
+              "fitScore": 0.236
+            }
+          ],
+          "death": [
+            {
+              "id": "4391",
+              "name": "Liam Livingstone",
+              "rating": 30.85,
+              "lo": 28.8,
+              "hi": 32.9,
+              "pressureBalls": 46,
+              "pressureInnings": 9,
+              "lastIplTeam": "Sunrisers Hyderabad",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 0.9,
+              "pUpgrade": 0.7,
+              "fitScore": 0.467
+            },
+            {
+              "id": "6726",
+              "name": "Romario Shepherd",
+              "rating": 30.76,
+              "lo": 28.7,
+              "hi": 32.8,
+              "pressureBalls": 103,
+              "pressureInnings": 13,
+              "lastIplTeam": "Royal Challengers Bengaluru",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 0.81,
+              "pUpgrade": 0.68,
+              "fitScore": 0.453
+            },
+            {
+              "id": "4986",
+              "name": "Rovman Powell",
+              "rating": 30.74,
+              "lo": 28.8,
+              "hi": 32.7,
+              "pressureBalls": 144,
+              "pressureInnings": 20,
+              "lastIplTeam": "Kolkata Knight Riders",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 0.79,
+              "pUpgrade": 0.678,
+              "fitScore": 0.452
+            },
+            {
+              "id": "7897",
+              "name": "Namboori Tilak Varma",
+              "rating": 30.72,
+              "lo": 28.8,
+              "hi": 32.7,
+              "pressureBalls": 146,
+              "pressureInnings": 16,
+              "lastIplTeam": "Mumbai Indians",
+              "rrReleased": false,
+              "overseas": false,
+              "gainVsRRBest": 0.77,
+              "pUpgrade": 0.675,
+              "fitScore": 0.45
+            },
+            {
+              "id": "6396",
+              "name": "Tim David",
+              "rating": 30.61,
+              "lo": 28.6,
+              "hi": 32.6,
+              "pressureBalls": 148,
+              "pressureInnings": 17,
+              "lastIplTeam": "Royal Challengers Bengaluru",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 0.66,
+              "pUpgrade": 0.65,
+              "fitScore": 0.433
+            }
+          ]
+        },
+        "bow": {
+          "powerplay": [
+            {
+              "id": "830",
+              "name": "Josh Hazlewood",
+              "rating": 68.56,
+              "lo": 48.0,
+              "hi": 89.1,
+              "pressureBalls": 146,
+              "pressureInnings": 21,
+              "lastIplTeam": "Royal Challengers Bengaluru",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 48.76,
+              "pUpgrade": 0.993,
+              "fitScore": 0.441
+            },
+            {
+              "id": "4373",
+              "name": "Mustafizur Rahman",
+              "rating": 47.6,
+              "lo": 22.7,
+              "hi": 72.5,
+              "pressureBalls": 50,
+              "pressureInnings": 9,
+              "lastIplTeam": "Delhi Capitals",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 27.8,
+              "pUpgrade": 0.9,
+              "fitScore": 0.4
+            },
+            {
+              "id": "19316",
+              "name": "Maheesh Theekshana",
+              "rating": 42.79,
+              "lo": 23.1,
+              "hi": 62.5,
+              "pressureBalls": 87,
+              "pressureInnings": 13,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 22.99,
+              "pUpgrade": 0.879,
+              "fitScore": 0.391
+            },
+            {
+              "id": "360",
+              "name": "Bhuvneshwar Kumar",
+              "rating": 42.15,
+              "lo": 19.6,
+              "hi": 64.7,
+              "pressureBalls": 109,
+              "pressureInnings": 15,
+              "lastIplTeam": "Royal Challengers Bengaluru",
+              "rrReleased": false,
+              "overseas": false,
+              "gainVsRRBest": 22.35,
+              "pUpgrade": 0.86,
+              "fitScore": 0.382
+            },
+            {
+              "id": "6523",
+              "name": "Blessing Muzarabani",
+              "rating": 41.5,
+              "lo": 20.4,
+              "hi": 62.6,
+              "pressureBalls": 68,
+              "pressureInnings": 10,
+              "lastIplTeam": "Kolkata Knight Riders",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 21.7,
+              "pUpgrade": 0.859,
+              "fitScore": 0.382
+            }
+          ],
+          "middle": [
+            {
+              "id": "4219",
+              "name": "Krunal Pandya",
+              "rating": 32.27,
+              "lo": 15.6,
+              "hi": 48.9,
+              "pressureBalls": 164,
+              "pressureInnings": 16,
+              "lastIplTeam": "Royal Challengers Bengaluru",
+              "rrReleased": false,
+              "overseas": null,
+              "gainVsRRBest": 3.49,
+              "pUpgrade": 0.605,
+              "fitScore": 0.336
+            },
+            {
+              "id": "5944",
+              "name": "Mohammed Siraj",
+              "rating": 29.61,
+              "lo": 12.9,
+              "hi": 46.3,
+              "pressureBalls": 41,
+              "pressureInnings": 7,
+              "lastIplTeam": "Gujarat Titans",
+              "rrReleased": false,
+              "overseas": false,
+              "gainVsRRBest": 0.83,
+              "pUpgrade": 0.525,
+              "fitScore": 0.292
+            }
+          ],
+          "death": [
+            {
+              "id": "2636",
+              "name": "Adam Zampa",
+              "rating": 14.42,
+              "lo": -2.7,
+              "hi": 31.6,
+              "pressureBalls": 53,
+              "pressureInnings": 9,
+              "lastIplTeam": "Sunrisers Hyderabad",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 1.79,
+              "pUpgrade": 0.549,
+              "fitScore": 0.244
+            },
+            {
+              "id": "4900",
+              "name": "Wanindu Hasaranga",
+              "rating": 12.67,
+              "lo": -3.5,
+              "hi": 28.9,
+              "pressureBalls": 60,
+              "pressureInnings": 11,
+              "lastIplTeam": "Rajasthan Royals",
+              "rrReleased": false,
+              "overseas": true,
+              "gainVsRRBest": 0.04,
+              "pUpgrade": 0.501,
+              "fitScore": 0.223
+            }
+          ]
+        }
+      },
+      "recommended": [
+        {
+          "role": "bat",
+          "phase": "death",
+          "gapNeed": 0.667,
+          "id": "4391",
+          "name": "Liam Livingstone",
+          "rating": 30.85,
+          "lo": 28.8,
+          "hi": 32.9,
+          "pressureBalls": 46,
+          "pressureInnings": 9,
+          "lastIplTeam": "Sunrisers Hyderabad",
+          "rrReleased": false,
+          "overseas": true,
+          "gainVsRRBest": 0.9,
+          "pUpgrade": 0.7,
+          "fitScore": 0.467
+        },
+        {
+          "role": "bow",
+          "phase": "middle",
+          "gapNeed": 0.556,
+          "id": "4219",
+          "name": "Krunal Pandya",
+          "rating": 32.27,
+          "lo": 15.6,
+          "hi": 48.9,
+          "pressureBalls": 164,
+          "pressureInnings": 16,
+          "lastIplTeam": "Royal Challengers Bengaluru",
+          "rrReleased": false,
+          "overseas": null,
+          "gainVsRRBest": 3.49,
+          "pUpgrade": 0.605,
+          "fitScore": 0.336
+        },
+        {
+          "role": "bow",
+          "phase": "powerplay",
+          "gapNeed": 0.444,
+          "id": "830",
+          "name": "Josh Hazlewood",
+          "rating": 68.56,
+          "lo": 48.0,
+          "hi": 89.1,
+          "pressureBalls": 146,
+          "pressureInnings": 21,
+          "lastIplTeam": "Royal Challengers Bengaluru",
+          "rrReleased": false,
+          "overseas": true,
+          "gainVsRRBest": 48.76,
+          "pUpgrade": 0.993,
+          "fitScore": 0.441
+        },
+        {
+          "role": "bow",
+          "phase": "death",
+          "gapNeed": 0.444,
+          "id": "2636",
+          "name": "Adam Zampa",
+          "rating": 14.42,
+          "lo": -2.7,
+          "hi": 31.6,
+          "pressureBalls": 53,
+          "pressureInnings": 9,
+          "lastIplTeam": "Sunrisers Hyderabad",
+          "rrReleased": false,
+          "overseas": true,
+          "gainVsRRBest": 1.79,
+          "pUpgrade": 0.549,
+          "fitScore": 0.244
+        },
+        {
+          "role": "bat",
+          "phase": "middle",
+          "gapNeed": 0.333,
+          "id": "3647",
+          "name": "Shreyas Iyer",
+          "rating": 35.79,
+          "lo": 24.6,
+          "hi": 47.0,
+          "pressureBalls": 192,
+          "pressureInnings": 20,
+          "lastIplTeam": "Punjab Kings",
+          "rrReleased": false,
+          "overseas": false,
+          "gainVsRRBest": 15.0,
+          "pUpgrade": 0.902,
+          "fitScore": 0.301
+        },
+        {
+          "role": "bat",
+          "phase": "death",
+          "gapNeed": 0.667,
+          "id": "7897",
+          "name": "Namboori Tilak Varma",
+          "rating": 30.72,
+          "lo": 28.8,
+          "hi": 32.7,
+          "pressureBalls": 146,
+          "pressureInnings": 16,
+          "lastIplTeam": "Mumbai Indians",
+          "rrReleased": false,
+          "overseas": false,
+          "gainVsRRBest": 0.77,
+          "pUpgrade": 0.675,
+          "fitScore": 0.45
+        }
+      ],
+      "recommended_note": null,
+      "caveat": "Ratings are pressure-adjusted value in that phase, not proof of clutch skill (OOS evidence is weak). Price, overseas mix and other teams' bids are not in the data. "
     },
-    "validation": {
+    "latent": {
       "bat": {
-        "rho_pressure": 0.3843249773482332,
-        "rho_ordinary": 0.025974025974025976,
-        "hit_rate": 0.6666666666666666,
-        "n": 9,
-        "binomial_p": 0.25390625,
-        "expected_hits": 4.7
+        "corr": 0.95,
+        "cond": 0.0,
+        "delta_identified": false
       },
       "bow": {
-        "rho_pressure": 0.2358371040723982,
-        "rho_ordinary": 0.26226244343891403,
-        "hit_rate": 0.9,
-        "n": 10,
-        "binomial_p": 0.0107421875,
-        "expected_hits": 3.8
+        "corr": 0.8731366430097016,
+        "cond": 1.0,
+        "delta_identified": true
       }
-    }
+    },
+    "oos_summary": {
+      "Batters": "0 of 3 cut-points have a pressure-rating \u03c1 whose 90% CI excludes 0 (mean \u03c1=0.04); ordinary-rating \u03c1 averages 0.07. Ordinary form predicts late pressure output at least as well, so pressure-specific skill is not demonstrated.",
+      "Bowlers": "0 of 3 cut-points have a pressure-rating \u03c1 whose 90% CI excludes 0 (mean \u03c1=0.18); ordinary-rating \u03c1 averages 0.34. Ordinary form predicts late pressure output at least as well, so pressure-specific skill is not demonstrated."
+    },
+    "oos_note": "Cut-points are nested (not independent). Rating \u03c1 is bounded by split-half reliability."
   },
   "batters": [
     {
       "rank": 1,
-      "id": "5553",
-      "name": "Phil Salt",
+      "id": "6281",
+      "name": "Abhishek Sharma",
+      "phase": "powerplay",
       "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 11.4,
-      "pressureBalls": 183,
-      "pressureInnings": 20,
-      "pressureRating": 8.0,
+      "expectedRank": 2.6,
+      "consistency": 0.5,
+      "pressureBalls": 288,
+      "pressureInnings": 34,
+      "pressureRating": 54.84,
       "ratingInterval": [
-        -6.9,
-        22.9
+        35.3,
+        74.3
       ],
-      "delta": -8.9,
+      "baselineRating": 46.1,
+      "delta": 8.74,
       "deltaInterval": [
-        -26.3,
-        8.5
+        -14.9,
+        32.4
       ],
-      "pTop10Post": 56.6,
-      "bootRankInterval": [
-        1.0,
-        15.0
-      ],
-      "top10SharePct": 92.0,
-      "modelFragility": true
+      "deltaIdentified": false,
+      "pTop10Post": 97.0,
+      "tier": "Core",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Abhishek Sharma.png"
     },
     {
       "rank": 2,
-      "id": "6281",
-      "name": "Abhishek Sharma",
-      "role": "Powerplay",
-      "tier": "Tier B",
-      "expectedRank": 7.3,
-      "pressureBalls": 263,
-      "pressureInnings": 34,
-      "pressureRating": 13.01,
+      "id": "1699",
+      "name": "Suryakumar Yadav",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 6.5,
+      "consistency": 0.44,
+      "pressureBalls": 460,
+      "pressureInnings": 49,
+      "pressureRating": 41.26,
       "ratingInterval": [
-        -4.3,
-        30.4
+        25.3,
+        57.2
       ],
-      "delta": -13.4,
+      "baselineRating": 36.52,
+      "delta": 4.74,
       "deltaInterval": [
-        -33.3,
-        6.5
+        -14.5,
+        24.0
       ],
-      "pTop10Post": 75.3,
-      "bootRankInterval": [
-        1.0,
-        17.1
-      ],
-      "top10SharePct": 100.0,
-      "modelFragility": false
+      "deltaIdentified": false,
+      "pTop10Post": 81.5,
+      "tier": "Core",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Suryakumar Yadav.png"
     },
     {
       "rank": 3,
       "id": "4260",
       "name": "Heinrich Klaasen",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 11.7,
-      "pressureBalls": 211,
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 7.2,
+      "consistency": 0.48,
+      "pressureBalls": 228,
       "pressureInnings": 25,
-      "pressureRating": 7.4,
+      "pressureRating": 40.17,
       "ratingInterval": [
-        -7.4,
-        22.2
+        23.3,
+        57.1
       ],
-      "delta": -3.7,
+      "baselineRating": 34.87,
+      "delta": 5.3,
       "deltaInterval": [
-        -20.9,
-        13.5
+        -15.3,
+        25.9
       ],
-      "pTop10Post": 54.9,
-      "bootRankInterval": [
-        1.0,
-        19.0
-      ],
-      "top10SharePct": 80.0,
-      "modelFragility": false
+      "deltaIdentified": false,
+      "pTop10Post": 78.9,
+      "tier": "Core",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Heinrich Klaasen.png"
     },
     {
       "rank": 4,
       "id": "6396",
       "name": "Tim David",
-      "role": "Death Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 12.8,
-      "pressureBalls": 341,
-      "pressureInnings": 37,
-      "pressureRating": 6.36,
+      "phase": "death",
+      "role": "Death",
+      "expectedRank": 7.2,
+      "consistency": 0.47,
+      "pressureBalls": 303,
+      "pressureInnings": 32,
+      "pressureRating": 41.62,
       "ratingInterval": [
-        -7.9,
-        20.7
+        20.6,
+        62.6
       ],
-      "delta": -5.8,
+      "baselineRating": 36.45,
+      "delta": 5.17,
       "deltaInterval": [
-        -24.0,
-        12.4
+        -20.4,
+        30.8
       ],
-      "pTop10Post": 50.0,
-      "bootRankInterval": [
-        1.0,
-        16.0
-      ],
-      "top10SharePct": 84.0,
-      "modelFragility": true
+      "deltaIdentified": false,
+      "pTop10Post": 77.3,
+      "tier": "Core",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Tim David.png"
     },
     {
       "rank": 5,
-      "id": "813",
-      "name": "Jos Buttler",
-      "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 13.7,
-      "pressureBalls": 261,
+      "id": "3647",
+      "name": "Shreyas Iyer",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 10.2,
+      "consistency": 0.44,
+      "pressureBalls": 324,
       "pressureInnings": 29,
-      "pressureRating": 5.47,
+      "pressureRating": 34.76,
       "ratingInterval": [
-        -8.1,
-        19.0
+        18.3,
+        51.3
       ],
-      "delta": 0.7,
+      "baselineRating": 31.01,
+      "delta": 3.75,
       "deltaInterval": [
-        -14.8,
-        16.1
+        -16.4,
+        23.9
       ],
-      "pTop10Post": 45.8,
-      "bootRankInterval": [
-        1.0,
-        20.0
-      ],
-      "top10SharePct": 60.0,
-      "modelFragility": false
+      "deltaIdentified": false,
+      "pTop10Post": 61.5,
+      "tier": "Likely",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Shreyas Iyer.png"
     },
     {
       "rank": 6,
-      "id": "1699",
-      "name": "Suryakumar Yadav",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 13.1,
-      "pressureBalls": 411,
-      "pressureInnings": 42,
-      "pressureRating": 5.79,
+      "id": "813",
+      "name": "Jos Buttler",
+      "phase": "powerplay",
+      "role": "Powerplay",
+      "expectedRank": 11.3,
+      "consistency": 0.43,
+      "pressureBalls": 243,
+      "pressureInnings": 23,
+      "pressureRating": 33.76,
       "ratingInterval": [
-        -6.8,
-        18.4
+        16.3,
+        51.2
       ],
-      "delta": -8.5,
+      "baselineRating": 29.79,
+      "delta": 3.98,
       "deltaInterval": [
-        -23.3,
-        6.3
+        -16.9,
+        24.9
       ],
-      "pTop10Post": 47.3,
-      "bootRankInterval": [
-        3.0,
-        28.0
-      ],
-      "top10SharePct": 76.0,
-      "modelFragility": false
+      "deltaIdentified": false,
+      "pTop10Post": 56.2,
+      "tier": "Likely",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Jos Buttler.png"
     },
     {
       "rank": 7,
-      "id": "3647",
-      "name": "Shreyas Iyer",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 14.2,
-      "pressureBalls": 315,
-      "pressureInnings": 32,
-      "pressureRating": 4.91,
+      "id": "818",
+      "name": "Mitchell Marsh",
+      "phase": "powerplay",
+      "role": "Powerplay",
+      "expectedRank": 13.1,
+      "consistency": 0.37,
+      "pressureBalls": 275,
+      "pressureInnings": 25,
+      "pressureRating": 31.05,
       "ratingInterval": [
-        -8.7,
-        18.6
+        13.3,
+        48.7
       ],
-      "delta": 0.7,
+      "baselineRating": 29.78,
+      "delta": 1.27,
       "deltaInterval": [
-        -15.9,
-        17.2
+        -19.9,
+        22.4
       ],
-      "pTop10Post": 43.4,
-      "bootRankInterval": [
-        3.0,
-        24.0
-      ],
-      "top10SharePct": 60.0,
-      "modelFragility": false
+      "deltaIdentified": false,
+      "pTop10Post": 45.9,
+      "tier": "Bubble",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Mitchell Marsh.png"
     },
     {
       "rank": 8,
-      "id": "4986",
-      "name": "Rovman Powell",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 17.0,
-      "pressureBalls": 276,
-      "pressureInnings": 31,
-      "pressureRating": 2.42,
+      "id": "7216",
+      "name": "Prabhsimran Singh",
+      "phase": "powerplay",
+      "role": "Powerplay",
+      "expectedRank": 15.2,
+      "consistency": 0.44,
+      "pressureBalls": 197,
+      "pressureInnings": 22,
+      "pressureRating": 29.19,
       "ratingInterval": [
-        -10.9,
-        15.7
+        8.7,
+        49.7
       ],
-      "delta": 5.7,
+      "baselineRating": 27.53,
+      "delta": 1.66,
       "deltaInterval": [
-        -10.8,
-        22.2
+        -23.1,
+        26.4
       ],
-      "pTop10Post": 32.1,
-      "bootRankInterval": [
-        2.0,
-        23.1
-      ],
-      "top10SharePct": 32.0,
-      "modelFragility": false
+      "deltaIdentified": false,
+      "pTop10Post": 39.8,
+      "tier": "Bubble",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Prabhsimran Singh.png"
     },
     {
       "rank": 9,
-      "id": "4708",
-      "name": "Rinku Singh",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 16.4,
-      "pressureBalls": 222,
-      "pressureInnings": 23,
-      "pressureRating": 3.04,
+      "id": "2258",
+      "name": "Sanju Samson",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 15.7,
+      "consistency": 0.42,
+      "pressureBalls": 299,
+      "pressureInnings": 34,
+      "pressureRating": 28.13,
       "ratingInterval": [
-        -10.5,
-        16.6
+        10.1,
+        46.2
       ],
-      "delta": 8.5,
+      "baselineRating": 25.83,
+      "delta": 2.3,
       "deltaInterval": [
-        -8.0,
-        25.0
+        -19.5,
+        24.1
       ],
-      "pTop10Post": 34.7,
-      "bootRankInterval": [
-        2.0,
-        25.0
-      ],
-      "top10SharePct": 36.0,
-      "modelFragility": false
+      "deltaIdentified": false,
+      "pTop10Post": 35.0,
+      "tier": "Bubble",
+      "fitStabilityPct": 64.0,
+      "image": "/assets/players/Sanju Samson.png"
     },
     {
       "rank": 10,
-      "id": "6288",
-      "name": "Shubman Gill",
-      "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 16.7,
-      "pressureBalls": 387,
-      "pressureInnings": 38,
-      "pressureRating": 2.87,
+      "id": "838",
+      "name": "Glenn Maxwell",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 16.4,
+      "consistency": 0.43,
+      "pressureBalls": 174,
+      "pressureInnings": 20,
+      "pressureRating": 27.95,
       "ratingInterval": [
-        -10.6,
-        16.3
+        5.0,
+        50.9
       ],
-      "delta": 6.1,
+      "baselineRating": 26.71,
+      "delta": 1.24,
       "deltaInterval": [
-        -9.5,
-        21.6
+        -26.8,
+        29.2
       ],
-      "pTop10Post": 32.7,
-      "bootRankInterval": [
-        3.0,
-        26.0
-      ],
-      "top10SharePct": 44.0,
-      "modelFragility": false
+      "deltaIdentified": false,
+      "pTop10Post": 37.3,
+      "tier": "Bubble",
+      "fitStabilityPct": 72.0,
+      "image": "/assets/players/Glenn Maxwell.png"
     }
   ],
   "bowlers": [
@@ -312,271 +1293,271 @@
       "rank": 1,
       "id": "781",
       "name": "Sunil Narine",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 11.9,
-      "pressureBalls": 272,
-      "pressureInnings": 28,
-      "pressureRating": 12.65,
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 2.9,
+      "consistency": 0.79,
+      "pressureBalls": 266,
+      "pressureInnings": 27,
+      "pressureRating": 39.49,
       "ratingInterval": [
-        -3.9,
-        29.2
+        25.3,
+        53.7
       ],
-      "delta": -0.3,
+      "baselineRating": 32.67,
+      "delta": 6.82,
       "deltaInterval": [
-        -18.6,
-        18.0
+        -5.4,
+        19.0
       ],
-      "pTop10Post": 59.9,
-      "bootRankInterval": [
-        1.0,
-        10.0
-      ],
-      "top10SharePct": 88.0,
-      "modelFragility": false
+      "deltaIdentified": true,
+      "pTop10Post": 96.8,
+      "tier": "Core",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Sunil Narine.png"
     },
     {
       "rank": 2,
-      "id": "4722",
-      "name": "Rashid Khan",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 14.7,
-      "pressureBalls": 367,
-      "pressureInnings": 44,
-      "pressureRating": 9.34,
+      "id": "2933",
+      "name": "Jasprit Bumrah",
+      "phase": "powerplay",
+      "role": "Powerplay",
+      "expectedRank": 8.8,
+      "consistency": 0.72,
+      "pressureBalls": 330,
+      "pressureInnings": 36,
+      "pressureRating": 28.71,
       "ratingInterval": [
-        -5.4,
-        24.1
+        12.8,
+        44.7
       ],
-      "delta": 2.6,
+      "baselineRating": 30.33,
+      "delta": -1.62,
       "deltaInterval": [
-        -13.8,
-        19.0
+        -14.0,
+        10.8
       ],
-      "pTop10Post": 48.5,
-      "bootRankInterval": [
-        1.0,
-        23.1
-      ],
-      "top10SharePct": 84.0,
-      "modelFragility": true
+      "deltaIdentified": true,
+      "pTop10Post": 69.3,
+      "tier": "Likely",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Jasprit Bumrah.png"
     },
     {
       "rank": 3,
-      "id": "2681",
-      "name": "Taskin Ahmed",
+      "id": "830",
+      "name": "Josh Hazlewood",
+      "phase": "powerplay",
       "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 16.4,
-      "pressureBalls": 214,
-      "pressureInnings": 26,
-      "pressureRating": 8.83,
+      "expectedRank": 10.2,
+      "consistency": 0.73,
+      "pressureBalls": 280,
+      "pressureInnings": 29,
+      "pressureRating": 28.0,
       "ratingInterval": [
-        -7.9,
-        25.5
+        9.6,
+        46.4
       ],
-      "delta": 12.5,
+      "baselineRating": 24.64,
+      "delta": 3.36,
       "deltaInterval": [
-        -7.4,
-        32.5
+        -9.7,
+        16.5
       ],
-      "pTop10Post": 44.8,
-      "bootRankInterval": [
-        1.0,
-        19.1
-      ],
-      "top10SharePct": 76.0,
-      "modelFragility": true
+      "deltaIdentified": true,
+      "pTop10Post": 64.2,
+      "tier": "Likely",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Josh Hazlewood.png"
     },
     {
       "rank": 4,
-      "id": "1758",
-      "name": "Patrick Cummins",
-      "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 20.7,
-      "pressureBalls": 166,
-      "pressureInnings": 20,
-      "pressureRating": 5.91,
+      "id": "3644",
+      "name": "Kuldeep Yadav",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 11.6,
+      "consistency": 0.73,
+      "pressureBalls": 334,
+      "pressureInnings": 37,
+      "pressureRating": 25.11,
       "ratingInterval": [
-        -11.4,
-        23.2
+        8.6,
+        41.6
       ],
-      "delta": 13.6,
+      "baselineRating": 24.66,
+      "delta": 0.46,
       "deltaInterval": [
-        -6.4,
-        33.6
+        -12.0,
+        12.9
       ],
-      "pTop10Post": 33.8,
-      "bootRankInterval": [
-        1.0,
-        20.1
-      ],
-      "top10SharePct": 56.0,
-      "modelFragility": false
+      "deltaIdentified": true,
+      "pTop10Post": 56.9,
+      "tier": "Likely",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Kuldeep Yadav.png"
     },
     {
       "rank": 5,
-      "id": "19316",
-      "name": "Maheesh Theekshana",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 19.5,
-      "pressureBalls": 277,
+      "id": "6256",
+      "name": "Varun Chakravarthy",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 12.5,
+      "consistency": 0.67,
+      "pressureBalls": 295,
       "pressureInnings": 32,
-      "pressureRating": 6.15,
+      "pressureRating": 24.18,
       "ratingInterval": [
-        -8.0,
-        20.3
+        8.1,
+        40.3
       ],
-      "delta": 4.1,
+      "baselineRating": 24.94,
+      "delta": -0.76,
       "deltaInterval": [
-        -11.6,
-        19.9
+        -13.4,
+        11.9
       ],
-      "pTop10Post": 31.8,
-      "bootRankInterval": [
-        2.0,
-        26.0
-      ],
-      "top10SharePct": 56.0,
-      "modelFragility": false
+      "deltaIdentified": true,
+      "pTop10Post": 52.0,
+      "tier": "Likely",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Varun Chakravarthy.png"
     },
     {
       "rank": 6,
-      "id": "6256",
-      "name": "Varun Chakravarthy",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 15.6,
-      "pressureBalls": 325,
-      "pressureInnings": 36,
-      "pressureRating": 9.24,
+      "id": "4722",
+      "name": "Rashid Khan",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 14.0,
+      "consistency": 0.69,
+      "pressureBalls": 384,
+      "pressureInnings": 45,
+      "pressureRating": 22.17,
       "ratingInterval": [
-        -6.8,
-        25.3
+        7.8,
+        36.5
       ],
-      "delta": -0.1,
+      "baselineRating": 22.93,
+      "delta": -0.76,
       "deltaInterval": [
-        -18.0,
-        17.9
+        -12.7,
+        11.2
       ],
-      "pTop10Post": 46.1,
-      "bootRankInterval": [
-        2.0,
-        32.1
-      ],
-      "top10SharePct": 80.0,
-      "modelFragility": true
+      "deltaIdentified": true,
+      "pTop10Post": 44.3,
+      "tier": "Bubble",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Rashid Khan.png"
     },
     {
       "rank": 7,
-      "id": "2933",
-      "name": "Jasprit Bumrah",
-      "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 19.0,
-      "pressureBalls": 392,
-      "pressureInnings": 43,
-      "pressureRating": 6.72,
+      "id": "152",
+      "name": "Ravindra Jadeja",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 14.2,
+      "consistency": 0.77,
+      "pressureBalls": 196,
+      "pressureInnings": 20,
+      "pressureRating": 22.34,
       "ratingInterval": [
-        -8.6,
-        22.0
+        6.9,
+        37.8
       ],
-      "delta": -8.1,
+      "baselineRating": 20.44,
+      "delta": 1.9,
       "deltaInterval": [
-        -26.3,
-        10.1
+        -10.4,
+        14.2
       ],
-      "pTop10Post": 35.4,
-      "bootRankInterval": [
-        4.0,
-        30.1
-      ],
-      "top10SharePct": 52.0,
-      "modelFragility": false
+      "deltaIdentified": true,
+      "pTop10Post": 44.1,
+      "tier": "Bubble",
+      "fitStabilityPct": 96.0,
+      "image": "/assets/players/Ravindra Jadeja.png"
     },
     {
       "rank": 8,
-      "id": "830",
-      "name": "Josh Hazlewood",
-      "role": "Powerplay",
-      "tier": "Low Confidence",
-      "expectedRank": 21.3,
-      "pressureBalls": 284,
-      "pressureInnings": 32,
-      "pressureRating": 5.02,
+      "id": "4373",
+      "name": "Mustafizur Rahman",
+      "phase": "death",
+      "role": "Death",
+      "expectedRank": 14.8,
+      "consistency": 0.67,
+      "pressureBalls": 353,
+      "pressureInnings": 39,
+      "pressureRating": 22.09,
       "ratingInterval": [
-        -10.3,
-        20.4
+        6.0,
+        38.2
       ],
-      "delta": -0.9,
+      "baselineRating": 22.88,
+      "delta": -0.79,
       "deltaInterval": [
-        -19.6,
-        17.8
+        -13.1,
+        11.5
       ],
-      "pTop10Post": 29.1,
-      "bootRankInterval": [
-        1.0,
-        29.1
-      ],
-      "top10SharePct": 44.0,
-      "modelFragility": false
+      "deltaIdentified": true,
+      "pTop10Post": 42.9,
+      "tier": "Bubble",
+      "fitStabilityPct": 100.0,
+      "image": "/assets/players/Mustafizur Rahman.png"
     },
     {
       "rank": 9,
-      "id": "2636",
-      "name": "Adam Zampa",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 23.9,
-      "pressureBalls": 172,
-      "pressureInnings": 20,
-      "pressureRating": 3.57,
+      "id": "2876",
+      "name": "Axar Patel",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 16.8,
+      "consistency": 0.73,
+      "pressureBalls": 412,
+      "pressureInnings": 48,
+      "pressureRating": 19.68,
       "ratingInterval": [
-        -11.9,
-        19.0
+        5.2,
+        34.1
       ],
-      "delta": 9.7,
+      "baselineRating": 17.78,
+      "delta": 1.9,
       "deltaInterval": [
-        -9.1,
-        28.5
+        -10.3,
+        14.1
       ],
-      "pTop10Post": 23.7,
-      "bootRankInterval": [
-        1.0,
-        17.1
-      ],
-      "top10SharePct": 24.0,
-      "modelFragility": false
+      "deltaIdentified": true,
+      "pTop10Post": 32.6,
+      "tier": "Bubble",
+      "fitStabilityPct": 80.0,
+      "image": "/assets/players/Axar Patel.png"
     },
     {
       "rank": 10,
-      "id": "3644",
-      "name": "Kuldeep Yadav",
-      "role": "Middle Overs",
-      "tier": "Low Confidence",
-      "expectedRank": 21.2,
-      "pressureBalls": 309,
-      "pressureInnings": 32,
-      "pressureRating": 4.92,
+      "id": "7967",
+      "name": "Noor Ahmad",
+      "phase": "middle",
+      "role": "Middle",
+      "expectedRank": 17.4,
+      "consistency": 0.72,
+      "pressureBalls": 252,
+      "pressureInnings": 29,
+      "pressureRating": 19.82,
       "ratingInterval": [
-        -9.4,
-        19.3
+        2.4,
+        37.3
       ],
-      "delta": -2.3,
+      "baselineRating": 21.49,
+      "delta": -1.67,
       "deltaInterval": [
-        -19.4,
-        14.9
+        -14.4,
+        11.1
       ],
-      "pTop10Post": 28.1,
-      "bootRankInterval": [
-        3.0,
-        29.0
-      ],
-      "top10SharePct": 44.0,
-      "modelFragility": false
+      "deltaIdentified": true,
+      "pTop10Post": 35.3,
+      "tier": "Bubble",
+      "fitStabilityPct": 84.0,
+      "image": "/assets/players/Noor Ahmad.png"
     }
   ]
 }

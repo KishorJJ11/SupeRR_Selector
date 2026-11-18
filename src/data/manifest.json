@@ -1,0 +1,20 @@
+{
+  "inputs": {
+    "ball_by_ball": "c5bbd29fe98b35a46d83c7dc7072a27d",
+    "matches": "5d4225eb8b30b72f75856e59b04893a1",
+    "competitions": "91574579c0edd6d1de0469bd925a5398",
+    "teams": "29c0a0df2172351b1d835adc098ca43b",
+    "team_map": "b71a13458ebdbfaae608d5d435e2ee76",
+    "status": "8ec64a145c535b84d4d980a9cb0f4432"
+  },
+  "config_md5": "749b3c7a0f0757407849a1236ba61663",
+  "outputs": {
+    "consensus_frontend.json": "1895cd13634df5565d4f8440d7394257",
+    "consensus_batters.csv": "b5a52dbfd918a2072601ee69ac8d5607",
+    "consensus_bowlers.csv": "6996920ec76e78019ab5d5f2908e3599",
+    "methodology_report.md": "a40df693ccbdf6e5b1bc28cc20a0ea02"
+  },
+  "python": "3.13.4 (tags/v3.13.4:8a526ec, Jun  3 2025, 17:46:04) [MSC v.1943 64 bit (AMD64)]",
+  "numpy": "2.4.4",
+  "sklearn": "1.6.1"
+}

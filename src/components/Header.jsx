@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import RajasthanRoyalsLogo from './RajasthanRoyalsLogo.jsx';
-import { Download, BookOpen } from 'lucide-react';
+import { Download, BookOpen, Target } from 'lucide-react';
 
 // Custom Cricket Batsman Icon
 function BatsmanIcon({ className = "w-4 h-4" }) {
@@ -47,8 +47,9 @@ export default function Header({
   }, []);
 
   const tabs = [
-    { id: 'hitters', label: 'Hitters', icon: BatsmanIcon },
+    { id: 'batters', label: 'Batters', icon: BatsmanIcon },
     { id: 'bowlers', label: 'Bowlers', icon: BowlerIcon },
+    { id: 'squad_fit', label: 'Squad Fit', icon: Target },
   ];
 
   return (
@@ -59,12 +60,12 @@ export default function Header({
     }`}>
       <div className="w-[min(96vw,1760px)] max-w-[1760px] mx-auto px-6 h-[72px] sm:h-20 flex items-center justify-between gap-2 sm:gap-3">
         
-        {/* Left: Official Rajasthan Royals Brand Logo (Uploaded by User, Background Removed) */}
+        {/* Left: Official Rajasthan Royals Brand Logo */}
         <div className="flex items-center shrink-0">
           <RajasthanRoyalsLogo className="h-13 sm:h-16" />
         </div>
 
-        {/* Centre: Pill Segmented Control (Compact on mobile) */}
+        {/* Centre: Pill Segmented Control */}
         <nav 
           aria-label="Player category navigation"
           className="flex items-center p-0.5 sm:p-1 rounded-full bg-[#0A1A52]/90 border border-white/10 shadow-inner"
@@ -76,7 +77,7 @@ export default function Header({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex items-center gap-1 sm:gap-2 px-2.5 sm:px-5 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-display uppercase tracking-wider font-bold transition-all duration-150 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85] ${
+                className={`relative flex items-center gap-1 sm:gap-2 px-2.5 sm:px-5 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-display uppercase tracking-wider font-bold transition-all duration-150 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85] cursor-pointer ${
                   isActive
                     ? 'bg-[#EA1A85] text-white shadow-xs'
                     : 'text-white/70 hover:text-white hover:bg-white/5'
@@ -93,25 +94,21 @@ export default function Header({
         <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <button
             onClick={onOpenMethodology}
-            className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-display uppercase tracking-wider font-bold text-white/85 hover:text-white bg-transparent hover:bg-white/10 border border-white/20 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85]"
+            className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-display uppercase tracking-wider font-bold text-white/85 hover:text-white bg-transparent hover:bg-white/10 border border-white/20 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85] cursor-pointer"
           >
             <BookOpen className="w-3.5 h-3.5 text-[#EA1A85]" />
-            <span>Model notes</span>
+            <span>Methodology</span>
           </button>
 
           <button
             onClick={onOpenExport}
-            className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 rounded-full text-xs font-display uppercase tracking-wider font-bold text-white bg-[#EA1A85] hover:bg-[#C4106C] border border-[#EA1A85] transition-all shadow-xs active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-display uppercase tracking-wider font-bold text-white bg-[#1B3FA0] hover:bg-[#1B3FA0]/80 border border-white/20 transition-all shadow-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85] cursor-pointer"
           >
-            <Download className="w-3.5 h-3.5 text-white" />
-            <span className="hidden sm:inline">Export ZIP</span>
-            <span className="sm:hidden text-[11px]">ZIP</span>
+            <Download className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Export Repo</span>
           </button>
         </div>
       </div>
-
-      {/* Thin Pink Gradient Accent Line at Bottom */}
-      <div className="w-full h-[1.5px] bg-gradient-to-r from-transparent via-[#EA1A85] to-transparent opacity-80" />
     </header>
   );
 }

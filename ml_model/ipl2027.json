@@ -1,0 +1,32 @@
+{
+  "source": "RR official retention page + all 9 other franchises, Nov 17 2026.",
+  "auction_date": "2026-12-16",
+  "slots": 6,
+  "overseas_slots": 3,
+  "purse_cr": 27.05,
+  "rr_retained": [
+    "Riyan Parag", "Yashasvi Jaiswal", "Vaibhav Sooryavanshi", "Ravindra Jadeja", "Dhruv Jurel",
+    "Jofra Archer", "Ravi Bishnoi", "Sandeep Sharma", "Nandre Burger", "Donovan Ferreira",
+    "Shubham Dubey", "Aman Rao Perala", "Brijesh Sharma", "Dasun Shanaka", "Lhuan-dre Pretorius",
+    "Sushant Mishra", "Yash Punja", "Mohammed Shami", "Manimaran Siddharth"
+  ],
+  "rr_released": [
+    "Shimron Hetmyer", "Tushar Deshpande", "Adam Milne", "Kuldeep Sen", "Yudhvir Singh",
+    "Kwena Maphaka", "Vignesh Puthur", "Ravi Singh", "Emanjot Singh Chahal", "Sam Curran"
+  ],
+  "overseas": [
+    "Jofra Archer", "Nandre Burger", "Donovan Ferreira", "Dasun Shanaka", "Lhuan-dre Pretorius",
+    "Shimron Hetmyer", "Adam Milne", "Kwena Maphaka", "Sam Curran"
+  ],
+  "other_retained": [
+    "Ruturaj Gaikwad", "Sanju Samson", "Kartik Sharma", "Urvil Patel", "Sarfaraz Khan", "Ayush Mhatre", "Dewald Brevis", "Noor Ahmad", "Akeal Hosein", "Mukesh Choudhary", "Jamie Overton", "Shivam Dube", "Ramakrishna Ghosh", "Gurjapneet Singh", "Anshul Kamboj", "Shreyas Gopal", "Rahul Chahar",
+    "Arshdeep Singh", "Ashwani Kumar", "Corbin Bosch", "Jasprit Bumrah", "Mitchell Santner", "Naman Dhir", "Quinton de Kock", "Raghu Sharma", "Raj Angad Bawa", "Rohit Sharma", "Ryan Rickelton", "Shardul Thakur", "Sherfane Rutherford", "Suryakumar Yadav", "Namboori Tilak Varma", "Tilak Varma", "Will Jacks",
+    "Abhinandan Singh", "Kanishk Chouhan", "Suyash Sharma", "Bhuvneshwar Kumar", "Krunal Pandya", "Tim David", "Devdutt Padikkal", "Nuwan Thushara", "Venkatesh Iyer", "Jacob Duffy", "Phil Salt", "Vicky Ostwal", "Jitesh Sharma", "Rajat Patidar", "Virat Kohli", "Jordan Cox", "Rasikh Dar", "Yash Dayal", "Josh Hazlewood", "Romario Shepherd",
+    "Angkrish Raghuvanshi", "Anukul Roy", "Cameron Green", "Finn Allen", "Harshit Rana", "Kartik Tyagi", "Manish Pandey", "Prashant Solanki", "Ramandeep Singh", "Rinku Singh", "Rovman Powell", "Sarthak Ranjan", "Saurabh Dubey", "Sunil Narine", "Tim Seifert", "Vaibhav Arora", "Varun Chakaravarthy",
+    "Pat Cummins", "Abhishek Sharma", "Ishan Kishan", "Heinrich Klaasen", "Nitish Kumar Reddy", "Brydon Carse", "Salil Arora", "Aniket Verma", "Harsh Dubey", "Smaran Ravichandran", "Praful Hinge", "Sakib Hussain", "Shivang Kumar", "Krans Fuletra", "Eshan Malinga",
+    "Ashutosh Sharma", "Auqib Nabi", "Axar Patel", "David Miller", "KL Rahul", "Kyle Jamieson", "Lungi Ngidi", "Madhav Tiwari", "Mukesh Kumar", "Prithvi Shaw", "Rishabh Pant", "Sameer Rizvi", "Tripurana Vijay", "Tristan Stubbs", "Vipraj Nigam", "Zeeshan Ansari",
+    "Anuj Rawat", "Ashok Sharma", "Glenn Phillips", "Gurnoor Brar", "Harshal Patel", "Jason Holder", "Jayant Yadav", "Jos Buttler", "Kagiso Rabada", "Kumar Kushagra", "Manav Suthar", "Mohd. Siraj", "Mohammed Siraj", "Mohd. Arshad Khan", "Nishant Sindhu", "Prasidh Krishna", "R. Sai Kishore", "Sai Kishore", "Rahul Tewatia", "Rashid Khan", "Sai Sudharsan", "Shubman Gill", "Tom Banton", "Washington Sundar",
+    "Abdul Samad", "Aiden Markram", "Akash Singh", "Akshat Raghuwanshi", "Arjun Tendulkar", "Ayush Badoni", "Digvesh Rathi", "Josh Inglis", "Kuldeep Yadav", "Mayank Yadav", "Mitchell Marsh", "Mohsin Khan", "Mukul Choudhary", "Nicholas Pooran", "Prince Yadav",
+    "Azmatullah Omarzai", "Ben Dwarshuis", "Cooper Connolly", "Hardik Pandya", "Harnoor Pannu", "Harpreet Brar", "Marco Jansen", "Marcus Stoinis", "Musheer Khan", "Prabhsimran Singh", "Priyansh Arya", "Suryansh Shedge", "Vishnu Vinod", "Vyshak Vijaykumar", "Xavier Bartlett", "Yash Thakur", "Yuzvendra Chahal"
+  ]
+}

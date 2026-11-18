@@ -1,12 +1,50 @@
 {
   "data_dir": "../dataset",
-  "files": {"ball_by_ball": "ball_by_ball.csv", "matches": "matches.csv", "competitions": "competitions.csv"},
-  "columns": {"match_id": "match_id", "innings": "innings", "over": "overid", "ball_in_innings": "innings_ball_num",
-              "batting_team": "batting_team_id", "bowling_team": "bowling_team_id", "striker_id": "striker_id", "striker_name": "striker_name",
-              "bowler_id": "bowler_id", "bowler_name": "bowler_name", "runs_bat": "runs", "is_wicket": "is_wicket",
-              "dismissal_type": "dismissal_type", "dismissed_id": "dismissed_player_id", "extras_type": "extras_type", 
-              "extras_runs": "extras_2_runs", "extras1_runs": "extras1_runs"},
-  "match_columns": {"match_id": "match_id", "winner": "win_team_id", "date": "match_date", "comp_id": "comp_id",
-                    "revised": ["revised_target", "first_inn_revised_overs", "second_inn_revised_overs"]},
-  "comp_columns": {"comp_id": "comp_id", "format": "match_format"}
+  "files": {
+    "ball_by_ball": "ball_by_ball.csv",
+    "matches": "matches.csv",
+    "competitions": "competitions.csv",
+    "teams": "teams.csv",
+    "team_map": "competition_team_player_mapping.csv"
+  },
+  "columns": {
+    "match_id": "match_id",
+    "innings": "innings",
+    "over": "overid",
+    "ball_in_innings": "innings_ball_num",
+    "batting_team": "batting_team_id",
+    "bowling_team": "bowling_team_id",
+    "striker_id": "striker_id",
+    "striker_name": "striker_name",
+    "bowler_id": "bowler_id",
+    "bowler_name": "bowler_name",
+    "runs_bat": "runs",
+    "is_wicket": "is_wicket",
+    "dismissal_type": "dismissal_type",
+    "dismissed_id": "dismissed_player_id",
+    "extras_type": "extras_type",
+    "extras_runs": "extras_2_runs",
+    "extras1_runs": "extras1_runs"
+  },
+  "match_columns": {
+    "match_id": "match_id",
+    "winner": "win_team_id",
+    "date": "match_date",
+    "comp_id": "comp_id",
+    "revised": [
+      "revised_target",
+      "first_inn_revised_overs",
+      "second_inn_revised_overs"
+    ]
+  },
+  "comp_columns": {
+    "comp_id": "comp_id",
+    "format": "match_format"
+  },
+  "status_file": "ipl2027.json",
+  "rr_team_id": null,
+  "phase_spec": [40, 6],
+  "squad_top_n": 5,
+  "squad_season": null,
+  "squad_comp_id": null
 }

@@ -31,8 +31,8 @@ with zipfile.ZipFile(output_zip, 'w', zipfile.ZIP_DEFLATED) as z:
             z.write(f, f)
     for d in include_dirs:
         for root, dirs, files in os.walk(d):
-            # Exclude __pycache__
-            if '__pycache__' in root:
+            # Exclude __pycache__ and _cache
+            if '__pycache__' in root or '_cache' in root:
                 continue
             for file in files:
                 filepath = os.path.join(root, file)

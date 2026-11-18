@@ -1,0 +1,31 @@
+{
+  "source": "RR official retention page + news, Nov 17 2026. Verify names before submission.",
+  "auction_date": "2026-12-16",
+  "slots": 6,
+  "overseas_slots": 3,
+  "purse_cr": 27.05,
+  "rr_retained": [
+    "Riyan Parag", "Yashasvi Jaiswal", "Vaibhav Sooryavanshi", "Ravindra Jadeja", "Dhruv Jurel",
+    "Jofra Archer", "Ravi Bishnoi", "Sandeep Sharma", "Nandre Burger", "Donovan Ferreira",
+    "Shubham Dubey", "Aman Rao Perala", "Brijesh Sharma", "Dasun Shanaka", "Lhuan-dre Pretorius",
+    "Sushant Mishra", "Yash Punja", "Mohammed Shami", "Manimaran Siddharth"
+  ],
+  "rr_released": [
+    "Shimron Hetmyer", "Tushar Deshpande", "Adam Milne", "Kuldeep Sen", "Yudhvir Singh",
+    "Kwena Maphaka", "Vignesh Puthur", "Ravi Singh", "Emanjot Singh Chahal", "Sam Curran"
+  ],
+  "overseas": [
+    "Jofra Archer", "Nandre Burger", "Donovan Ferreira", "Dasun Shanaka", "Lhuan-dre Pretorius",
+    "Shimron Hetmyer", "Adam Milne", "Kwena Maphaka", "Sam Curran"
+  ],
+  "other_retained": [
+    "Virat Kohli", "Rajat Patidar", "Yash Dayal", "Heinrich Klaasen", "Pat Cummins", 
+    "Abhishek Sharma", "Travis Head", "Nitish Kumar Reddy", "Nicholas Pooran", "Ravi Bishnoi", 
+    "Mayank Yadav", "Ayush Badoni", "Mohsin Khan", "Ruturaj Gaikwad", "Matheesha Pathirana", 
+    "Shivam Dube", "MS Dhoni", "Jasprit Bumrah", "Suryakumar Yadav", "Hardik Pandya", 
+    "Rohit Sharma", "Tilak Varma", "Rashid Khan", "Shubman Gill", "Sai Sudharsan", 
+    "Rahul Tewatia", "Shahrukh Khan", "Axar Patel", "Kuldeep Yadav", "Tristan Stubbs", 
+    "Abishek Porel", "Shashank Singh", "Prabhsimran Singh", "Rinku Singh", "Varun Chakaravarthy", 
+    "Sunil Narine", "Andre Russell", "Harshit Rana", "Ramandeep Singh"
+  ]
+}

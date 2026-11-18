@@ -1,161 +1,176 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
-import { BarChart3, TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
-import { meta, isDeltaSignificant, formatExpectedRank, formatPTop10 } from '../data/cricketData';
+import { BarChart3, Info } from 'lucide-react';
 import PlayerVisual from './PlayerVisual.jsx';
 import UncertaintyRangeBar from './UncertaintyRangeBar.jsx';
+import {
+  formatRating,
+  formatDelta,
+  formatInterval,
+  formatPercent,
+  formatExpectedRank,
+  formatWorkload,
+  isDeltaNotSignificant,
+  countOverlappingIntervalPairs
+} from '../utils/formatters';
 
-export const getTierBadgeClass = (tier) => {
-  if (!tier) return 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/30';
-  if (tier.includes('Tier A')) return 'bg-[#EA1A85] text-white border-[#EA1A85] font-bold shadow-xs';
-  if (tier.includes('Tier B')) return 'bg-[#1B3FA0] text-white border-[#1B3FA0] font-bold shadow-xs';
-  if (tier.includes('Tier C')) return 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/40 font-bold';
-  if (tier.includes('Low Confidence')) return 'bg-slate-100 text-[#050D2B] border-slate-300 border-dashed font-semibold';
-  return 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/30';
+export const formatPhaseLabel = (phase) => {
+  switch (String(phase || '').toLowerCase()) {
+    case 'powerplay': return 'Powerplay';
+    case 'middle': return 'Middle';
+    case 'death': return 'Death';
+    default: return phase || 'Middle';
+  }
 };
 
-export const getPhaseBadgeColor = (role) => {
-  switch (role) {
-    case 'Powerplay':
+export const getPhaseBadgeColor = (phase) => {
+  switch (String(phase || '').toLowerCase()) {
+    case 'powerplay':
       return 'bg-[#E6ECFA] text-[#1B3FA0] border-[#1B3FA0]/30';
-    case 'Middle Overs':
+    case 'middle':
       return 'bg-amber-50 text-amber-800 border-amber-300';
-    case 'Death Overs':
+    case 'death':
       return 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/40';
     default:
       return 'bg-slate-100 text-[#050D2B] border-slate-300';
   }
 };
 
-// Fixed scale for visual uncertainty range bars across all rows
-const SCALE_MIN = -15;
-const SCALE_MAX = 40;
-const SCALE_SPAN = SCALE_MAX - SCALE_MIN;
-const ZERO_PERCENT = ((0 - SCALE_MIN) / SCALE_SPAN) * 100;
+export const getTierBadgeClass = (tier) => {
+  switch (tier) {
+    case 'Core':
+      return 'bg-emerald-50 text-emerald-800 border-emerald-300';
+    case 'Likely':
+      return 'bg-blue-50 text-[#1B3FA0] border-blue-300';
+    case 'Bubble':
+      return 'bg-amber-50 text-amber-800 border-amber-300';
+    default:
+      return 'bg-slate-100 text-slate-700 border-slate-300';
+  }
+};
 
-export default function BowlersView({ bowlers, onSelectPlayer }) {
+const FIXED_PHASES = ['powerplay', 'middle', 'death'];
+
+export default function BowlersView({ bowlers = [], onSelectPlayer }) {
   const [selectedRole, setSelectedRole] = useState('all');
 
-  // Rely 100% on the JSON index - NO frontend sorting (V17 Alignment)
-  const sortedBowlers = bowlers;
+  // Strictly maintain JSON array order - never client-side sort
+  const allBowlers = bowlers;
 
-  // Extract unique data-driven phase roles from JSON ('Powerplay', 'Middle Overs', 'Death Overs')
-  const availableRoles = ['all', ...Array.from(new Set(sortedBowlers.map(b => b.role).filter(Boolean)))];
+  // Dynamic axis calculation from visible tab plus 5% padding (Fix D)
+  const domain = useMemo(() => {
+    const los = allBowlers.map(b => b.ratingInterval?.[0]).filter(v => typeof v === 'number');
+    const his = allBowlers.map(b => b.ratingInterval?.[1]).filter(v => typeof v === 'number');
+    const pts = allBowlers.map(b => b.pressureRating).filter(v => typeof v === 'number');
+    const minVal = Math.min(0, ...(los.length ? los : [0]), ...(pts.length ? pts : [0]));
+    const maxVal = Math.max(0, ...(his.length ? his : [50]), ...(pts.length ? pts : [50]));
+    const span = maxVal - minVal > 0 ? maxVal - minVal : 1;
+    return {
+      min: Math.floor(minVal - span * 0.05),
+      max: Math.ceil(maxVal + span * 0.05)
+    };
+  }, [allBowlers]);
 
+  // Phase filtering on row.phase in {powerplay, middle, death}
   const filteredBowlers = selectedRole === 'all'
-    ? sortedBowlers
-    : sortedBowlers.filter(p => p.role === selectedRole);
+    ? allBowlers
+    : allBowlers.filter(p => (p.phase || '').toLowerCase() === selectedRole);
 
-  // Top 3 Bowlers for the Podium Cards strictly sorted by rank
+  // Top 3 Podium Bowlers strictly in JSON order
   const topThreeBowlers = filteredBowlers.slice(0, 3);
+  const tableBowlers = filteredBowlers.slice(3);
 
-  // Remaining bowlers for individual table strictly sorted by rank
-  const individualBowlers = filteredBowlers.slice(3);
+  // Computed top-10 interval overlap footnote (X of 45 pairs)
+  const overlapCount = countOverlappingIntervalPairs(filteredBowlers);
+  const footnoteText = `${overlapCount} of 45 pairs of top-10 intervals overlap`;
 
   return (
     <div className="relative w-full">
-      {/* Header Section: Navy typography on Light page */}
+      {/* Section Header */}
       <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2.5 h-2.5 bg-[#EA1A85] skew-diagonal inline-block rounded-xs" />
             <span className="text-xs font-ui uppercase tracking-widest text-[#1B3FA0] font-bold">
-              Consensus Posterior Matrix
+              Posterior Evaluation Matrix
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-[#050D2B] font-display">
-            Bowling Surge Dossier <span className="text-[#EA1A85]">(Top 10 Under Pressure)</span>
+            Bowling Leverage Dossier <span className="text-[#EA1A85]">(Top 10 Under Pressure)</span>
           </h2>
-          {/* Dashboard Subtitle (V17 Alignment) */}
           <p className="mt-1 text-xs sm:text-sm text-slate-600 font-primary">
-            Ordered by consensus of ensemble and bag-averaged estimators
+            High-leverage bowling ratings and posterior uncertainty bounds
           </p>
         </div>
 
-        {/* Dynamic Phase Role Filter Bar */}
-        {availableRoles.length > 2 && (
-          <div className="w-full sm:w-auto max-w-full overflow-x-auto no-scrollbar">
-            <div className="inline-flex items-center gap-1.5 p-1 rounded-full bg-white border border-slate-200 shadow-xs">
-              {availableRoles.map((role) => {
-                const count = role === 'all'
-                  ? sortedBowlers.length
-                  : sortedBowlers.filter(b => b.role === role).length;
-                const isActive = selectedRole === role;
+        {/* Phase Role Filter Bar with Fixed Order */}
+        <div className="w-full sm:w-auto max-w-full overflow-x-auto no-scrollbar">
+          <div className="inline-flex items-center gap-1.5 p-1 rounded-full bg-white border border-slate-200 shadow-xs">
+            {['all', ...FIXED_PHASES].map((role) => {
+              const count = role === 'all'
+                ? allBowlers.length
+                : allBowlers.filter(b => (b.phase || '').toLowerCase() === role).length;
+              const isActive = selectedRole === role;
+              const label = role === 'all' ? 'All Phases' : formatPhaseLabel(role);
 
-                return (
-                  <button
-                    key={role}
-                    onClick={() => setSelectedRole(role)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-ui uppercase tracking-wider font-bold whitespace-nowrap transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85] ${
-                      isActive
-                        ? 'bg-[#EA1A85] text-white shadow-xs'
-                        : 'text-slate-600 hover:text-[#050D2B] hover:bg-slate-100'
-                    }`}
-                  >
-                    <span>{role === 'all' ? 'All Phases' : role}</span>
-                    <span className={`ml-1.5 text-xs px-1.5 py-0.2 rounded-full font-ui ${
-                      isActive ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-500'
-                    }`}>
-                      {count}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+              return (
+                <button
+                  key={role}
+                  onClick={() => setSelectedRole(role)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-ui uppercase tracking-wider font-bold whitespace-nowrap transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EA1A85] cursor-pointer ${
+                    isActive
+                      ? 'bg-[#EA1A85] text-white shadow-xs'
+                      : 'text-slate-600 hover:text-[#050D2B] hover:bg-slate-100'
+                  }`}
+                >
+                  <span>{label}</span>
+                  <span className={`ml-1.5 text-xs px-1.5 py-0.2 rounded-full font-ui ${
+                    isActive ? 'bg-white/25 text-white' : 'bg-slate-100 text-slate-500'
+                  }`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
-        )}
+        </div>
       </div>
 
       {/* =========================================================================
-          TOP 3 BOWLER PODIUM (Identical Size, Framed by Bold Royal Blue Band #1B3FA0)
+          TOP 3 BOWLER PODIUM (Royal Blue Band #1B3FA0)
          ========================================================================= */}
       <div className="bg-[#1B3FA0] rounded-3xl p-5 sm:p-6 mb-8 shadow-lg border border-[#1B3FA0]">
-        
-        {/* Section title inside the blue band */}
         <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/20 text-white">
           <div className="flex items-center gap-2">
             <span className="font-display font-extrabold uppercase tracking-wider text-sm text-white">
-              The Podium: Top 3 by posterior expected rank.
+              The Podium: Top 3 Bowlers
             </span>
           </div>
           <span className="text-xs font-ui text-white/80">
-            High-leverage Posterior Rank
+            Leading Bowling Cohort
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
           {topThreeBowlers.map((bowler) => {
             const formattedRank = bowler.rank < 10 ? `0${bowler.rank}` : bowler.rank;
-            const isRankOne = bowler.rank === 1;
-            const isSigDelta = isDeltaSignificant(bowler.deltaInterval);
 
             return (
               <motion.div
                 key={bowler.name}
                 onClick={() => onSelectPlayer(bowler)}
                 whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                className={`group cursor-pointer rounded-2xl bg-white text-[#050D2B] overflow-hidden border transition-all duration-200 shadow-rr-card hover:shadow-rr-hover flex flex-col justify-between relative h-full ${
-                  isRankOne 
-                    ? 'border-[#EA1A85] ring-2 ring-[#EA1A85]' 
-                    : 'border-slate-200 hover:border-[#EA1A85]/50'
-                }`}
+                className="group cursor-pointer rounded-2xl bg-white text-[#050D2B] overflow-hidden border border-slate-200 hover:border-[#EA1A85]/50 transition-all duration-200 shadow-rr-card hover:shadow-rr-hover flex flex-col justify-between relative h-full"
               >
-                {/* Header Block: 88px height */}
+                {/* Card Header Block */}
                 <div className="relative bg-[#050D2B] text-white p-3.5 border-b-2 border-b-[#EA1A85] z-10 h-[88px] flex flex-col justify-between shrink-0">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="font-display font-black text-xl text-[#EA1A85] tracking-wider leading-none">
-                        #{formattedRank}
-                      </span>
-                      {isRankOne && (
-                        <span className="px-2 py-0.5 rounded-sm text-xs font-display uppercase tracking-wider font-extrabold bg-[#EA1A85] text-white skew-diagonal shadow-xs">
-                          <span className="unskew-diagonal inline-block">RANK 1</span>
-                        </span>
-                      )}
-                    </div>
-
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-ui font-bold border ${getTierBadgeClass(bowler.tier)}`}>
-                      {bowler.tier}
+                    <span className="font-display font-black text-xl text-[#EA1A85] tracking-wider leading-none">
+                      #{formattedRank}
+                    </span>
+                    {/* Consistent RANK chip across all podium cards (Fix G) */}
+                    <span className="px-2 py-0.5 rounded-sm text-xs font-display uppercase tracking-wider font-extrabold bg-[#EA1A85] text-white shadow-xs">
+                      RANK {bowler.rank}
                     </span>
                   </div>
 
@@ -166,24 +181,19 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
                   </div>
                 </div>
 
-                {/* Player Visual Area: 190-210px tall */}
-                <div className="relative w-full h-[200px] bg-gradient-to-b from-slate-50 via-white to-slate-50 flex items-end justify-center overflow-hidden shrink-0">
-                  {/* Watermark 01/02/03 outline behind bowler at 7% opacity */}
-                  <div className="absolute bottom-1 right-2 select-none pointer-events-none font-display font-black text-7xl sm:text-8xl text-black/[0.07] z-0">
-                    {formattedRank}
-                  </div>
-
-                  {/* Phase badge on top-left of player area */}
-                  <div className="absolute top-2.5 left-3 z-20">
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-ui font-bold border shadow-xs ${getPhaseBadgeColor(bowler.role)}`}>
-                      {bowler.role}
+                {/* Player Visual (Cutout Badge, Fix P) */}
+                <div className="relative w-full h-[230px] sm:h-[250px] bg-gradient-to-b from-slate-50 via-white to-slate-50 flex items-center justify-center overflow-hidden shrink-0">
+                  <div className="absolute top-2.5 left-3 z-20 flex items-center gap-1.5">
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-ui font-bold border shadow-xs ${getPhaseBadgeColor(bowler.phase)}`}>
+                      {formatPhaseLabel(bowler.phase)}
                     </span>
+                    {bowler.tier && (
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-ui font-extrabold border shadow-xs ${getTierBadgeClass(bowler.tier)}`}>
+                        {bowler.tier}
+                      </span>
+                    )}
                   </div>
-
-                  {/* Player Visual (Generic Silhouette Bust) */}
-                  <div className="relative z-10 w-full h-full flex items-end justify-center">
-                    <PlayerVisual player={bowler} variant="top3" />
-                  </div>
+                  <PlayerVisual player={bowler} variant="top3" />
                 </div>
 
                 {/* Metrics Section */}
@@ -196,7 +206,7 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
                           Pressure Rating
                         </span>
                         <span className="text-2xl font-black text-[#EA1A85] font-display tabular-nums leading-tight block my-0.5">
-                          {bowler.pressureRating >= 0 ? `+${bowler.pressureRating}` : bowler.pressureRating}
+                          {formatRating(bowler.pressureRating)}
                         </span>
                       </div>
                       <div className="mt-1.5 pt-1.5 border-t border-slate-200/70">
@@ -204,6 +214,7 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
                           ratingInterval={bowler.ratingInterval}
                           pressureRating={bowler.pressureRating}
                           bootRankInterval={bowler.bootRankInterval}
+                          domain={domain}
                           compact={true}
                         />
                       </div>
@@ -226,13 +237,13 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
                             P(Top 10)
                           </span>
                           <span className="text-sm font-bold text-[#EA1A85] font-primary">
-                            {formatPTop10(bowler.pTop10Post)}%
+                            {formatPercent(bowler.pTop10Post)}
                           </span>
                         </div>
                         <div className="w-full bg-slate-200 h-1 rounded-full mt-1 overflow-hidden">
                           <div
                             className="bg-[#EA1A85] h-full rounded-full"
-                            style={{ width: `${Math.min(100, Math.max(0, bowler.pTop10Post))}%` }}
+                            style={{ width: `${Math.min(100, Math.max(0, bowler.pTop10Post ?? 0))}%` }}
                           />
                         </div>
                       </div>
@@ -242,54 +253,27 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
                           Workload
                         </span>
                         <div className="text-xs font-primary font-semibold text-[#050D2B] leading-tight mt-0.5">
-                          <div>{bowler.pressureBalls} balls in {bowler.pressureInnings} innings</div>
+                          {formatWorkload(bowler.pressureBalls, bowler.pressureInnings)}
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Bottom details row */}
-                  <div className="mt-2.5 pt-2 border-t border-slate-100 space-y-1.5">
-                    <div className="flex items-center justify-between gap-2 flex-wrap">
-                      {isSigDelta ? (
-                        <div 
-                          title="Pressure rating minus ordinary (non-pressure) rating."
-                          className={`px-2.5 py-0.5 rounded-full text-xs font-ui font-bold border inline-flex items-center gap-1.5 cursor-help ${
-                            bowler.delta >= 0 
-                              ? 'bg-[#E6ECFA] text-[#1B3FA0] border-[#1B3FA0]/30' 
-                              : 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/30'
-                          }`}
-                        >
-                          {bowler.delta >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
-                          <span>Delta: {bowler.delta >= 0 ? `+${bowler.delta}` : bowler.delta}</span>
-                          <span className="text-xs opacity-80 whitespace-nowrap font-ui">
-                            CI: [{bowler.deltaInterval[0]}, {bowler.deltaInterval[1]}]
-                          </span>
-                        </div>
-                      ) : (
-                        <span 
-                          title="Pressure rating minus ordinary (non-pressure) rating."
-                          className="px-2.5 py-0.5 rounded-full text-xs font-ui bg-slate-100 text-slate-600 border border-slate-200 inline-block font-semibold whitespace-nowrap cursor-help"
-                        >
-                          Delta: Indistinguishable from noise
-                        </span>
-                      )}
-
-                      {bowler.modelFragility ? (
-                        <span 
-                          className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-ui font-semibold bg-amber-50 text-amber-700 border border-amber-300 whitespace-nowrap"
-                          title="Model-fragility flag"
-                        >
-                          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                          <span>Model-fragility flag</span>
-                        </span>
-                      ) : null}
-                    </div>
-
-                    <div className="flex items-center justify-between gap-2 text-xs font-primary text-slate-600 whitespace-nowrap pt-0.5">
-                      <span>Rating CI: [{bowler.ratingInterval?.[0]}, {bowler.ratingInterval?.[1]}]</span>
-                      <span>Bootstrap Rank CI: [{bowler.bootRankInterval?.[0]}, {bowler.bootRankInterval?.[1]}]</span>
-                    </div>
+                  {/* Single Rating CI and Bag-fit agreement (Fix G & Fix F) */}
+                  <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between gap-2 text-xs">
+                    <span
+                      className="font-ui text-slate-600 font-semibold inline-flex items-center gap-1 cursor-help"
+                      title="Share of the bagged model fits that place the player in the top 10 (model variance only, not sampling uncertainty)"
+                    >
+                      <span>Bag-fit agreement:</span>
+                      <strong className="text-[#050D2B]">
+                        {bowler.fitStabilityPct !== null ? `${Number(bowler.fitStabilityPct).toFixed(0)}%` : 'n/a'}
+                      </strong>
+                      <Info className="w-3 h-3 text-slate-400" />
+                    </span>
+                    <span className="font-primary text-slate-600 whitespace-nowrap">
+                      Rating CI: {formatInterval(bowler.ratingInterval) || 'n/a'}
+                    </span>
                   </div>
                 </div>
               </motion.div>
@@ -298,56 +282,63 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
         </div>
       </div>
 
-      {/* Control Bar: Clean Pill */}
+      {/* Control Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4 p-2.5 rounded-2xl bg-white border border-slate-200 shadow-xs">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-display uppercase tracking-wider font-bold bg-[#1B3FA0] text-white shadow-xs">
             <BarChart3 className="w-3.5 h-3.5" />
-            <span>V14 Consensus Rank Order</span>
+            <span>Posterior Matrix Leaderboard</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 pr-1 text-xs font-ui text-slate-500">
-          <span>Ranks 04–10 Posterior Leaderboard</span>
+        <div className="text-xs font-ui text-slate-500">
+          <span>10-Player Bowling Cohort</span>
         </div>
       </div>
 
       {/* =========================================================================
-          RANKS 4-10 LEADERBOARD (Desktop Table + Mobile Cards)
+          DESKTOP TABLE VIEW (>= 768px)
          ========================================================================= */}
-      {/* Desktop Table View (>= 768px) with Fixed Widths: Rank 5%, Bowler 19%, Rating 7%, Uncertainty 17%, Expected rank 8%, P(top 10) 9%, Delta 17%, Phase & workload 18% (Sum = 100%) */}
       <div className="hidden md:block overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-rr-card mb-3">
-        <table className="w-full text-left border-collapse table-fixed min-w-[1000px] lg:min-w-full">
+        <table className="w-full text-left border-collapse table-fixed min-w-[1100px] lg:min-w-full">
           <colgroup>
             <col style={{ width: '5%' }} />
-            <col style={{ width: '19%' }} />
-            <col style={{ width: '7%' }} />
-            <col style={{ width: '17%' }} />
-            <col style={{ width: '8%' }} />
-            <col style={{ width: '9%' }} />
-            <col style={{ width: '17%' }} />
             <col style={{ width: '18%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '15%' }} />
+            <col style={{ width: '8%' }} />
+            <col style={{ width: '11%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '13%' }} />
           </colgroup>
           <thead>
-            {/* Table Header: Royal Blue (#1B3FA0) */}
             <tr className="bg-[#1B3FA0] text-white text-xs font-ui uppercase tracking-wider select-none border-b-2 border-b-[#EA1A85]">
               <th className="py-3.5 px-3">Rank</th>
               <th className="py-3.5 px-4">Bowler</th>
-              <th className="py-3.5 px-3">Rating</th>
+              <th className="py-3.5 px-3">Pressure Rating</th>
               <th className="py-3.5 px-4">Rating Uncertainty</th>
               <th className="py-3.5 px-3 text-center">Expected Rank</th>
-              <th className="py-3.5 px-3">P(Top 10)</th>
-              <th className="py-3.5 px-3" title="Pressure rating minus ordinary (non-pressure) rating.">Delta vs Usual</th>
-              <th className="py-3.5 pl-7 pr-5 border-l border-white/20" style={{ paddingLeft: '28px', paddingRight: '20px', whiteSpace: 'normal' }}>
-                Phase &amp; Workload
+              {/* Sorted indicator on P(Top 10) (Fix E) */}
+              <th className="py-3.5 px-3 bg-[#163484]" title="Ordered strictly by Posterior P(Top 10)">
+                <div className="flex flex-col items-start leading-tight">
+                  <span className="text-white font-bold">P(Top 10)</span>
+                  <span className="text-[10px] text-[#FDE4F1] font-medium tracking-normal lowercase">
+                    sorted by P(Top 10) ▼
+                  </span>
+                </div>
+              </th>
+              <th className="py-3.5 px-3">Ordinary Rating</th>
+              <th className="py-3.5 px-3">Delta vs Usual</th>
+              <th className="py-3.5 pl-6 pr-4 border-l border-white/20">
+                Primary phase &amp; Workload
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-sm">
-            {individualBowlers.length > 0 ? (
-              individualBowlers.map((bowler) => {
+            {tableBowlers.length > 0 ? (
+              tableBowlers.map((bowler) => {
                 const formattedRank = bowler.rank < 10 ? `0${bowler.rank}` : bowler.rank;
-                const isSigDelta = isDeltaSignificant(bowler.deltaInterval);
 
                 return (
                   <tr
@@ -355,115 +346,122 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
                     onClick={() => onSelectPlayer(bowler)}
                     className="hover:bg-[#FDE4F1]/30 cursor-pointer transition-all duration-150 group border-l-4 border-l-transparent hover:border-l-[#EA1A85]"
                   >
-                    {/* Rank (5%) */}
+                    {/* Rank */}
                     <td className="py-3.5 px-3 font-display font-extrabold text-base text-[#EA1A85] group-hover:text-[#050D2B] transition-colors tabular-nums">
                       {formattedRank}
                     </td>
 
-                    {/* Bowler Info (19%) */}
+                    {/* Bowler Info + Bag-fit tooltip (Fix F) */}
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-3">
                         <PlayerVisual player={bowler} variant="table" />
-                        
                         <div className="min-w-0 flex-1">
-                          <div className="font-primary font-bold text-[#050D2B] group-hover:text-[#EA1A85] transition-colors truncate text-base player-name">
-                            {bowler.name}
-                          </div>
-                          
-                          {/* Tier chip and Fits on separate lines with clear spacing */}
-                          <div className="mt-1">
-                            <span className={`inline-block px-2 py-0.5 rounded text-xs font-ui font-bold border ${getTierBadgeClass(bowler.tier)}`}>
-                              {bowler.tier}
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-primary font-bold text-[#050D2B] group-hover:text-[#EA1A85] transition-colors truncate text-base player-name">
+                              {bowler.name}
                             </span>
-                          </div>
-                          {bowler.modelFragility ? (
-                            <div className="mt-1">
-                              <span 
-                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-ui font-semibold bg-amber-50 text-amber-700 border border-amber-300 whitespace-nowrap"
-                                title="Model-fragility flag"
-                              >
-                                <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                                <span>Model-fragility flag</span>
+                            {bowler.tier && (
+                              <span className={`px-1.5 py-0.5 rounded text-[10px] font-ui font-extrabold border shadow-xs ${getTierBadgeClass(bowler.tier)}`}>
+                                {bowler.tier}
                               </span>
+                            )}
+                          </div>
+                          {bowler.fitStabilityPct !== null && (
+                            <div
+                              className="text-[11px] font-ui text-slate-500 inline-flex items-center gap-1 cursor-help mt-0.5"
+                              title="Bag-fit agreement: Share of the bagged model fits that place the player in the top 10 (model variance only, not sampling uncertainty)"
+                            >
+                              <span>Bag-fit: {Number(bowler.fitStabilityPct).toFixed(0)}%</span>
+                              <Info className="w-3 h-3 text-slate-400" />
                             </div>
-                          ) : null}
+                          )}
                         </div>
                       </div>
                     </td>
 
-                    {/* Pressure Rating (7%) */}
+                    {/* Pressure Rating */}
                     <td className="py-3.5 px-3">
                       <span className="font-display font-extrabold text-base text-[#EA1A85] tabular-nums">
-                        {bowler.pressureRating >= 0 ? `+${bowler.pressureRating}` : bowler.pressureRating}
+                        {formatRating(bowler.pressureRating)}
                       </span>
                     </td>
 
-                    {/* Uncertainty Range Bar (17%) */}
+                    {/* Uncertainty Range Bar (Fix D) */}
                     <td className="py-3.5 px-4">
                       <UncertaintyRangeBar
                         ratingInterval={bowler.ratingInterval}
                         pressureRating={bowler.pressureRating}
                         bootRankInterval={bowler.bootRankInterval}
+                        domain={domain}
                       />
                     </td>
 
-                    {/* Expected Rank (8%) */}
+                    {/* Expected Rank */}
                     <td className="py-3.5 px-3 font-primary font-bold text-[#050D2B] text-center tabular-nums text-base">
-                      {formatExpectedRank(bowler.expectedRank ?? bowler.medianRank)}
+                      {formatExpectedRank(bowler.expectedRank)}
                     </td>
 
-                    {/* P(Top 10) (9%) */}
-                    <td className="py-3.5 px-3 font-primary">
+                    {/* P(Top 10) */}
+                    <td className="py-3.5 px-3 font-primary bg-slate-50/50">
                       <div className="flex flex-col gap-1">
-                        <span className="font-bold text-[#EA1A85] text-sm">{formatPTop10(bowler.pTop10Post)}%</span>
-                        <div className="w-14 bg-slate-200 h-1 rounded-full overflow-hidden">
+                        <span className="font-bold text-[#EA1A85] text-sm tabular-nums">
+                          {formatPercent(bowler.pTop10Post)}
+                        </span>
+                        <div className="w-16 bg-slate-200 h-1 rounded-full overflow-hidden">
                           <div
                             className="bg-[#EA1A85] h-full"
-                            style={{ width: `${Math.min(100, Math.max(0, bowler.pTop10Post))}%` }}
+                            style={{ width: `${Math.min(100, Math.max(0, bowler.pTop10Post ?? 0))}%` }}
                           />
                         </div>
                       </div>
                     </td>
 
-                    {/* Delta vs Usual (17%) */}
-                    <td className="py-3.5 px-3">
-                      {isSigDelta ? (
-                        <div
-                          title="Pressure rating minus ordinary (non-pressure) rating."
-                          className={`rounded text-xs font-ui font-bold border inline-block leading-snug break-words cursor-help ${
-                            bowler.delta >= 0 
-                              ? 'bg-[#E6ECFA] text-[#1B3FA0] border-[#1B3FA0]/30' 
-                              : 'bg-[#FDE4F1] text-[#EA1A85] border-[#EA1A85]/30'
-                          }`}
-                          style={{ maxWidth: '100%', whiteSpace: 'normal', padding: '4px 8px' }}
-                        >
-                          <div>Delta: {bowler.delta >= 0 ? `+${bowler.delta}` : bowler.delta}</div>
-                          <div className="text-xs font-ui text-slate-500 font-normal">
-                            CI: [{bowler.deltaInterval[0]}, {bowler.deltaInterval[1]}]
+                    {/* Ordinary Rating (Fix H) */}
+                    <td className="py-3.5 px-3 font-primary text-sm text-slate-700 tabular-nums">
+                      {formatRating(bowler.baselineRating)}
+                    </td>
+
+                    {/* Delta & Delta Interval (numeric delta, n.s. if spans 0, model-capped badge if !deltaIdentified) */}
+                    <td className="py-3.5 px-3 font-primary text-xs">
+                      {bowler.delta !== null ? (
+                        <div className="tabular-nums">
+                          <div className="flex items-center gap-1">
+                            <span className={`font-bold ${bowler.delta >= 0 ? 'text-[#1B3FA0]' : 'text-[#EA1A85]'}`}>
+                              {formatDelta(bowler.delta)}
+                            </span>
+                            {isDeltaNotSignificant(bowler.deltaInterval) && (
+                              <span className="font-bold text-slate-500 font-ui text-[11px]" title="Not Significant: 90% CI includes zero">
+                                n.s.
+                              </span>
+                            )}
+                            {!bowler.deltaIdentified && (
+                              <span
+                                className="px-1.5 py-0.2 rounded text-[10px] font-ui font-semibold bg-amber-100 text-amber-900 border border-amber-300 cursor-help"
+                                title="latent correlation at cap; delta is largely model-driven"
+                              >
+                                model-capped
+                              </span>
+                            )}
                           </div>
+                          {bowler.deltaInterval && (
+                            <span className="block text-[11px] text-slate-500 font-ui">
+                              CI: {formatInterval(bowler.deltaInterval)}
+                            </span>
+                          )}
                         </div>
                       ) : (
-                        <span
-                          title="Pressure rating minus ordinary (non-pressure) rating."
-                          className="inline-block text-xs font-ui bg-slate-100 text-slate-600 border border-slate-200 font-semibold leading-snug break-words cursor-help"
-                          style={{ maxWidth: '100%', whiteSpace: 'normal', padding: '4px 8px' }}
-                        >
-                          Delta: Indistinguishable from noise
-                        </span>
+                        <span className="text-slate-400">n/a</span>
                       )}
                     </td>
 
-                    {/* Phase & Workload (18%) */}
-                    <td
-                      className="py-3.5 pl-7 pr-5 border-l border-slate-100"
-                      style={{ paddingLeft: '28px', paddingRight: '20px', whiteSpace: 'normal' }}
-                    >
+                    {/* Primary Phase & Workload */}
+                    <td className="py-3.5 pl-6 pr-4 border-l border-slate-100">
                       <div className="flex flex-col items-start gap-1">
-                        <span className={`inline-block px-2 py-0.5 rounded text-xs font-ui font-bold border ${getPhaseBadgeColor(bowler.role)}`}>
-                          {bowler.role}
+                        <span className={`inline-block px-2 py-0.5 rounded text-xs font-ui font-bold border ${getPhaseBadgeColor(bowler.phase)}`}>
+                          {formatPhaseLabel(bowler.phase)}
                         </span>
                         <span className="text-xs font-primary text-slate-600 leading-tight">
-                          {bowler.pressureBalls} balls in {bowler.pressureInnings} innings
+                          {formatWorkload(bowler.pressureBalls, bowler.pressureInnings)}
                         </span>
                       </div>
                     </td>
@@ -472,13 +470,13 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
               })
             ) : topThreeBowlers.length > 0 ? (
               <tr>
-                <td colSpan={8} className="py-6 text-center text-xs text-slate-500 font-primary">
+                <td colSpan={9} className="py-6 text-center text-xs text-slate-500 font-primary">
                   All {topThreeBowlers.length} qualifying player(s) are highlighted in the top podium cards above.
                 </td>
               </tr>
             ) : (
               <tr>
-                <td colSpan={8} className="py-8 text-center text-sm text-slate-500 font-primary">
+                <td colSpan={9} className="py-8 text-center text-sm text-slate-500 font-primary">
                   No bowlers match the selected filter criteria.
                 </td>
               </tr>
@@ -487,11 +485,12 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
         </table>
       </div>
 
-      {/* Mobile Stacked Cards Layout (< 768px) */}
-      <div className="md:hidden space-y-3 mb-4">
-        {individualBowlers.map((bowler) => {
+      {/* =========================================================================
+          MOBILE STACKED CARDS LAYOUT (< 768px)
+         ========================================================================= */}
+      <div className="md:hidden space-y-3 mb-8">
+        {tableBowlers.map((bowler) => {
           const formattedRank = bowler.rank < 10 ? `0${bowler.rank}` : bowler.rank;
-          const isSigDelta = isDeltaSignificant(bowler.deltaInterval);
 
           return (
             <div
@@ -506,70 +505,95 @@ export default function BowlersView({ bowlers, onSelectPlayer }) {
                   </span>
                   <PlayerVisual player={bowler} variant="table" />
                   <div>
-                    <h4 className="font-primary font-bold text-base text-[#050D2B] leading-tight player-name">
-                      {bowler.name}
-                    </h4>
+                    <div className="flex items-center gap-1.5">
+                      <h4 className="font-primary font-bold text-base text-[#050D2B] leading-tight player-name">
+                        {bowler.name}
+                      </h4>
+                      {bowler.tier && (
+                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-ui font-extrabold border shadow-xs ${getTierBadgeClass(bowler.tier)}`}>
+                          {bowler.tier}
+                        </span>
+                      )}
+                    </div>
                     <span className="text-xs font-primary text-slate-500">
-                      Expected Rank: {formatExpectedRank(bowler.expectedRank)} | P(Top 10): {formatPTop10(bowler.pTop10Post)}%
+                      Expected Rank: {formatExpectedRank(bowler.expectedRank)} | P(Top 10): {formatPercent(bowler.pTop10Post)}
                     </span>
                   </div>
                 </div>
-
-                <span className={`px-2 py-0.5 rounded text-xs font-ui font-bold border shrink-0 ${getTierBadgeClass(bowler.tier)}`}>
-                  {bowler.tier}
-                </span>
               </div>
 
-              {/* Mobile 2-column stats */}
+              {/* Mobile Stats */}
               <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-100 text-xs font-primary">
                 <div>
                   <span className="text-xs font-ui text-slate-500 block">Pressure Rating</span>
                   <span className="font-display font-bold text-base text-[#EA1A85]">
-                    {bowler.pressureRating >= 0 ? `+${bowler.pressureRating}` : bowler.pressureRating}
+                    {formatRating(bowler.pressureRating)}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs font-ui text-slate-500 block">Workload</span>
-                  <span className="text-slate-700">
-                    {bowler.pressureBalls}b / {bowler.pressureInnings} inn
+                  <span className="text-xs font-ui text-slate-500 block">Bag-fit agreement</span>
+                  <span className="font-bold text-[#050D2B] text-base font-primary">
+                    {bowler.fitStabilityPct !== null ? `${Number(bowler.fitStabilityPct).toFixed(0)}%` : 'n/a'}
                   </span>
                 </div>
-                <div className="col-span-2 text-xs text-slate-600">
-                  Rating CI: [{bowler.ratingInterval?.[0]}, {bowler.ratingInterval?.[1]}] · Boot: [{bowler.bootRankInterval?.[0]}, {bowler.bootRankInterval?.[1]}]
+                <div>
+                  <span className="text-xs font-ui text-slate-500 block">Primary Phase &amp; Workload</span>
+                  <span className="text-slate-700">
+                    {formatWorkload(bowler.pressureBalls, bowler.pressureInnings)}
+                  </span>
                 </div>
-                <div className="col-span-2">
-                  {isSigDelta ? (
-                    <span 
-                      title="Pressure rating minus ordinary (non-pressure) rating."
-                      className="text-xs font-ui font-bold text-[#1B3FA0] cursor-help"
-                    >
-                      Delta: {bowler.delta >= 0 ? `+${bowler.delta}` : bowler.delta} (CI: [{bowler.deltaInterval[0]}, {bowler.deltaInterval[1]}])
-                    </span>
+                <div>
+                  <span className="text-xs font-ui text-slate-500 block">Ordinary Rating</span>
+                  <span className="text-slate-700 font-semibold">
+                    {formatRating(bowler.baselineRating)}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-xs font-ui text-slate-500 block">Delta vs Usual</span>
+                  {bowler.delta !== null ? (
+                    <div className="flex items-center gap-1 flex-wrap">
+                      <span className={`font-semibold ${bowler.delta >= 0 ? 'text-[#1B3FA0]' : 'text-[#EA1A85]'}`}>
+                        {formatDelta(bowler.delta)}
+                      </span>
+                      {isDeltaNotSignificant(bowler.deltaInterval) && (
+                        <span className="text-slate-500 font-semibold font-ui text-[11px]" title="Not Significant: 90% CI includes zero">
+                          (n.s.)
+                        </span>
+                      )}
+                      {!bowler.deltaIdentified && (
+                        <span
+                          className="px-1.5 py-0.2 rounded text-[10px] font-ui font-semibold bg-amber-100 text-amber-900 border border-amber-300 cursor-help"
+                          title="latent correlation at cap; delta is largely model-driven"
+                        >
+                          model-capped
+                        </span>
+                      )}
+                      {bowler.deltaInterval && (
+                        <span className="text-slate-400 text-[11px] font-ui">
+                          (CI: {formatInterval(bowler.deltaInterval)})
+                        </span>
+                      )}
+                    </div>
                   ) : (
-                    <span 
-                      title="Pressure rating minus ordinary (non-pressure) rating."
-                      className="text-xs font-ui text-slate-500 cursor-help"
-                    >
-                      Delta: Indistinguishable from noise
-                    </span>
+                    <span className="text-slate-400">n/a</span>
                   )}
                 </div>
-                {bowler.modelFragility ? (
-                  <div className="col-span-2">
-                    <span 
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-ui font-semibold bg-amber-50 text-amber-700 border border-amber-300 whitespace-nowrap"
-                      title="Model-fragility flag"
-                    >
-                      <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                      <span>Model-fragility flag</span>
-                    </span>
-                  </div>
-                ) : null}
+                <div>
+                  <span className="text-xs font-ui text-slate-500 block">Rating CI</span>
+                  <span className="text-slate-600">
+                    {formatInterval(bowler.ratingInterval) || 'n/a'}
+                  </span>
+                </div>
               </div>
             </div>
           );
         })}
       </div>
+
+      {/* Dynamic Per-Tab Footnote (Fix C) */}
+      <p className="text-xs text-slate-500 font-primary italic mt-2 mb-8 text-center sm:text-left">
+        {footnoteText}
+      </p>
     </div>
   );
 }

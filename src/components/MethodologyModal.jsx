@@ -10,7 +10,7 @@ export default function MethodologyModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const pythonScript = `# Rajasthan Royals SupeRR Selector V14 Run-Expectancy WP Leverage Engine
+  const pythonScript = `# Rajasthan Royals Pressure Analytics Pipeline
 # Run-Expectancy Matrices, Win-Probability Leverage, Empirical Bayes Shrinkage
 import pandas as pd
 import numpy as np
@@ -19,11 +19,11 @@ import numpy as np
 # 2. Win Probability (WP) & Leverage Index: LI = E_{outcome}[ |WP_next - WP_curr| ] / mean(LI)
 # 3. High Leverage Pressure Filter: Top 20% acute match leverage (lev_p = 1)
 # 4. Iterative Multi-Factor Opposition Adjustments (Backfitting)
-# 5. DerSimonian-Laird Empirical Bayes Rate Shrinkage (Per 100 Pressure Balls)
-# 6. Relative to Eligible Peers: rel_to_peers = Shrunk_Rate - Pool_Mean
-# 7. Cluster Bootstrap (300 resamples): p_top10 and 90% Bayesian Credible Intervals [lo, hi]
-top10_batters = bat_elig.sort_values(by='rel_to_peers', ascending=False).head(10)
-top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10)`;
+# 5. Empirical Bayes Rate Shrinkage (Per 100 Pressure Balls)
+# 6. Posterior Ranking: E_{posterior}[Rank | Data]
+# 7. Cluster Bootstrap: p_top10 and 90% Bayesian Credible Intervals [lo, hi]
+top10_batters = bat_elig.sort_values(by='pTop10Post', ascending=False).head(10)
+top10_bowlers = bow_elig.sort_values(by='pTop10Post', ascending=False).head(10)`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(pythonScript);
@@ -124,7 +124,7 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
                 <div className="p-3.5 rounded-2xl bg-[#0A1A52]/80 border border-emerald-500/40 flex items-center gap-3 text-xs text-emerald-300 shadow-sm font-primary">
                   <CheckCircle className="w-4 h-4 text-[#10e588] shrink-0" />
                   <span>
-                    Directly integrated with the machine learning script saved at <code>ml_model/supeRR_clustering_pipeline.py</code>.
+                    Directly integrated with the machine learning script saved at <code>ml_model/rr_pressure_system.py</code>.
                   </span>
                 </div>
               </>
@@ -132,7 +132,7 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-ui text-[#FDE4F1] font-semibold">
-                    ml_model/supeRR_clustering_pipeline.py
+                    ml_model/rr_pressure_system.py
                   </span>
                   <button
                     onClick={handleCopy}
@@ -150,7 +150,7 @@ top10_bowlers = bow_elig.sort_values(by='rel_to_peers', ascending=False).head(10
                 <div className="p-3.5 rounded-2xl bg-[#0A1A52]/70 border border-white/10 text-xs text-slate-200 shadow-sm font-primary">
                   <strong className="text-[#EA1A85] font-display uppercase tracking-wider">Instructions for your CSVs:</strong>
                   <p className="mt-1 text-slate-300 font-primary">
-                    Place your <code>ball_by_ball.csv</code> and <code>matches.csv</code> inside the extracted folder and run <code>python ml_model/supeRR_clustering_pipeline.py</code> to regenerate custom team analytics.
+                    Place your <code>ball_by_ball.csv</code> and <code>matches.csv</code> inside the extracted folder and run <code>python ml_model/rr_pressure_system.py</code> to regenerate custom team analytics.
                   </p>
                 </div>
               </div>
