@@ -1021,6 +1021,7 @@
       "rank": 1,
       "id": "6281",
       "name": "Abhishek Sharma",
+      "image": "/assets/players/Abhishek Sharma.png",
       "phase": "powerplay",
       "role": "Powerplay",
       "expectedRank": 2.6,
@@ -1041,13 +1042,13 @@
       "deltaIdentified": false,
       "pTop10Post": 97.0,
       "tier": "Core",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Abhishek Sharma.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 2,
       "id": "1699",
       "name": "Suryakumar Yadav",
+      "image": "/assets/players/Suryakumar Yadav.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 6.5,
@@ -1068,13 +1069,13 @@
       "deltaIdentified": false,
       "pTop10Post": 81.5,
       "tier": "Core",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Suryakumar Yadav.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 3,
       "id": "4260",
       "name": "Heinrich Klaasen",
+      "image": "/assets/players/Heinrich Klaasen.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 7.2,
@@ -1095,13 +1096,13 @@
       "deltaIdentified": false,
       "pTop10Post": 78.9,
       "tier": "Core",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Heinrich Klaasen.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 4,
       "id": "6396",
       "name": "Tim David",
+      "image": "/assets/players/Tim David.png",
       "phase": "death",
       "role": "Death",
       "expectedRank": 7.2,
@@ -1122,13 +1123,13 @@
       "deltaIdentified": false,
       "pTop10Post": 77.3,
       "tier": "Core",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Tim David.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 5,
       "id": "3647",
       "name": "Shreyas Iyer",
+      "image": "/assets/players/Shreyas Iyer.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 10.2,
@@ -1149,13 +1150,13 @@
       "deltaIdentified": false,
       "pTop10Post": 61.5,
       "tier": "Likely",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Shreyas Iyer.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 6,
       "id": "813",
       "name": "Jos Buttler",
+      "image": "/assets/players/Jos Buttler.png",
       "phase": "powerplay",
       "role": "Powerplay",
       "expectedRank": 11.3,
@@ -1176,13 +1177,13 @@
       "deltaIdentified": false,
       "pTop10Post": 56.2,
       "tier": "Likely",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Jos Buttler.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 7,
       "id": "818",
       "name": "Mitchell Marsh",
+      "image": "/assets/players/Mitchell Marsh.png",
       "phase": "powerplay",
       "role": "Powerplay",
       "expectedRank": 13.1,
@@ -1203,13 +1204,13 @@
       "deltaIdentified": false,
       "pTop10Post": 45.9,
       "tier": "Bubble",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Mitchell Marsh.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 8,
       "id": "7216",
       "name": "Prabhsimran Singh",
+      "image": "/assets/players/Prabhsimran Singh.png",
       "phase": "powerplay",
       "role": "Powerplay",
       "expectedRank": 15.2,
@@ -1230,13 +1231,13 @@
       "deltaIdentified": false,
       "pTop10Post": 39.8,
       "tier": "Bubble",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Prabhsimran Singh.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 9,
       "id": "2258",
       "name": "Sanju Samson",
+      "image": "/assets/players/Sanju Samson.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 15.7,
@@ -1257,13 +1258,13 @@
       "deltaIdentified": false,
       "pTop10Post": 35.0,
       "tier": "Bubble",
-      "fitStabilityPct": 64.0,
-      "image": "/assets/players/Sanju Samson.png"
+      "fitStabilityPct": 64.0
     },
     {
       "rank": 10,
       "id": "838",
       "name": "Glenn Maxwell",
+      "image": "/assets/players/Glenn Maxwell.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 16.4,
@@ -1284,8 +1285,7 @@
       "deltaIdentified": false,
       "pTop10Post": 37.3,
       "tier": "Bubble",
-      "fitStabilityPct": 72.0,
-      "image": "/assets/players/Glenn Maxwell.png"
+      "fitStabilityPct": 72.0
     }
   ],
   "bowlers": [
@@ -1293,6 +1293,7 @@
       "rank": 1,
       "id": "781",
       "name": "Sunil Narine",
+      "image": "/assets/players/Sunil Narine.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 2.9,
@@ -1313,13 +1314,13 @@
       "deltaIdentified": true,
       "pTop10Post": 96.8,
       "tier": "Core",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Sunil Narine.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 2,
       "id": "2933",
       "name": "Jasprit Bumrah",
+      "image": "/assets/players/Jasprit Bumrah.png",
       "phase": "powerplay",
       "role": "Powerplay",
       "expectedRank": 8.8,
@@ -1340,13 +1341,13 @@
       "deltaIdentified": true,
       "pTop10Post": 69.3,
       "tier": "Likely",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Jasprit Bumrah.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 3,
       "id": "830",
       "name": "Josh Hazlewood",
+      "image": "/assets/players/Josh Hazlewood.png",
       "phase": "powerplay",
       "role": "Powerplay",
       "expectedRank": 10.2,
@@ -1367,13 +1368,13 @@
       "deltaIdentified": true,
       "pTop10Post": 64.2,
       "tier": "Likely",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Josh Hazlewood.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 4,
       "id": "3644",
       "name": "Kuldeep Yadav",
+      "image": "/assets/players/Kuldeep Yadav.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 11.6,
@@ -1394,13 +1395,13 @@
       "deltaIdentified": true,
       "pTop10Post": 56.9,
       "tier": "Likely",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Kuldeep Yadav.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 5,
       "id": "6256",
       "name": "Varun Chakravarthy",
+      "image": "/assets/players/Varun Chakravarthy.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 12.5,
@@ -1421,13 +1422,13 @@
       "deltaIdentified": true,
       "pTop10Post": 52.0,
       "tier": "Likely",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Varun Chakravarthy.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 6,
       "id": "4722",
       "name": "Rashid Khan",
+      "image": "/assets/players/Rashid Khan.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 14.0,
@@ -1448,13 +1449,13 @@
       "deltaIdentified": true,
       "pTop10Post": 44.3,
       "tier": "Bubble",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Rashid Khan.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 7,
       "id": "152",
       "name": "Ravindra Jadeja",
+      "image": "/assets/players/Ravindra Jadeja.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 14.2,
@@ -1475,13 +1476,13 @@
       "deltaIdentified": true,
       "pTop10Post": 44.1,
       "tier": "Bubble",
-      "fitStabilityPct": 96.0,
-      "image": "/assets/players/Ravindra Jadeja.png"
+      "fitStabilityPct": 96.0
     },
     {
       "rank": 8,
       "id": "4373",
       "name": "Mustafizur Rahman",
+      "image": "/assets/players/Mustafizur Rahman.png",
       "phase": "death",
       "role": "Death",
       "expectedRank": 14.8,
@@ -1502,13 +1503,13 @@
       "deltaIdentified": true,
       "pTop10Post": 42.9,
       "tier": "Bubble",
-      "fitStabilityPct": 100.0,
-      "image": "/assets/players/Mustafizur Rahman.png"
+      "fitStabilityPct": 100.0
     },
     {
       "rank": 9,
       "id": "2876",
       "name": "Axar Patel",
+      "image": "/assets/players/Axar Patel.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 16.8,
@@ -1529,13 +1530,13 @@
       "deltaIdentified": true,
       "pTop10Post": 32.6,
       "tier": "Bubble",
-      "fitStabilityPct": 80.0,
-      "image": "/assets/players/Axar Patel.png"
+      "fitStabilityPct": 80.0
     },
     {
       "rank": 10,
       "id": "7967",
       "name": "Noor Ahmad",
+      "image": "/assets/players/Noor Ahmad.png",
       "phase": "middle",
       "role": "Middle",
       "expectedRank": 17.4,
@@ -1556,8 +1557,7 @@
       "deltaIdentified": true,
       "pTop10Post": 35.3,
       "tier": "Bubble",
-      "fitStabilityPct": 84.0,
-      "image": "/assets/players/Noor Ahmad.png"
+      "fitStabilityPct": 84.0
     }
   ]
 }
